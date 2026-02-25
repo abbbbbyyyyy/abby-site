@@ -3,282 +3,170 @@ import { useState, useEffect } from "react";
 const STYLES = `
   .crux-app {
     min-height: 100vh;
-    background: var(--bg);
-    color: var(--white);
-    font-family: 'Space Grotesk', sans-serif;
-    overflow-x: hidden;
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
   }
 
-  /* ── TICKER ── */
-  .ticker-wrap {
-    overflow: hidden;
-    background: var(--indigo);
-    height: 32px;
-    display: flex;
-    align-items: center;
-  }
-
-  .ticker-track {
-    display: flex;
-    animation: ticker 24s linear infinite;
-    white-space: nowrap;
-  }
-
-  .ticker-item {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 0 20px;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(237,232,240,0.7);
-  }
-
-  .ticker-dot {
-    width: 3px; height: 3px;
-    border-radius: 50%;
-    background: rgba(237,232,240,0.4);
-    flex-shrink: 0;
-  }
-
-  @keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  /* ── CRUX NAV ── */
-  .crux-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 40px;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .crux-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    color: var(--white);
-  }
-
-  .crux-brand em {
-    font-style: italic;
-    color: var(--slate);
-  }
-
-  .crux-links { display: flex; align-items: center; gap: 6px; }
-
-  .crux-link {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--mid);
-    cursor: pointer;
-    background: none;
-    border: 1px solid transparent;
-    font-family: 'Space Grotesk', sans-serif;
-    transition: all 0.2s;
-    padding: 7px 14px;
-  }
-
-  .crux-link:hover { color: var(--white); border-color: var(--rule); }
-  .crux-link.active {
-    color: var(--slate);
-    border-color: var(--slate-dim);
-    background: rgba(136,136,204,0.06);
-  }
-
-  /* ── HERO ── */
   .crux-hero {
-    padding: 52px 40px 0;
-    border-bottom: 1px solid var(--rule);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .crux-hero::before {
-    content: '';
-    position: absolute;
-    top: -60px; left: -80px;
-    width: 500px; height: 400px;
-    background: radial-gradient(ellipse, rgba(46,46,106,0.35) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .crux-hero-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 22px;
+    text-align: center;
+    padding: 60px 48px 48px;
     position: relative;
   }
 
-  .crux-flag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid var(--slate-dim);
-    padding: 5px 12px;
-    background: rgba(136,136,204,0.05);
-  }
-
-  .crux-flag-text {
-    font-size: 9px;
+  .crux-hero-label {
+    display: inline-block;
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--slate);
+    color: var(--purple);
+    margin-bottom: 28px;
+    padding: 8px 20px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    backdrop-filter: blur(10px);
   }
 
-  .crux-headline {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(62px, 10vw, 118px);
-    font-weight: 900;
-    line-height: 0.88;
-    letter-spacing: -0.025em;
-    position: relative;
-    z-index: 1;
+  .crux-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(48px, 8vw, 80px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
   }
 
-  .line-1 { display: block; color: var(--white); }
-  .line-2 {
-    display: block;
+  .crux-title em {
     font-style: italic;
-    background: linear-gradient(90deg, var(--slate) 0%, var(--periwinkle) 100%);
+    background: linear-gradient(135deg, var(--purple), var(--blue), var(--violet));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  .line-3 { display: block; color: var(--white); }
 
-  .crux-hero-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 24px 0 32px;
-    border-top: 1px solid var(--rule);
-    margin-top: 32px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .crux-sub {
-    font-size: 12px;
+  .crux-subtitle {
+    max-width: 440px;
+    margin: 0 auto;
+    font-size: 16px;
     font-weight: 300;
-    letter-spacing: 0.03em;
-    color: var(--mid);
-    max-width: 300px;
-    line-height: 1.75;
+    line-height: 1.7;
+    color: var(--text-dim);
   }
 
-  .crux-scroll {
+  .crux-tabs {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 9px;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 36px;
+  }
+
+  .crux-tab {
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    backdrop-filter: blur(10px);
+  }
+
+  .crux-tab:hover { border-color: var(--purple); color: var(--text); }
+  .crux-tab.active {
+    background: linear-gradient(135deg, var(--purple) 0%, var(--indigo) 100%);
+    color: white;
+    border-color: transparent;
+  }
+
+  /* Form */
+  .crux-form {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 56px 48px 120px;
+  }
+
+  .form-label {
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--mid);
+    color: var(--purple);
+    margin-bottom: 28px;
   }
 
-  .scroll-pip {
-    width: 28px; height: 1px;
-    background: linear-gradient(90deg, var(--indigo-bright), transparent);
-  }
-
-  /* ── PAGE ── */
-  .crux-page { padding: 0 40px 100px; }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 26px 0 20px;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 30px;
-  }
-
-  .section-label { display: flex; align-items: center; gap: 12px; }
-  .section-num { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; color: var(--mid); }
-  .section-title { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); }
-
-  /* ── INPUTS ── */
   .decision-input {
     width: 100%;
     background: none;
     border: none;
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(26px, 4vw, 42px);
-    font-weight: 700;
+    border-bottom: 1px solid var(--glass-border);
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 400;
     font-style: italic;
-    line-height: 1.2;
-    color: var(--white);
+    line-height: 1.3;
+    color: var(--text);
     outline: none;
     resize: none;
-    letter-spacing: -0.01em;
-    padding: 24px 0;
-    border-bottom: 1px solid var(--rule);
+    padding: 20px 0;
     transition: border-color 0.3s;
   }
 
-  .decision-input:focus { border-bottom-color: var(--slate-dim); }
-  .decision-input::placeholder { color: var(--white-faint); }
+  .decision-input:focus { border-bottom-color: var(--purple); }
+  .decision-input::placeholder { color: var(--text-faint); }
 
   .context-row {
     display: flex;
     gap: 16px;
-    align-items: baseline;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--rule);
+    align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--glass-border);
   }
 
   .context-label {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--mid);
+    color: var(--text-dim);
     white-space: nowrap;
     flex-shrink: 0;
+    padding-top: 4px;
   }
 
   .context-input {
     flex: 1;
     background: none;
     border: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
     font-weight: 300;
-    color: var(--white-dim);
+    color: var(--text-dim);
     outline: none;
     resize: none;
     line-height: 1.7;
   }
 
-  .context-input::placeholder { color: rgba(236,234,245,0.14); }
+  .context-input::placeholder { color: var(--text-faint); }
 
   .analyze-btn {
-    margin-top: 24px;
+    margin-top: 32px;
+    padding: 16px 32px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    background: linear-gradient(135deg, var(--purple) 0%, var(--indigo) 100%);
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 13px 26px;
-    background: var(--indigo);
-    color: rgba(237,232,240,0.9);
-    border: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
+    gap: 10px;
     position: relative;
     overflow: hidden;
   }
@@ -287,416 +175,471 @@ const STYLES = `
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent);
+    background: linear-gradient(135deg, var(--indigo) 0%, var(--purple) 100%);
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.3s ease;
   }
 
-  .analyze-btn:hover { background: var(--indigo-bright); transform: translateY(-1px); }
+  .analyze-btn span { position: relative; z-index: 1; }
+
+  .analyze-btn:hover { transform: translateY(-2px); box-shadow: 0 20px 40px var(--glow); }
   .analyze-btn:hover::before { opacity: 1; }
-  .analyze-btn:disabled { opacity: 0.25; cursor: not-allowed; transform: none; }
+  .analyze-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+  .analyze-btn:disabled::before { display: none; }
 
   .spinner {
-    width: 12px; height: 12px;
-    border: 1.5px solid rgba(237,232,240,0.2);
-    border-top-color: rgba(237,232,240,0.8);
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-top-color: white;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
+    position: relative;
+    z-index: 1;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── RESULTS ── */
+  .error-text {
+    font-family: 'Instrument Serif', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: #f87171;
+    margin-top: 16px;
+  }
+
+  /* Results */
   .result-section {
-    margin-top: 48px;
-    animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-top: 56px;
+    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .result-eyebrow {
-    font-size: 10px;
+  .result-label {
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--slate);
-    margin-bottom: 12px;
+    color: var(--purple);
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
 
-  .result-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .result-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--glass-border), transparent);
+  }
 
-  .result-q {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
+  .result-question {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px;
     font-style: italic;
-    color: rgba(237,232,240,0.3);
-    margin-bottom: 28px;
-    line-height: 1.45;
+    color: var(--text-faint);
+    margin-bottom: 32px;
+    line-height: 1.5;
   }
 
-  /* Color-tinted columns */
-  .analysis-cols {
+  .analysis-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 16px;
+    margin-bottom: 16px;
   }
 
-  @media(max-width:560px) { .analysis-cols { grid-template-columns: 1fr; } }
+  @media(max-width: 560px) { .analysis-grid { grid-template-columns: 1fr; } }
 
-  .col-for {
-    background: linear-gradient(160deg, rgba(46,46,106,0.35) 0%, rgba(16,16,24,0.9) 100%);
-    border: 1px solid rgba(72,72,160,0.25);
-    border-top: 2px solid var(--violet-bright);
-    padding: 22px;
-  }
-
-  .col-against {
-    background: linear-gradient(160deg, rgba(58,58,140,0.28) 0%, rgba(16,16,24,0.9) 100%);
-    border: 1px solid rgba(80,80,184,0.2);
-    border-top: 2px solid var(--indigo-bright);
-    padding: 22px;
-  }
-
-  .col-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(237,232,240,0.06);
-  }
-
-  .col-title {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-
-  .col-for .col-title { color: #7878C0; }
-  .col-against .col-title { color: var(--periwinkle); }
-
-  .col-count {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 900;
-    line-height: 1;
-    opacity: 0.12;
-    color: var(--white);
-  }
-
-  .pc-item {
-    font-size: 13px;
-    font-weight: 300;
-    line-height: 1.65;
-    color: var(--white-dim);
-    margin-bottom: 10px;
-    display: flex;
-    gap: 10px;
-  }
-
-  .pc-dash { flex-shrink: 0; font-size: 10px; margin-top: 4px; opacity: 0.25; }
-
-  /* Insight strip */
-  .insight-strip {
-    border: 1px solid rgba(136,136,204,0.15);
-    border-left: 3px solid var(--slate-dim);
-    background: rgba(136,136,204,0.04);
-    padding: 24px 26px;
-    margin-bottom: 10px;
-    display: flex;
-    gap: 22px;
-    align-items: flex-start;
+  .analysis-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 28px;
     position: relative;
     overflow: hidden;
   }
 
-  .insight-strip::after {
-    content: '"';
+  .analysis-card::before {
+    content: '';
     position: absolute;
-    right: 16px; top: -16px;
-    font-family: 'Playfair Display', serif;
-    font-size: 110px;
-    font-weight: 900;
-    color: rgba(136,136,204,0.05);
-    line-height: 1;
-    pointer-events: none;
+    top: 0; left: 0; right: 0;
+    height: 1px;
   }
 
-  .insight-kicker {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    font-size: 9px;
+  .analysis-card.for-card::before {
+    background: linear-gradient(90deg, transparent, var(--purple), transparent);
+    opacity: 0.6;
+  }
+
+  .analysis-card.against-card::before {
+    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    opacity: 0.6;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .card-title {
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--slate-dim);
-    flex-shrink: 0;
-    align-self: stretch;
+  }
+
+  .for-card .card-title { color: var(--purple); }
+  .against-card .card-title { color: var(--blue); }
+
+  .card-count {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--text);
+    opacity: 0.1;
+  }
+
+  .point-item {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-dim);
+    margin-bottom: 10px;
     display: flex;
-    align-items: center;
+    gap: 12px;
+  }
+
+  .point-dash {
+    flex-shrink: 0;
+    color: var(--text-faint);
+    font-size: 11px;
+    margin-top: 4px;
+  }
+
+  /* Insight */
+  .insight-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 28px 28px 28px 30px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .insight-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--purple), var(--violet));
+    border-radius: 1px;
+  }
+
+  .insight-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 12px;
   }
 
   .insight-text {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(16px, 2.2vw, 22px);
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(17px, 2.2vw, 22px);
     font-weight: 400;
     font-style: italic;
-    line-height: 1.55;
-    color: var(--white);
+    line-height: 1.6;
+    color: var(--text);
   }
 
   /* Verdict */
-  .verdict-block {
-    background: var(--surface);
-    border: 1px solid var(--rule);
-    padding: 24px;
+  .verdict-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 28px;
   }
 
   .verdict-title {
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--mid);
-    margin-bottom: 18px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
   }
 
-  .choice-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .choice-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
 
   .choice-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--rule);
-    background: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--mid);
+    padding: 10px 20px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
     cursor: pointer;
-    transition: all 0.15s;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
   }
 
-  .choice-btn:hover { border-color: rgba(237,232,240,0.2); color: var(--white); }
+  .choice-btn:hover { border-color: var(--purple); color: var(--text); }
 
   .choice-btn.yes.selected {
-    border-color: rgba(72,72,160,0.5);
-    color: #7878C0;
-    background: rgba(72,72,160,0.1);
+    background: linear-gradient(135deg, var(--purple), var(--indigo));
+    color: white;
+    border-color: transparent;
   }
   .choice-btn.no.selected {
-    border-color: rgba(80,80,184,0.4);
-    color: var(--periwinkle);
-    background: rgba(80,80,184,0.08);
+    background: linear-gradient(135deg, var(--blue), var(--indigo));
+    color: white;
+    border-color: transparent;
   }
   .choice-btn.undecided.selected {
-    border-color: rgba(136,136,204,0.35);
-    color: var(--slate);
-    background: rgba(136,136,204,0.06);
+    background: var(--glass);
+    color: var(--violet);
+    border-color: var(--violet);
   }
 
   .notes-input {
     width: 100%;
-    background: rgba(237,232,240,0.03);
-    border: 1px solid var(--rule);
-    padding: 12px 14px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 16px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
     font-weight: 300;
-    color: var(--white-dim);
+    color: var(--text-dim);
     outline: none;
     resize: none;
-    min-height: 54px;
-    line-height: 1.65;
-    margin-bottom: 16px;
-    transition: border-color 0.2s;
+    min-height: 56px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
   }
 
-  .notes-input:focus { border-color: var(--slate-dim); }
-  .notes-input::placeholder { color: rgba(236,234,245,0.14); font-style: italic; }
+  .notes-input:focus { border-color: var(--purple); }
+  .notes-input::placeholder { color: var(--text-faint); font-style: italic; }
 
   .save-btn {
-    background: none;
-    border: 1px solid var(--rule);
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--mid);
+    padding: 12px 24px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
     cursor: pointer;
-    padding: 9px 18px;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
   }
 
-  .save-btn:hover { border-color: var(--slate-dim); color: var(--slate); }
+  .save-btn:hover {
+    border-color: var(--purple);
+    color: var(--text);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+  }
 
   .saved-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #7878C0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--purple);
   }
 
-  .error-label {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    font-style: italic;
-    color: var(--periwinkle);
-    margin-top: 12px;
+  /* Archive */
+  .archive-section {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 56px 48px 120px;
   }
 
-  /* ── ARCHIVE ── */
   .archive-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 28px 0 20px;
-    border-bottom: 2px solid var(--white);
-    margin-bottom: 0;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--glass-border);
   }
 
   .archive-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 34px;
-    font-weight: 900;
-    color: var(--white);
-    letter-spacing: -0.02em;
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--text);
   }
 
   .archive-count {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--slate);
-    border: 1px solid rgba(136,136,204,0.25);
-    padding: 5px 12px;
-    background: rgba(136,136,204,0.05);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-dim);
+    padding: 6px 16px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    backdrop-filter: blur(10px);
   }
 
   .log-empty {
     padding: 80px 0;
-    font-family: 'Playfair Display', serif;
+    text-align: center;
+    font-family: 'Instrument Serif', serif;
     font-size: 22px;
     font-style: italic;
-    color: rgba(236,234,245,0.08);
+    color: var(--text-faint);
   }
 
   .log-entry {
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid var(--glass-border);
     animation: fadeUp 0.3s ease;
   }
 
   .log-entry-header {
-    padding: 20px 0;
+    padding: 24px 0;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     gap: 20px;
-    transition: opacity 0.15s;
+    transition: opacity 0.2s;
   }
 
-  .log-entry-header:hover { opacity: 0.5; }
+  .log-entry-header:hover { opacity: 0.6; }
 
   .log-q {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Instrument Serif', serif;
     font-size: 19px;
     font-style: italic;
-    font-weight: 400;
-    color: var(--white);
+    color: var(--text);
     flex: 1;
-    line-height: 1.3;
+    line-height: 1.4;
   }
 
-  .log-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+  .log-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
   .log-date {
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(236,234,245,0.18);
+    font-size: 12px;
+    color: var(--text-faint);
   }
 
   .choice-tag {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 100px;
     border: 1px solid;
   }
 
-  .choice-tag.yes { color: #7878C0; border-color: rgba(107,61,138,0.35); }
-  .choice-tag.no { color: var(--periwinkle); border-color: rgba(160,160,224,0.3); }
-  .choice-tag.undecided { color: var(--slate); border-color: rgba(196,160,184,0.3); }
+  .choice-tag.yes { color: var(--purple); border-color: rgba(139, 92, 246, 0.3); background: rgba(139, 92, 246, 0.08); }
+  .choice-tag.no { color: var(--blue); border-color: rgba(59, 130, 246, 0.3); background: rgba(59, 130, 246, 0.08); }
+  .choice-tag.undecided { color: var(--violet); border-color: rgba(167, 139, 250, 0.3); background: rgba(167, 139, 250, 0.08); }
 
-  .chevron { font-size: 10px; color: var(--mid); transition: transform 0.2s; }
+  .chevron {
+    font-size: 12px;
+    color: var(--text-faint);
+    transition: transform 0.2s;
+  }
   .chevron.open { transform: rotate(180deg); }
 
   .log-body {
-    padding: 4px 0 26px;
+    padding: 0 0 28px;
     animation: fadeUp 0.25s ease;
   }
 
-  .log-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 16px; }
+  .log-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 16px;
+  }
 
   .log-mini-head {
-    font-size: 9px; font-weight: 700; letter-spacing: 0.16em;
-    text-transform: uppercase; margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
   }
 
-  .log-mini-head.for { color: #7878C0; }
-  .log-mini-head.against { color: var(--periwinkle); }
+  .log-mini-head.for { color: var(--purple); }
+  .log-mini-head.against { color: var(--blue); }
 
   .log-mini-item {
-    font-size: 12px; font-weight: 300;
-    color: rgba(236,234,245,0.28);
-    line-height: 1.65; margin-bottom: 5px;
-    padding-left: 12px; position: relative;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-faint);
+    line-height: 1.7;
+    margin-bottom: 6px;
+    padding-left: 14px;
+    position: relative;
   }
 
-  .log-mini-item::before { content: '—'; position: absolute; left: 0; color: var(--rule); font-size: 10px; }
+  .log-mini-item::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--text-faint);
+    font-size: 10px;
+  }
 
   .log-insight {
-    font-family: 'Playfair Display', serif;
-    font-size: 14px; font-style: italic;
-    color: rgba(236,234,245,0.28);
-    line-height: 1.65; margin-bottom: 12px;
-    padding: 12px 16px;
-    border-left: 2px solid rgba(136,136,204,0.2);
-    background: rgba(136,136,204,0.03);
+    font-family: 'Instrument Serif', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--text-faint);
+    line-height: 1.7;
+    margin-bottom: 12px;
+    padding: 14px 18px;
+    border-left: 2px solid rgba(139, 92, 246, 0.3);
+    background: rgba(139, 92, 246, 0.03);
+    border-radius: 0 12px 12px 0;
   }
 
   .log-notes {
-    font-size: 12px; font-weight: 300;
-    color: rgba(236,234,245,0.18);
-    font-style: italic; margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-faint);
+    font-style: italic;
+    margin-bottom: 12px;
   }
 
   .delete-btn {
-    background: none; border: none;
-    font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(236,234,245,0.12); cursor: pointer; transition: color 0.15s; padding: 0;
-    font-family: 'Space Grotesk', sans-serif;
+    background: none;
+    border: none;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-faint);
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
   }
 
-  .delete-btn:hover { color: var(--periwinkle); }
+  .delete-btn:hover { color: #f87171; }
 
   @media(max-width: 600px) {
-    .crux-nav { padding: 14px 20px; }
-    .crux-hero { padding: 36px 20px 0; }
-    .crux-page { padding: 0 20px 80px; }
+    .crux-hero { padding: 40px 24px 32px; }
+    .crux-form, .archive-section { padding: 36px 24px 80px; }
+    .analysis-grid { grid-template-columns: 1fr; }
     .log-mini-grid { grid-template-columns: 1fr; }
+    .analysis-card, .insight-card, .verdict-card { padding: 24px; border-radius: 16px; }
   }
 `;
 
@@ -712,9 +655,7 @@ function parseAnalysis(text) {
   return { pros: pros.slice(0, 5), cons: cons.slice(0, 5), insight };
 }
 
-const ITEMS = ["AI Decision Analysis", "Think Clearly", "Crux", "Decide Well", "Know the Tension", "Structure Your Thinking", "AI Decision Analysis", "Think Clearly", "Crux", "Decide Well", "Know the Tension", "Structure Your Thinking"];
-
-export default function Crux() {
+export default function Crux({ onHover }) {
   const [tab, setTab] = useState("decide");
   const [question, setQuestion] = useState("");
   const [context, setContext] = useState("");
@@ -726,6 +667,8 @@ export default function Crux() {
   const [saved, setSaved] = useState(false);
   const [log, setLog] = useState([]);
   const [expanded, setExpanded] = useState(null);
+
+  const hover = onHover || (() => {});
 
   useEffect(() => { loadLog(); }, []);
 
@@ -786,151 +729,199 @@ export default function Crux() {
       <style>{STYLES}</style>
       <div className="crux-app">
 
-        <div className="ticker-wrap">
-          <div className="ticker-track">
-            {ITEMS.map((item, i) => <div key={i} className="ticker-item"><span className="ticker-dot" />{item}</div>)}
-            {ITEMS.map((item, i) => <div key={`b${i}`} className="ticker-item"><span className="ticker-dot" />{item}</div>)}
-          </div>
-        </div>
-
-        <div className="crux-nav">
-          <div className="crux-brand">Cr<em>u</em>x</div>
-          <div className="crux-links">
-            <button className={`crux-link ${tab === "decide" ? "active" : ""}`} onClick={() => setTab("decide")}>[Analyze]</button>
-            <button className={`crux-link ${tab === "log" ? "active" : ""}`} onClick={() => { setTab("log"); loadLog(); }}>
-              [Archive{log.length > 0 ? ` ${log.length}` : ""}]
+        <div className="crux-hero">
+          <div className="crux-hero-label">AI Decision Analysis</div>
+          <h1 className="crux-title">
+            The <em>decisive</em> point.
+          </h1>
+          <p className="crux-subtitle">
+            Name the real tension. Decide. Move on. No frameworks, no scores — just clarity when you're stuck.
+          </p>
+          <div className="crux-tabs">
+            <button
+              className={`crux-tab ${tab === "decide" ? "active" : ""}`}
+              onClick={() => setTab("decide")}
+              onMouseEnter={() => hover(true)}
+              onMouseLeave={() => hover(false)}
+            >
+              Analyze
+            </button>
+            <button
+              className={`crux-tab ${tab === "log" ? "active" : ""}`}
+              onClick={() => { setTab("log"); loadLog(); }}
+              onMouseEnter={() => hover(true)}
+              onMouseLeave={() => hover(false)}
+            >
+              Archive{log.length > 0 ? ` (${log.length})` : ""}
             </button>
           </div>
         </div>
 
-        <div className="crux-hero">
-          <div className="crux-hero-top">
-            <div className="crux-flag"><span className="crux-flag-text">AI Decision Analysis — 2026</span></div>
-          </div>
-          <div className="crux-headline">
-            <span className="line-1">The</span>
-            <span className="line-2">Decisive</span>
-            <span className="line-3">Point.</span>
-          </div>
-          <div className="crux-hero-bottom">
-            <div className="crux-sub">Name the real tension. Decide. Move on. No frameworks, no scores — just clarity when you're stuck.</div>
-            <div className="crux-scroll"><span className="scroll-pip" />Scroll to analyze</div>
-          </div>
-        </div>
+        {tab === "decide" && (
+          <div className="crux-form">
+            <div className="form-label">New Analysis</div>
 
-        <div className="crux-page">
-          {tab === "decide" && (
-            <div>
-              <div className="section-header">
-                <div className="section-label">
-                  <span className="section-num">01 /</span>
-                  <span className="section-title">New Analysis</span>
+            <textarea
+              className="decision-input"
+              placeholder="State your decision..."
+              value={question}
+              onChange={e => setQuestion(e.target.value)}
+              rows={2}
+            />
+
+            <div className="context-row">
+              <span className="context-label">Context</span>
+              <textarea
+                className="context-input"
+                placeholder="Stakes, constraints, what you already know..."
+                value={context}
+                onChange={e => setContext(e.target.value)}
+                rows={2}
+              />
+            </div>
+
+            <button
+              className="analyze-btn"
+              onClick={analyze}
+              disabled={loading || !question.trim()}
+              onMouseEnter={() => hover(true)}
+              onMouseLeave={() => hover(false)}
+            >
+              {loading
+                ? <><span className="spinner" /><span>Analyzing...</span></>
+                : <span>Analyze →</span>
+              }
+            </button>
+
+            {error && <div className="error-text">{error}</div>}
+
+            {result && (
+              <div className="result-section">
+                <div className="result-label">Analysis complete</div>
+                <div className="result-question">"{result.question}"</div>
+
+                <div className="analysis-grid">
+                  <div className="analysis-card for-card">
+                    <div className="card-header">
+                      <div className="card-title">For it</div>
+                      <div className="card-count">{result.pros.length}</div>
+                    </div>
+                    {result.pros.map((p, i) => (
+                      <div key={i} className="point-item">
+                        <span className="point-dash">—</span>
+                        <span>{p}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="analysis-card against-card">
+                    <div className="card-header">
+                      <div className="card-title">Against it</div>
+                      <div className="card-count">{result.cons.length}</div>
+                    </div>
+                    {result.cons.map((c, i) => (
+                      <div key={i} className="point-item">
+                        <span className="point-dash">—</span>
+                        <span>{c}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {result.insight && (
+                  <div className="insight-card">
+                    <div className="insight-label">Real tension</div>
+                    <div className="insight-text">{result.insight}</div>
+                  </div>
+                )}
+
+                <div className="verdict-card">
+                  <div className="verdict-title">Your verdict</div>
+                  <div className="choice-btns">
+                    {["yes", "no", "undecided"].map(c => (
+                      <button
+                        key={c}
+                        className={`choice-btn ${c} ${choice === c ? "selected" : ""}`}
+                        onClick={() => setChoice(c)}
+                        onMouseEnter={() => hover(true)}
+                        onMouseLeave={() => hover(false)}
+                      >
+                        {choiceLabel(c)}
+                      </button>
+                    ))}
+                  </div>
+                  <textarea
+                    className="notes-input"
+                    placeholder="Notes on your reasoning..."
+                    value={notes}
+                    onChange={e => setNotes(e.target.value)}
+                  />
+                  {saved
+                    ? <div className="saved-label">Saved to archive ✓</div>
+                    : <button
+                        className="save-btn"
+                        onClick={handleSave}
+                        onMouseEnter={() => hover(true)}
+                        onMouseLeave={() => hover(false)}
+                      >
+                        Save to archive →
+                      </button>
+                  }
                 </div>
               </div>
+            )}
+          </div>
+        )}
 
-              <textarea className="decision-input" placeholder="State your decision..." value={question} onChange={e => setQuestion(e.target.value)} rows={2} />
-
-              <div className="context-row">
-                <span className="context-label">Context</span>
-                <textarea className="context-input" placeholder="Stakes, constraints, what you already know..." value={context} onChange={e => setContext(e.target.value)} rows={2} />
-              </div>
-
-              <button className="analyze-btn" onClick={analyze} disabled={loading || !question.trim()}>
-                {loading ? <><span className="spinner" />Analyzing</> : "[Analyze →]"}
-              </button>
-
-              {error && <div className="error-label">{error}</div>}
-
-              {result && (
-                <div className="result-section">
-                  <div className="result-eyebrow">Analysis complete</div>
-                  <div className="result-q">"{result.question}"</div>
-
-                  <div className="analysis-cols">
-                    <div className="col-for">
-                      <div className="col-head">
-                        <div className="col-title">For it</div>
-                        <div className="col-count">{result.pros.length}</div>
-                      </div>
-                      {result.pros.map((p,i) => <div key={i} className="pc-item"><span className="pc-dash">—</span><span>{p}</span></div>)}
-                    </div>
-                    <div className="col-against">
-                      <div className="col-head">
-                        <div className="col-title">Against it</div>
-                        <div className="col-count">{result.cons.length}</div>
-                      </div>
-                      {result.cons.map((c,i) => <div key={i} className="pc-item"><span className="pc-dash">—</span><span>{c}</span></div>)}
+        {tab === "log" && (
+          <div className="archive-section">
+            <div className="archive-header">
+              <div className="archive-title">Archive</div>
+              <div className="archive-count">{log.length} logged</div>
+            </div>
+            {log.length === 0
+              ? <div className="log-empty">Nothing archived yet.</div>
+              : log.map(entry => (
+                <div key={entry.id} className="log-entry">
+                  <div
+                    className="log-entry-header"
+                    onClick={() => setExpanded(expanded === entry.id ? null : entry.id)}
+                  >
+                    <div className="log-q">"{entry.question}"</div>
+                    <div className="log-right">
+                      <span className="log-date">{entry.date}</span>
+                      <span className={`choice-tag ${tagClass(entry.choice)}`}>{choiceLabel(entry.choice)}</span>
+                      <span className={`chevron ${expanded === entry.id ? "open" : ""}`}>▾</span>
                     </div>
                   </div>
-
-                  {result.insight && (
-                    <div className="insight-strip">
-                      <div className="insight-kicker">Real tension</div>
-                      <div className="insight-text">{result.insight}</div>
+                  {expanded === entry.id && (
+                    <div className="log-body">
+                      <div className="log-mini-grid">
+                        <div>
+                          <div className="log-mini-head for">For</div>
+                          {entry.pros.map((p, i) => <div key={i} className="log-mini-item">{p}</div>)}
+                        </div>
+                        <div>
+                          <div className="log-mini-head against">Against</div>
+                          {entry.cons.map((c, i) => <div key={i} className="log-mini-item">{c}</div>)}
+                        </div>
+                      </div>
+                      {entry.insight && <div className="log-insight">"{entry.insight}"</div>}
+                      {entry.notes && <div className="log-notes">Notes: "{entry.notes}"</div>}
+                      <button
+                        className="delete-btn"
+                        onClick={() => del(entry.id)}
+                        onMouseEnter={() => hover(true)}
+                        onMouseLeave={() => hover(false)}
+                      >
+                        Remove entry
+                      </button>
                     </div>
                   )}
-
-                  <div className="verdict-block">
-                    <div className="verdict-title">[Your verdict]</div>
-                    <div className="choice-btns">
-                      {["yes","no","undecided"].map(c => (
-                        <button key={c} className={`choice-btn ${c} ${choice === c ? "selected" : ""}`} onClick={() => setChoice(c)}>
-                          [{choiceLabel(c)}]
-                        </button>
-                      ))}
-                    </div>
-                    <textarea className="notes-input" placeholder="Notes on your reasoning..." value={notes} onChange={e => setNotes(e.target.value)} />
-                    {saved
-                      ? <div className="saved-label">[Saved →]</div>
-                      : <button className="save-btn" onClick={handleSave}>[Save to archive →]</button>
-                    }
-                  </div>
                 </div>
-              )}
-            </div>
-          )}
-
-          {tab === "log" && (
-            <div>
-              <div className="archive-header">
-                <div className="archive-title">Archive</div>
-                <div className="archive-count">{log.length} logged</div>
-              </div>
-              {log.length === 0
-                ? <div className="log-empty">Nothing archived yet.</div>
-                : log.map(entry => (
-                  <div key={entry.id} className="log-entry">
-                    <div className="log-entry-header" onClick={() => setExpanded(expanded === entry.id ? null : entry.id)}>
-                      <div className="log-q">"{entry.question}"</div>
-                      <div className="log-right">
-                        <span className="log-date">{entry.date}</span>
-                        <span className={`choice-tag ${tagClass(entry.choice)}`}>{choiceLabel(entry.choice)}</span>
-                        <span className={`chevron ${expanded === entry.id ? "open" : ""}`}>▾</span>
-                      </div>
-                    </div>
-                    {expanded === entry.id && (
-                      <div className="log-body">
-                        <div className="log-mini-grid">
-                          <div>
-                            <div className="log-mini-head for">For</div>
-                            {entry.pros.map((p,i) => <div key={i} className="log-mini-item">{p}</div>)}
-                          </div>
-                          <div>
-                            <div className="log-mini-head against">Against</div>
-                            {entry.cons.map((c,i) => <div key={i} className="log-mini-item">{c}</div>)}
-                          </div>
-                        </div>
-                        {entry.insight && <div className="log-insight">"{entry.insight}"</div>}
-                        {entry.notes && <div className="log-notes">Notes: "{entry.notes}"</div>}
-                        <button className="delete-btn" onClick={() => del(entry.id)}>[Remove entry]</button>
-                      </div>
-                    )}
-                  </div>
-                ))
-              }
-            </div>
-          )}
-        </div>
+              ))
+            }
+          </div>
+        )}
       </div>
     </>
   );

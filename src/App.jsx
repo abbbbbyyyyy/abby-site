@@ -623,9 +623,18 @@ export default function App() {
         <style>{STYLES}</style>
         <div className="portfolio">
           <div className="ambient-glow" />
+          <div className={`cursor ${isHovering ? 'hovering' : ''}`} style={{ left: cursorPos.x, top: cursorPos.y }} />
+          <div className="cursor-dot" style={{ left: mousePos.x, top: mousePos.y }} />
           <div className="crux-wrapper">
-            <button className="back-btn" onClick={() => setView("home")}>← Back</button>
-            <Crux />
+            <button
+              className="back-btn"
+              onClick={() => setView("home")}
+              onMouseEnter={() => handleHover(true)}
+              onMouseLeave={() => handleHover(false)}
+            >
+              ← Back
+            </button>
+            <Crux onHover={handleHover} />
           </div>
         </div>
       </>
@@ -664,8 +673,8 @@ export default function App() {
             </span>
           </h1>
           <p className="hero-intro">
-            Six years at Bridgewater and Ray Dalio's Family Office. Left because I wanted 
-            to actually build things. Now looking for the right AI company to join.
+            I spent six years in finance at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong>. I left because I wanted 
+            to actually build things. Now, I'm looking for the right next step..
           </p>
           <button 
             className="hero-cta" 
@@ -688,19 +697,19 @@ export default function App() {
             <div className="about-text reveal">
               <p>
                 I worked at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong> for 
-                six years. Good experience, learned a lot, but finance is all process and no room 
+                six years. I learned a lot, but finance is all process and no room 
                 to try new things. I didn't realize that was the problem until I left.
               </p>
               <p>
-                Started a master's at <strong>Columbia</strong> in organizational psychology. 
-                Got interested in how AI changes the way people work and make decisions. 
-                Started building tools to explore that. Realized I'd rather be doing this 
+                Starting a master's at <strong>Columbia</strong> in organizational psychology, 
+                I found a passion for understandinghow AI changes the way people work and make decisions. 
+                I started building tools to explore that. Soon, I realized I'd rather be doing this 
                 full time than writing papers about it.
               </p>
               <p>
-                So that's where I'm at. Looking for an AI company doing interesting work. 
-                Not picky about the role. Just want to be somewhere good, working on 
-                something that matters, with people who give a shit.
+                So that's where I'm at. Looking for a company that's doing genuinelyinteresting things. 
+                I'm not picky about the role, I just want to be somewhere working on something that matters, 
+                with people who know what they don't know.
               </p>
             </div>
             <div className="glass-card reveal">
