@@ -160,7 +160,7 @@ export default function LiquidText({ text, className = "" }) {
         style={{
           display: "inline-block",
           whiteSpace: "pre",
-          opacity: shaderReady ? 0 : 1,
+          opacity: 1,
           transition: "opacity 0.2s ease",
         }}
       >
@@ -172,8 +172,8 @@ export default function LiquidText({ text, className = "" }) {
           <LiquidMetal
             width={maskData.width}
             height={maskData.height}
-            colorBack="#3b2f66"
-            colorTint="#f3f0ff"
+            colorBack="#8b7ec8"
+            colorTint="#ffffff"
             speed={0.45}
             scale={0.7}
             distortion={0.08}
