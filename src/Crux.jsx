@@ -796,7 +796,7 @@ export default function Crux({ onHover }) {
             <span className="crux-title-point">point.</span>
           </div>
           <p className="crux-subtitle">
-            Name the real tension. Decide. Move on. No frameworks, no scores, just clarity when you're stuck.
+            I tell it what I'm stuck on, it finds the tension I'm dancing around.
           </p>
           <div className="crux-tabs">
             <button

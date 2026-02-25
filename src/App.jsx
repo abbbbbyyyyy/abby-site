@@ -856,8 +856,7 @@ export default function App() {
               <div className="project-arrow">→</div>
             </div>
             <p className="project-desc">
-              An AI decision analyst that names the real tension in hard choices. 
-              No frameworks, no scores. Just clarity when you're stuck.
+              A thinking tool for when I'm going in circles.
             </p>
           </div>
 
