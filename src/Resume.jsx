@@ -21,23 +21,86 @@ const STYLES = `
     margin-bottom: 16px;
   }
 
-  .resume-name em {
-    font-style: italic;
-    background: linear-gradient(135deg, var(--purple), var(--blue), var(--violet));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .resume-liquid-wrap {
     position: relative;
+    display: inline-block;
+    isolation: isolate;
   }
 
-  .resume-name em::after {
+  .resume-liquid-wrap::before {
     content: '';
     position: absolute;
-    inset: -50% -15%;
-    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.25) 0%, rgba(99, 102, 241, 0.12) 40%, transparent 70%);
-    filter: blur(25px);
-    z-index: -1;
+    left: -10%;
+    right: -10%;
+    top: 24%;
+    height: 62%;
+    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.28) 0%, rgba(99, 102, 241, 0.15) 45%, transparent 78%);
+    filter: blur(20px);
     pointer-events: none;
+    z-index: 0;
+  }
+
+  .resume-liquid {
+    font-style: italic;
+    display: inline-block;
+    position: relative;
+    color: rgba(244, 240, 255, 0.1);
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.2),
+      0 16px 40px rgba(99, 102, 241, 0.3),
+      0 0 44px rgba(139, 92, 246, 0.32);
+    z-index: 1;
+  }
+
+  .resume-liquid::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background:
+      linear-gradient(
+        122deg,
+        rgba(139, 92, 246, 0.95) 0%,
+        rgba(167, 139, 250, 0.9) 20%,
+        rgba(255, 255, 255, 0.8) 27%,
+        rgba(255, 255, 255, 0.1) 35%,
+        rgba(59, 130, 246, 0.92) 50%,
+        rgba(167, 139, 250, 0.88) 64%,
+        rgba(255, 255, 255, 0.72) 70%,
+        rgba(99, 102, 241, 0.9) 100%
+      );
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: saturate(1.22) contrast(1.12) brightness(1.05);
+    animation: resumeLiquidDrift 6.2s ease-in-out infinite alternate;
+    z-index: 1;
+  }
+
+  .resume-liquid::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background: linear-gradient(104deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.98) 34%, rgba(255, 255, 255, 0.28) 47%, rgba(255, 255, 255, 0) 61%);
+    background-size: 320% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    mix-blend-mode: screen;
+    filter: blur(0.55px) brightness(1.1);
+    animation: resumeLiquidSpecular 4.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    z-index: 2;
+  }
+
+  @keyframes resumeLiquidDrift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  @keyframes resumeLiquidSpecular {
+    0% { background-position: 155% 50%; opacity: 0.52; }
+    30% { opacity: 1; }
+    100% { background-position: -55% 50%; opacity: 0.25; }
   }
 
   .resume-contact {
@@ -301,10 +364,10 @@ export default function Resume({ onHover }) {
       <style>{STYLES}</style>
       <div className="resume">
         <div className="resume-header">
-          <h1 className="resume-name">Abby <em>Schneider</em></h1>
+          <h1 className="resume-name">Abby <span className="resume-liquid-wrap"><span className="resume-liquid" data-text="Schneider">Schneider</span></span></h1>
           <div className="resume-contact">
-            <a href="mailto:ars2385@tc.columbia.edu" onMouseEnter={() => hover(true)} onMouseLeave={() => hover(false)}>
-              ars2385@tc.columbia.edu
+            <a href="mailto:abbyschneider4@gmail.com" onMouseEnter={() => hover(true)} onMouseLeave={() => hover(false)}>
+              abbyschneider4@gmail.com
             </a>
             <span className="sep">·</span>
             <span>Brooklyn, NY</span>

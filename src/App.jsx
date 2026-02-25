@@ -163,62 +163,105 @@ const STYLES = `
   .hero-title .line:nth-child(1) .line-inner { animation-delay: 0.3s; }
   .hero-title .line:nth-child(2) .line-inner { animation-delay: 0.4s; }
 
-  /* Liquid glass text */
+  /* Liquid glass text (Framer-style layered treatment) */
   .glass-text {
-    background:
-      linear-gradient(
-        120deg,
-        var(--purple) 0%,
-        rgba(167, 139, 250, 0.9) 18%,
-        rgba(255, 255, 255, 0.55) 24%,
-        rgba(255, 255, 255, 0.15) 28%,
-        var(--blue) 40%,
-        var(--violet) 58%,
-        rgba(255, 255, 255, 0.45) 66%,
-        rgba(255, 255, 255, 0.1) 70%,
-        var(--purple) 85%,
-        var(--indigo) 100%
-      );
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    display: inline-block;
     position: relative;
-    animation: glassShimmer 8s ease-in-out infinite alternate;
+    isolation: isolate;
+    z-index: 1;
+    color: rgba(244, 240, 255, 0.1);
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.22),
+      0 20px 46px rgba(99, 102, 241, 0.34),
+      0 0 54px rgba(139, 92, 246, 0.38);
   }
 
-  @keyframes glassShimmer {
+  .glass-text::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background:
+      linear-gradient(
+        122deg,
+        rgba(139, 92, 246, 0.95) 0%,
+        rgba(167, 139, 250, 0.9) 20%,
+        rgba(255, 255, 255, 0.82) 27%,
+        rgba(255, 255, 255, 0.1) 35%,
+        rgba(59, 130, 246, 0.93) 50%,
+        rgba(167, 139, 250, 0.9) 64%,
+        rgba(255, 255, 255, 0.76) 70%,
+        rgba(99, 102, 241, 0.92) 100%
+      );
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: saturate(1.25) contrast(1.14) brightness(1.06);
+    animation: liquidGradientDrift 6.2s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+    z-index: 1;
+  }
+
+  .glass-text::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background:
+      linear-gradient(
+        104deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.98) 34%,
+        rgba(255, 255, 255, 0.28) 47%,
+        rgba(255, 255, 255, 0) 61%
+      );
+    background-size: 320% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    mix-blend-mode: screen;
+    filter: blur(0.55px) brightness(1.12);
+    animation: liquidSpecularSweep 4.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    z-index: 2;
+  }
+
+  .hero-title .line:nth-child(2) .glass-text {
+    transform: translateZ(0);
+  }
+
+  .hero-title .line:nth-child(2) .glass-text-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-title .line:nth-child(2) .glass-text-wrap::before {
+    content: '';
+    position: absolute;
+    left: -16%;
+    right: -16%;
+    top: 10%;
+    height: 88%;
+    background:
+      radial-gradient(ellipse at 50% 48%, rgba(139, 92, 246, 0.48) 0%, rgba(99, 102, 241, 0.22) 44%, transparent 76%),
+      radial-gradient(ellipse at 22% 36%, rgba(255, 255, 255, 0.2) 0%, transparent 52%);
+    filter: blur(28px);
+    z-index: 0;
+    pointer-events: none;
+    animation: liquidAuraPulse 3.8s ease-in-out infinite alternate;
+  }
+
+  @keyframes liquidGradientDrift {
     0% { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
   }
 
-  .glass-text::before {
-    content: '';
-    position: absolute;
-    inset: -30% -5%;
-    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.35) 0%, rgba(99, 102, 241, 0.15) 40%, transparent 70%);
-    filter: blur(35px);
-    z-index: -1;
-    pointer-events: none;
+  @keyframes liquidSpecularSweep {
+    0% { background-position: 155% 50%; opacity: 0.52; }
+    30% { opacity: 1; }
+    100% { background-position: -55% 50%; opacity: 0.25; }
   }
 
-  .glass-text::after {
-    content: '';
-    position: absolute;
-    top: 10%;
-    left: -10%;
-    width: 120%;
-    height: 40%;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 40%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.08) 60%, transparent 100%);
-    transform: skewY(-4deg);
-    pointer-events: none;
-    z-index: 1;
-    animation: glassReflection 8s ease-in-out infinite alternate;
-  }
-
-  @keyframes glassReflection {
-    0% { opacity: 0.6; transform: skewY(-4deg) translateX(-5%); }
-    100% { opacity: 1; transform: skewY(-4deg) translateX(5%); }
+  @keyframes liquidAuraPulse {
+    0% { transform: scale(0.98); opacity: 0.82; }
+    100% { transform: scale(1.04); opacity: 1; }
   }
 
   @keyframes slideUp { to { transform: translateY(0); } }
@@ -314,13 +357,17 @@ const STYLES = `
   }
 
   /* About */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
+  .about-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
   }
 
-  @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 48px; } }
+  .about-text {
+    max-width: 660px;
+    margin: 0 auto;
+    text-align: center;
+  }
 
   .about-text p {
     font-size: 18px;
@@ -330,7 +377,39 @@ const STYLES = `
     margin-bottom: 24px;
   }
 
+  .about-text p:last-child { margin-bottom: 0; }
+
   .about-text strong { color: var(--text); font-weight: 500; }
+
+  .about-card {
+    margin-top: 28px;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 36px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--purple), transparent);
+    opacity: 0.5;
+  }
+
+  .about-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.12), transparent 45%);
+    pointer-events: none;
+  }
 
   /* Glass card */
   .glass-card {
@@ -728,13 +807,15 @@ export default function App() {
             <span className="line"><span className="line-inner">Abby</span></span>
             <span className="line">
               <span className="line-inner">
-                <span className="glass-text">Schneider</span>
+                <span className="glass-text-wrap">
+                  <span className="glass-text" data-text="Schneider">Schneider</span>
+                </span>
               </span>
             </span>
           </h1>
           <p className="hero-intro">
             I spent six years in finance at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong>. I left because I wanted 
-            to actually build things. Now, I'm looking for the right next step..
+            to actually build things. Now, I'm looking for the right next step.
           </p>
           <button 
             className="hero-cta" 
@@ -752,8 +833,10 @@ export default function App() {
 
         {/* About */}
         <section className="section" id="about">
-          <div className="section-label">About</div>
-          <div className="about-text reveal" style={{ maxWidth: 600 }}>
+          <div className="about-wrap reveal">
+            <div className="section-label">About</div>
+            <div className="about-card">
+              <div className="about-text">
               <p>
                 I worked at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong> for 
                 six years. I learned a lot, but finance is all process and no room 
@@ -770,6 +853,8 @@ export default function App() {
                 I'm not picky about the role, I just want to be somewhere working on something that matters, 
                 with people who know what they don't know.
               </p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -821,7 +906,7 @@ export default function App() {
           <div className="contact-links">
             <a 
               className="contact-link" 
-              href="mailto:abby@example.com"
+              href="mailto:abbyschneider4@gmail.com"
               onMouseEnter={() => handleHover(true)}
               onMouseLeave={() => handleHover(false)}
             >

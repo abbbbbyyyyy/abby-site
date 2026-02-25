@@ -37,23 +37,86 @@ const STYLES = `
     margin-bottom: 24px;
   }
 
-  .crux-title em {
-    font-style: italic;
-    background: linear-gradient(135deg, var(--purple), var(--blue), var(--violet));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .liquid-word-wrap {
     position: relative;
+    display: inline-block;
+    isolation: isolate;
   }
 
-  .crux-title em::after {
+  .liquid-word-wrap::before {
     content: '';
     position: absolute;
-    inset: -50% -15%;
-    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.25) 0%, rgba(99, 102, 241, 0.12) 40%, transparent 70%);
-    filter: blur(25px);
-    z-index: -1;
+    left: -10%;
+    right: -10%;
+    top: 24%;
+    height: 62%;
+    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.28) 0%, rgba(99, 102, 241, 0.15) 45%, transparent 78%);
+    filter: blur(20px);
     pointer-events: none;
+    z-index: 0;
+  }
+
+  .liquid-word {
+    font-style: italic;
+    display: inline-block;
+    position: relative;
+    color: rgba(244, 240, 255, 0.1);
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.2),
+      0 16px 40px rgba(99, 102, 241, 0.3),
+      0 0 44px rgba(139, 92, 246, 0.32);
+    z-index: 1;
+  }
+
+  .liquid-word::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background:
+      linear-gradient(
+        122deg,
+        rgba(139, 92, 246, 0.95) 0%,
+        rgba(167, 139, 250, 0.9) 20%,
+        rgba(255, 255, 255, 0.8) 27%,
+        rgba(255, 255, 255, 0.1) 35%,
+        rgba(59, 130, 246, 0.92) 50%,
+        rgba(167, 139, 250, 0.88) 64%,
+        rgba(255, 255, 255, 0.72) 70%,
+        rgba(99, 102, 241, 0.9) 100%
+      );
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: saturate(1.22) contrast(1.12) brightness(1.05);
+    animation: liquidWordDrift 6.2s ease-in-out infinite alternate;
+    z-index: 1;
+  }
+
+  .liquid-word::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background: linear-gradient(104deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.98) 34%, rgba(255, 255, 255, 0.28) 47%, rgba(255, 255, 255, 0) 61%);
+    background-size: 320% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    mix-blend-mode: screen;
+    filter: blur(0.55px) brightness(1.1);
+    animation: liquidWordSpecular 4.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    z-index: 2;
+  }
+
+  @keyframes liquidWordDrift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  @keyframes liquidWordSpecular {
+    0% { background-position: 155% 50%; opacity: 0.52; }
+    30% { opacity: 1; }
+    100% { background-position: -55% 50%; opacity: 0.25; }
   }
 
   .crux-subtitle {
@@ -751,7 +814,7 @@ export default function Crux({ onHover }) {
         <div className="crux-hero">
           <div className="crux-hero-label">AI Decision Analysis</div>
           <h1 className="crux-title">
-            The <em>decisive</em> point.
+            The <span className="liquid-word-wrap"><span className="liquid-word" data-text="decisive">decisive</span></span> point.
           </h1>
           <p className="crux-subtitle">
             Name the real tension. Decide. Move on. No frameworks, no scores, just clarity when you're stuck.
