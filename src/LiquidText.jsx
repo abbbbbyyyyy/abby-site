@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { LiquidMetal } from "@paper-design/shaders-react";
 
 function buildMaskDataUrl({
@@ -32,8 +32,11 @@ function buildMaskDataUrl({
 
 export default function LiquidText({ text, className = "" }) {
   const sizerRef = useRef(null);
+  const shaderHostRef = useRef(null);
   const [maskData, setMaskData] = useState(null);
   const [canRenderShader, setCanRenderShader] = useState(false);
+  const [canMask, setCanMask] = useState(false);
+  const [shaderReady, setShaderReady] = useState(false);
 
   useLayoutEffect(() => {
     const canvas = document.createElement("canvas");
@@ -41,6 +44,10 @@ export default function LiquidText({ text, className = "" }) {
       canvas.getContext("webgl2", { alpha: true }) ||
       canvas.getContext("webgl", { alpha: true });
     setCanRenderShader(Boolean(gl));
+    const supportsMask =
+      CSS.supports("mask-image", "url(\"data:image/gif;base64,R0lGODlhAQABAAAAACw=\")") ||
+      CSS.supports("-webkit-mask-image", "url(\"data:image/gif;base64,R0lGODlhAQABAAAAACw=\")");
+    setCanMask(Boolean(supportsMask));
   }, []);
 
   useLayoutEffect(() => {
@@ -119,7 +126,29 @@ export default function LiquidText({ text, className = "" }) {
     };
   }, [maskData]);
 
-  const showShader = Boolean(maskData && canRenderShader);
+  const showShader = Boolean(maskData && canRenderShader && canMask);
+
+  useEffect(() => {
+    if (!showShader) {
+      setShaderReady(false);
+      return;
+    }
+
+    let raf = 0;
+    let attempts = 0;
+    const checkCanvas = () => {
+      attempts += 1;
+      const hasCanvas = Boolean(shaderHostRef.current?.querySelector("canvas"));
+      if (hasCanvas) {
+        setShaderReady(true);
+        return;
+      }
+      if (attempts < 30) raf = requestAnimationFrame(checkCanvas);
+    };
+
+    raf = requestAnimationFrame(checkCanvas);
+    return () => cancelAnimationFrame(raf);
+  }, [showShader]);
 
   return (
     <span
@@ -131,7 +160,7 @@ export default function LiquidText({ text, className = "" }) {
         style={{
           display: "inline-block",
           whiteSpace: "pre",
-          opacity: showShader ? 0 : 1,
+          opacity: shaderReady ? 0 : 1,
           transition: "opacity 0.2s ease",
         }}
       >
@@ -139,7 +168,7 @@ export default function LiquidText({ text, className = "" }) {
       </span>
 
       {showShader ? (
-        <span aria-hidden style={layerStyle}>
+        <span ref={shaderHostRef} aria-hidden style={layerStyle}>
           <LiquidMetal
             width={maskData.width}
             height={maskData.height}
