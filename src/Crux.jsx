@@ -665,24 +665,25 @@ export default function Crux({ onHover }) {
   const [choice, setChoice] = useState(null);
   const [notes, setNotes] = useState("");
   const [saved, setSaved] = useState(false);
-  const [log, setLog] = useState([]);
+  const [log, setLog] = useState(() => {
+    try {
+      const stored = localStorage.getItem("crux-log");
+      return stored ? JSON.parse(stored) : [];
+    } catch { return []; }
+  });
   const [expanded, setExpanded] = useState(null);
 
   const hover = onHover || (() => {});
 
-  useEffect(() => { loadLog(); }, []);
-
-  async function loadLog() {
-    try { 
+  function refreshLog() {
+    try {
       const stored = localStorage.getItem("crux-log");
-      if (stored) setLog(JSON.parse(stored)); 
+      if (stored) setLog(JSON.parse(stored));
     } catch {}
   }
 
-  async function saveLog(nl) {
-    try { 
-      localStorage.setItem("crux-log", JSON.stringify(nl)); 
-    } catch {}
+  function saveLog(nl) {
+    try { localStorage.setItem("crux-log", JSON.stringify(nl)); } catch {}
   }
 
   async function analyze() {
@@ -748,7 +749,7 @@ export default function Crux({ onHover }) {
             </button>
             <button
               className={`crux-tab ${tab === "log" ? "active" : ""}`}
-              onClick={() => { setTab("log"); loadLog(); }}
+              onClick={() => { setTab("log"); refreshLog(); }}
               onMouseEnter={() => hover(true)}
               onMouseLeave={() => hover(false)}
             >

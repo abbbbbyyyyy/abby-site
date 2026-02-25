@@ -693,8 +693,7 @@ export default function App() {
         {/* About */}
         <section className="section" id="about">
           <div className="section-label">About</div>
-          <div className="about-grid">
-            <div className="about-text reveal">
+          <div className="about-text reveal" style={{ maxWidth: 600 }}>
               <p>
                 I worked at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong> for 
                 six years. I learned a lot, but finance is all process and no room 
@@ -702,21 +701,15 @@ export default function App() {
               </p>
               <p>
                 Starting a master's at <strong>Columbia</strong> in organizational psychology, 
-                I found a passion for understandinghow AI changes the way people work and make decisions. 
+                I found a passion for understanding how AI changes the way people work and make decisions. 
                 I started building tools to explore that. Soon, I realized I'd rather be doing this 
                 full time than writing papers about it.
               </p>
               <p>
-                So that's where I'm at. Looking for a company that's doing genuinelyinteresting things. 
+                So that's where I'm at. Looking for a company that's doing genuinely interesting things. 
                 I'm not picky about the role, I just want to be somewhere working on something that matters, 
                 with people who know what they don't know.
               </p>
-            </div>
-            <div className="glass-card reveal">
-              <h3 className="glass-card-title">
-                Looking for the <em>right team</em>, not the perfect role.
-              </h3>
-            </div>
           </div>
         </section>
 
