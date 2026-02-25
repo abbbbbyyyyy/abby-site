@@ -46,25 +46,28 @@ const STYLES = `
   .liquid-word-wrap::before {
     content: '';
     position: absolute;
-    left: -10%;
-    right: -10%;
-    top: 24%;
-    height: 62%;
+    left: -15%;
+    right: -15%;
+    top: 14%;
+    height: 78%;
     background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.28) 0%, rgba(99, 102, 241, 0.15) 45%, transparent 78%);
-    filter: blur(20px);
+    filter: blur(24px);
     pointer-events: none;
     z-index: 0;
+    animation: liquidAuraPulse 3.6s ease-in-out infinite alternate;
   }
 
   .liquid-word {
     font-style: italic;
     display: inline-block;
     position: relative;
-    color: rgba(244, 240, 255, 0.1);
-    text-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.2),
-      0 16px 40px rgba(99, 102, 241, 0.3),
-      0 0 44px rgba(139, 92, 246, 0.32);
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(115deg, rgba(139, 92, 246, 0.96) 0%, rgba(196, 181, 253, 0.92) 16%, rgba(255, 255, 255, 0.9) 23%, rgba(147, 197, 253, 0.9) 34%, rgba(99, 102, 241, 0.96) 50%, rgba(255, 255, 255, 0.82) 61%, rgba(167, 139, 250, 0.92) 74%, rgba(99, 102, 241, 0.96) 100%);
+    background-size: 240% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: saturate(1.16) contrast(1.08);
+    animation: liquidWordDrift 7.5s ease-in-out infinite alternate;
     z-index: 1;
   }
 
@@ -72,40 +75,29 @@ const STYLES = `
     content: attr(data-text);
     position: absolute;
     inset: 0;
-    color: transparent;
-    background:
-      linear-gradient(
-        122deg,
-        rgba(139, 92, 246, 0.95) 0%,
-        rgba(167, 139, 250, 0.9) 20%,
-        rgba(255, 255, 255, 0.8) 27%,
-        rgba(255, 255, 255, 0.1) 35%,
-        rgba(59, 130, 246, 0.92) 50%,
-        rgba(167, 139, 250, 0.88) 64%,
-        rgba(255, 255, 255, 0.72) 70%,
-        rgba(99, 102, 241, 0.9) 100%
-      );
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.8) 15%, rgba(255, 255, 255, 0.15) 45%, rgba(255, 255, 255, 0.7) 78%);
     background-size: 260% 100%;
     -webkit-background-clip: text;
     background-clip: text;
-    filter: saturate(1.22) contrast(1.12) brightness(1.05);
-    animation: liquidWordDrift 6.2s ease-in-out infinite alternate;
-    z-index: 1;
+    transform: translate(0.01em, 0.02em);
+    filter: blur(0.8px);
+    opacity: 0.55;
+    animation: liquidWordSpecular 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    z-index: 2;
   }
 
-  .liquid-word::after {
-    content: attr(data-text);
+  .liquid-word-wrap::after {
+    content: '';
     position: absolute;
-    inset: 0;
-    color: transparent;
-    background: linear-gradient(104deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.98) 34%, rgba(255, 255, 255, 0.28) 47%, rgba(255, 255, 255, 0) 61%);
-    background-size: 320% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
+    inset: -12% -16%;
+    background: linear-gradient(110deg, transparent 32%, rgba(255, 255, 255, 0.22) 48%, transparent 64%);
     mix-blend-mode: screen;
-    filter: blur(0.55px) brightness(1.1);
-    animation: liquidWordSpecular 4.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-    z-index: 2;
+    filter: blur(10px);
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 3;
+    animation: liquidSweepBand 4.8s ease-in-out infinite;
   }
 
   @keyframes liquidWordDrift {
@@ -114,9 +106,20 @@ const STYLES = `
   }
 
   @keyframes liquidWordSpecular {
-    0% { background-position: 155% 50%; opacity: 0.52; }
-    30% { opacity: 1; }
-    100% { background-position: -55% 50%; opacity: 0.25; }
+    0% { background-position: 160% 50%; opacity: 0.35; }
+    28% { opacity: 0.9; }
+    100% { background-position: -60% 50%; opacity: 0.2; }
+  }
+
+  @keyframes liquidAuraPulse {
+    0% { transform: scale(0.98); opacity: 0.78; }
+    100% { transform: scale(1.04); opacity: 1; }
+  }
+
+  @keyframes liquidSweepBand {
+    0% { transform: translateX(18%) skewX(-14deg); opacity: 0; }
+    35% { opacity: 0.62; }
+    100% { transform: translateX(-18%) skewX(-14deg); opacity: 0; }
   }
 
   .crux-subtitle {

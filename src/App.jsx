@@ -163,105 +163,103 @@ const STYLES = `
   .hero-title .line:nth-child(1) .line-inner { animation-delay: 0.3s; }
   .hero-title .line:nth-child(2) .line-inner { animation-delay: 0.4s; }
 
-  /* Liquid glass text (Framer-style layered treatment) */
+  /* Liquid glass text */
   .glass-text {
     display: inline-block;
     position: relative;
-    isolation: isolate;
     z-index: 1;
-    color: rgba(244, 240, 255, 0.1);
-    text-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.22),
-      0 20px 46px rgba(99, 102, 241, 0.34),
-      0 0 54px rgba(139, 92, 246, 0.38);
+    -webkit-text-fill-color: transparent;
+    background:
+      linear-gradient(
+        115deg,
+        rgba(139, 92, 246, 0.96) 0%,
+        rgba(196, 181, 253, 0.92) 16%,
+        rgba(255, 255, 255, 0.9) 23%,
+        rgba(147, 197, 253, 0.9) 34%,
+        rgba(99, 102, 241, 0.96) 50%,
+        rgba(255, 255, 255, 0.82) 61%,
+        rgba(167, 139, 250, 0.92) 74%,
+        rgba(99, 102, 241, 0.96) 100%
+      );
+    background-size: 240% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: saturate(1.16) contrast(1.08);
+    animation: liquidGradientFlow 7.5s ease-in-out infinite alternate;
+    z-index: 1;
   }
 
   .glass-text::before {
     content: attr(data-text);
     position: absolute;
     inset: 0;
-    color: transparent;
-    background:
-      linear-gradient(
-        122deg,
-        rgba(139, 92, 246, 0.95) 0%,
-        rgba(167, 139, 250, 0.9) 20%,
-        rgba(255, 255, 255, 0.82) 27%,
-        rgba(255, 255, 255, 0.1) 35%,
-        rgba(59, 130, 246, 0.93) 50%,
-        rgba(167, 139, 250, 0.9) 64%,
-        rgba(255, 255, 255, 0.76) 70%,
-        rgba(99, 102, 241, 0.92) 100%
-      );
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.8) 15%, rgba(255, 255, 255, 0.15) 45%, rgba(255, 255, 255, 0.7) 78%);
     background-size: 260% 100%;
     -webkit-background-clip: text;
     background-clip: text;
-    filter: saturate(1.25) contrast(1.14) brightness(1.06);
-    animation: liquidGradientDrift 6.2s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
-    z-index: 1;
-  }
-
-  .glass-text::after {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    color: transparent;
-    background:
-      linear-gradient(
-        104deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.98) 34%,
-        rgba(255, 255, 255, 0.28) 47%,
-        rgba(255, 255, 255, 0) 61%
-      );
-    background-size: 320% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    mix-blend-mode: screen;
-    filter: blur(0.55px) brightness(1.12);
-    animation: liquidSpecularSweep 4.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    transform: translate(0.01em, 0.02em);
+    filter: blur(0.8px);
+    opacity: 0.55;
+    animation: liquidSpecularPass 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     z-index: 2;
-  }
-
-  .hero-title .line:nth-child(2) .glass-text {
-    transform: translateZ(0);
   }
 
   .hero-title .line:nth-child(2) .glass-text-wrap {
     position: relative;
     display: inline-block;
+    isolation: isolate;
   }
 
   .hero-title .line:nth-child(2) .glass-text-wrap::before {
     content: '';
     position: absolute;
-    left: -16%;
-    right: -16%;
-    top: 10%;
-    height: 88%;
+    left: -15%;
+    right: -15%;
+    top: 14%;
+    height: 78%;
     background:
-      radial-gradient(ellipse at 50% 48%, rgba(139, 92, 246, 0.48) 0%, rgba(99, 102, 241, 0.22) 44%, transparent 76%),
-      radial-gradient(ellipse at 22% 36%, rgba(255, 255, 255, 0.2) 0%, transparent 52%);
-    filter: blur(28px);
+      radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.52) 0%, rgba(99, 102, 241, 0.25) 46%, transparent 76%),
+      radial-gradient(ellipse at 28% 34%, rgba(255, 255, 255, 0.18) 0%, transparent 50%);
+    filter: blur(24px);
     z-index: 0;
     pointer-events: none;
-    animation: liquidAuraPulse 3.8s ease-in-out infinite alternate;
+    animation: liquidAuraPulse 3.6s ease-in-out infinite alternate;
   }
 
-  @keyframes liquidGradientDrift {
+  .hero-title .line:nth-child(2) .glass-text-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -12% -16%;
+    background: linear-gradient(110deg, transparent 32%, rgba(255, 255, 255, 0.22) 48%, transparent 64%);
+    mix-blend-mode: screen;
+    filter: blur(10px);
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 3;
+    animation: liquidSweepBand 4.8s ease-in-out infinite;
+  }
+
+  @keyframes liquidGradientFlow {
     0% { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
   }
 
-  @keyframes liquidSpecularSweep {
-    0% { background-position: 155% 50%; opacity: 0.52; }
-    30% { opacity: 1; }
-    100% { background-position: -55% 50%; opacity: 0.25; }
+  @keyframes liquidSpecularPass {
+    0% { background-position: 160% 50%; opacity: 0.35; }
+    28% { opacity: 0.9; }
+    100% { background-position: -60% 50%; opacity: 0.2; }
   }
 
   @keyframes liquidAuraPulse {
-    0% { transform: scale(0.98); opacity: 0.82; }
+    0% { transform: scale(0.98); opacity: 0.78; }
     100% { transform: scale(1.04); opacity: 1; }
+  }
+
+  @keyframes liquidSweepBand {
+    0% { transform: translateX(18%) skewX(-14deg); opacity: 0; }
+    35% { opacity: 0.62; }
+    100% { transform: translateX(-18%) skewX(-14deg); opacity: 0; }
   }
 
   @keyframes slideUp { to { transform: translateY(0); } }
@@ -320,6 +318,13 @@ const STYLES = `
     gap: 8px;
     opacity: 0;
     animation: fadeUp 1s ease 1.2s forwards;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .scroll-indicator.hidden {
+    opacity: 0 !important;
+    transform: translate(-50%, 16px);
+    pointer-events: none;
   }
 
   .scroll-indicator span {
@@ -343,7 +348,7 @@ const STYLES = `
 
   /* Sections */
   .section {
-    padding: 160px 48px;
+    padding: 112px 48px;
     position: relative;
   }
 
@@ -353,7 +358,7 @@ const STYLES = `
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--purple);
-    margin-bottom: 64px;
+    margin-bottom: 44px;
   }
 
   /* About */
@@ -564,7 +569,7 @@ const STYLES = `
 
   /* Contact */
   .contact-section {
-    padding: 200px 48px;
+    padding: 132px 48px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -679,8 +684,8 @@ const STYLES = `
     .nav-link { font-size: 12px; }
     .hero { padding: 100px 24px; }
     .hero-title { font-size: clamp(48px, 12vw, 100px); }
-    .section { padding: 100px 24px; }
-    .contact-section { padding: 120px 24px; }
+    .section { padding: 76px 24px; }
+    .contact-section { padding: 92px 24px; }
     .contact-links { flex-direction: column; gap: 16px; }
     .footer { padding: 24px; flex-direction: column; gap: 12px; }
     .project-content { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -697,6 +702,7 @@ export default function App() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [showScrollCue, setShowScrollCue] = useState(true);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -728,6 +734,14 @@ export default function App() {
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
     return () => observer.disconnect();
+  }, [view]);
+
+  useEffect(() => {
+    if (view !== "home") return;
+    const handleScroll = () => setShowScrollCue(window.scrollY < 64);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [view]);
 
   const handleHover = (hovering) => setIsHovering(hovering);
@@ -825,7 +839,7 @@ export default function App() {
           >
             <span>See my work</span>
           </button>
-          <div className="scroll-indicator">
+          <div className={`scroll-indicator ${showScrollCue ? "" : "hidden"}`}>
             <span>Scroll</span>
             <div className="scroll-line" />
           </div>
