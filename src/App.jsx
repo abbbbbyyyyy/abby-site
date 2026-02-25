@@ -168,6 +168,9 @@ const STYLES = `
     display: inline-block;
     position: relative;
     z-index: 1;
+    overflow: visible;
+    padding-right: 0.05em;
+    margin-right: -0.05em;
     -webkit-text-fill-color: transparent;
     background: linear-gradient(
       116deg,
@@ -193,7 +196,7 @@ const STYLES = `
   .glass-text::before {
     content: attr(data-text);
     position: absolute;
-    inset: 0;
+    inset: 0 -0.02em 0 0;
     -webkit-text-fill-color: transparent;
     background: linear-gradient(
       108deg,
@@ -213,17 +216,7 @@ const STYLES = `
   }
 
   .glass-text::after {
-    content: '';
-    position: absolute;
-    left: -8%;
-    right: -8%;
-    top: 22%;
-    height: 56%;
-    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.36) 0%, rgba(99, 102, 241, 0.18) 45%, transparent 75%);
-    filter: blur(16px);
-    z-index: -1;
-    pointer-events: none;
-    animation: liquidAuraPulse 3.8s ease-in-out infinite alternate;
+    content: none;
   }
 
   @keyframes liquidGradientFlow {
@@ -235,11 +228,6 @@ const STYLES = `
     0% { background-position: 160% 50%; opacity: 0.28; }
     28% { opacity: 0.9; }
     100% { background-position: -60% 50%; opacity: 0.22; }
-  }
-
-  @keyframes liquidAuraPulse {
-    0% { transform: scale(0.98); opacity: 0.74; }
-    100% { transform: scale(1.03); opacity: 1; }
   }
 
   @keyframes slideUp { to { transform: translateY(0); } }
