@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="200" viewBox="0 0 1800 200">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@900&amp;display=swap');</style>
+  </defs>
+  <text
+    x="900"
+    y="150"
+    text-anchor="middle"
+    fill="#ffffff"
+    stroke="#ffffff"
+    stroke-width="1.5"
+    paint-order="stroke"
+    font-family="'Unbounded', sans-serif"
+    font-size="120px"
+    font-weight="900"
+    letter-spacing="-2"
+  >The decisive point.</text>
+</svg>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import LiquidText from "./LiquidText";
+import { LiquidMetal } from "@paper-design/shaders-react";
 
 const STYLES = `
   .crux-app {
@@ -29,17 +29,43 @@ const STYLES = `
     backdrop-filter: blur(10px);
   }
 
-  .crux-title {
-    font-family: 'Instrument Serif', serif;
-    font-size: clamp(48px, 8vw, 80px);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 24px;
+  .crux-title-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto 28px;
   }
 
-  .liquid-word-wrap { display: inline-block; }
-  .liquid-word { color: var(--text); font-style: italic; }
+  .crux-title-the {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(36px, 5vw, 56px);
+    color: var(--text-dim);
+    align-self: flex-start;
+    margin-left: 18%;
+    line-height: 1;
+    margin-bottom: -4px;
+  }
+
+  .crux-title-decisive-wrap {
+    width: 100%;
+    max-width: 1100px;
+    aspect-ratio: 1100 / 200;
+    mix-blend-mode: lighten;
+  }
+
+
+  .crux-title-point {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(36px, 5vw, 56px);
+    color: var(--text-dim);
+    align-self: flex-end;
+    margin-right: 10%;
+    line-height: 1;
+    margin-top: -4px;
+  }
 
   .crux-subtitle {
     max-width: 440px;
@@ -675,8 +701,23 @@ export default function Crux({ onHover }) {
     } catch { return []; }
   });
   const [expanded, setExpanded] = useState(null);
+  const [decisiveImg, setDecisiveImg] = useState(null);
 
   const hover = onHover || (() => {});
+
+  useEffect(() => {
+    document.fonts.load("400 140px 'Gravitas One'").then(() => {
+      const c = document.createElement('canvas');
+      c.width = 1100;
+      c.height = 200;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.font = "400 140px 'Gravitas One'";
+      ctx.textAlign = 'center';
+      ctx.fillText('decisive', 550, 155);
+      setDecisiveImg(c.toDataURL());
+    });
+  }, []);
 
   function refreshLog() {
     try {
@@ -735,9 +776,25 @@ export default function Crux({ onHover }) {
 
         <div className="crux-hero">
           <div className="crux-hero-label">AI Decision Analysis</div>
-          <h1 className="crux-title">
-            The <span className="liquid-word-wrap"><LiquidText text="decisive" className="liquid-word" /></span> point.
-          </h1>
+          <h1 className="sr-only">The decisive point.</h1>
+          <div className="crux-title-stack">
+            <span className="crux-title-the">the</span>
+            {decisiveImg && (
+              <div className="crux-title-decisive-wrap">
+                <LiquidMetal
+                  width={1100}
+                  height={200}
+                  image={decisiveImg}
+                  colorBack="#000000"
+                  colorTint="#ffffff"
+                  shape="none"
+                  speed={1}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </div>
+            )}
+            <span className="crux-title-point">point.</span>
+          </div>
           <p className="crux-subtitle">
             Name the real tension. Decide. Move on. No frameworks, no scores, just clarity when you're stuck.
           </p>

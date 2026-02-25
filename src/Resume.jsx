@@ -1,4 +1,5 @@
-import LiquidText from "./LiquidText";
+import { useState, useEffect } from "react";
+import { LiquidMetal } from "@paper-design/shaders-react";
 
 const STYLES = `
   .resume {
@@ -10,20 +11,22 @@ const STYLES = `
   }
 
   .resume-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     margin-bottom: 64px;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
   }
 
-  .resume-name {
-    font-family: 'Instrument Serif', serif;
-    font-size: clamp(40px, 7vw, 64px);
-    font-weight: 400;
-    letter-spacing: -0.03em;
-    line-height: 1.2;
-    margin-bottom: 16px;
+  .resume-name-metal {
+    width: 95%;
+    aspect-ratio: 3200 / 320;
+    margin: 0 auto 24px;
+    mix-blend-mode: lighten;
   }
 
-  .resume-liquid { color: var(--text); font-style: italic; }
 
   .resume-contact {
     display: flex;
@@ -280,13 +283,42 @@ function EntryCard({ entry }) {
 
 export default function Resume({ onHover }) {
   const hover = onHover || (() => {});
+  const [nameImg, setNameImg] = useState(null);
+
+  useEffect(() => {
+    document.fonts.load("400 240px 'Gravitas One'").then(() => {
+      const c = document.createElement('canvas');
+      c.width = 3200;
+      c.height = 320;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.font = "400 240px 'Gravitas One'";
+      ctx.textAlign = 'center';
+      ctx.fillText('Abby Schneider', 1600, 255);
+      setNameImg(c.toDataURL());
+    });
+  }, []);
 
   return (
     <>
       <style>{STYLES}</style>
       <div className="resume">
         <div className="resume-header">
-          <h1 className="resume-name">Abby <LiquidText text="Schneider" className="resume-liquid" /></h1>
+          <h1 className="sr-only">Abby Schneider</h1>
+          {nameImg && (
+            <div className="resume-name-metal">
+              <LiquidMetal
+                width={3200}
+                height={320}
+                image={nameImg}
+                colorBack="#000000"
+                colorTint="#ffffff"
+                shape="none"
+                speed={1}
+                style={{ width: '100%', height: '100%' }}
+              />
+            </div>
+          )}
           <div className="resume-contact">
             <a href="mailto:abbyschneider4@gmail.com" onMouseEnter={() => hover(true)} onMouseLeave={() => hover(false)}>
               abbyschneider4@gmail.com

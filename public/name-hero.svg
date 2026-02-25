@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="480" viewBox="0 0 1600 480">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Gravitas+One&amp;display=swap');</style>
+  </defs>
+  <text
+    x="30"
+    y="200"
+    fill="#ffffff"
+    font-family="'Gravitas One', serif"
+    font-size="200px"
+    font-weight="400"
+    letter-spacing="-4"
+  >Abby</text>
+  <text
+    x="240"
+    y="420"
+    fill="#ffffff"
+    font-family="'Gravitas One', serif"
+    font-size="200px"
+    font-weight="400"
+    letter-spacing="-4"
+  >Schneider</text>
+</svg>
