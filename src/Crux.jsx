@@ -331,9 +331,12 @@ const STYLES = `
 
   .point-dash {
     flex-shrink: 0;
-    color: var(--text-faint);
-    font-size: 11px;
-    margin-top: 4px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--purple);
+    opacity: 0.5;
+    margin-top: 9px;
   }
 
   /* Insight */
@@ -603,11 +606,15 @@ const STYLES = `
   }
 
   .log-mini-item::before {
-    content: '—';
+    content: '';
     position: absolute;
-    left: 0;
-    color: var(--text-faint);
-    font-size: 10px;
+    left: 2px;
+    top: 9px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--purple);
+    opacity: 0.4;
   }
 
   .log-insight {
@@ -747,7 +754,7 @@ export default function Crux({ onHover }) {
             The <em>decisive</em> point.
           </h1>
           <p className="crux-subtitle">
-            Name the real tension. Decide. Move on. No frameworks, no scores — just clarity when you're stuck.
+            Name the real tension. Decide. Move on. No frameworks, no scores, just clarity when you're stuck.
           </p>
           <div className="crux-tabs">
             <button
@@ -820,7 +827,7 @@ export default function Crux({ onHover }) {
                     </div>
                     {result.pros.map((p, i) => (
                       <div key={i} className="point-item">
-                        <span className="point-dash">—</span>
+                        <span className="point-dash" />
                         <span>{p}</span>
                       </div>
                     ))}
@@ -832,7 +839,7 @@ export default function Crux({ onHover }) {
                     </div>
                     {result.cons.map((c, i) => (
                       <div key={i} className="point-item">
-                        <span className="point-dash">—</span>
+                        <span className="point-dash" />
                         <span>{c}</span>
                       </div>
                     ))}

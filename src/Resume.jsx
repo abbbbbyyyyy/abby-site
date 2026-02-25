@@ -142,11 +142,15 @@ const STYLES = `
   }
 
   .resume-bullets li::before {
-    content: '—';
+    content: '';
     position: absolute;
-    left: 0;
-    color: var(--text-faint);
-    font-size: 11px;
+    left: 2px;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--purple);
+    opacity: 0.4;
   }
 
   .resume-edu-item {
@@ -216,7 +220,7 @@ const EXPERIENCE = [
     date: "Jan 2022 – May 2025",
     location: "Westport, CT",
     bullets: [
-      "Built and launched the annual strategic planning process end-to-end — designed the framework from scratch, ran stakeholder alignment with C-suite, tracked progress, and delivered reporting to senior leadership.",
+      "Built and launched the annual strategic planning process end-to-end. Designed the framework from scratch, ran stakeholder alignment with C-suite, tracked progress, and delivered reporting to senior leadership.",
       "Co-led a multi-million-dollar program spanning internal teams, external partners, and vendors; responsible for budget, resource allocation, and on-time delivery across all workstreams.",
       "Designed and implemented process optimization initiatives that measurably reduced operational friction and improved stakeholder satisfaction.",
       "Used AI tools (ChatGPT, Claude) to accelerate synthesis of complex operational and stakeholder data, cutting time-to-insight on executive reporting significantly.",
@@ -230,9 +234,9 @@ const EXPERIENCE = [
     date: "Mar 2019 – Jan 2022",
     location: "Westport, CT",
     bullets: [
-      "Designed and owned a cross-departmental culture measurement initiative from scratch — built the survey instrument, ran quantitative and qualitative analysis, and delivered findings that resulted in measurable improvements in employee engagement.",
+      "Designed and owned a cross-departmental culture measurement initiative from scratch. Built the survey instrument, ran quantitative and qualitative analysis, and delivered findings that resulted in measurable improvements in employee engagement.",
       "Managed organization-wide KPI tracking and performance reporting via Tableau dashboards; partnered with business leaders to surface risks and translate data into decisions.",
-      "Led change management and adoption strategy for a CRM system upgrade — stakeholder comms, training materials, user acceptance testing, and full rollout coordination.",
+      "Led change management and adoption strategy for a CRM system upgrade. Stakeholder comms, training materials, user acceptance testing, and full rollout coordination.",
       "Built internal knowledge management systems, process guides, and resource libraries that enabled faster onboarding and more consistent team execution.",
     ],
   },
@@ -247,7 +251,7 @@ const RESEARCH = [
     bullets: [
       "Supporting early-stage academic research investigating whether AI-mediated decision support tools influence human behavioral reasoning and decision-making.",
       "Contributing to study design including control variable selection and methodology; helping ensure research rigor from conception to data collection.",
-      "Conducted independent comparative analysis of how different AI models approach decision-making tasks — examining how model design choices affect user outcomes.",
+      "Conducted independent comparative analysis of how different AI models approach decision-making tasks, examining how model design choices affect user outcomes.",
       "Reviewing and editing research paper drafts, translating complex behavioral theory into clear, precise academic prose.",
     ],
   },

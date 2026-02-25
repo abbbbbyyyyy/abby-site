@@ -163,23 +163,62 @@ const STYLES = `
   .hero-title .line:nth-child(1) .line-inner { animation-delay: 0.3s; }
   .hero-title .line:nth-child(2) .line-inner { animation-delay: 0.4s; }
 
-  /* Gradient text with soft glow */
+  /* Liquid glass text */
   .glass-text {
-    background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 50%, var(--violet) 100%);
+    background:
+      linear-gradient(
+        120deg,
+        var(--purple) 0%,
+        rgba(167, 139, 250, 0.9) 18%,
+        rgba(255, 255, 255, 0.55) 24%,
+        rgba(255, 255, 255, 0.15) 28%,
+        var(--blue) 40%,
+        var(--violet) 58%,
+        rgba(255, 255, 255, 0.45) 66%,
+        rgba(255, 255, 255, 0.1) 70%,
+        var(--purple) 85%,
+        var(--indigo) 100%
+      );
+    background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     position: relative;
+    animation: glassShimmer 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes glassShimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  .glass-text::before {
+    content: '';
+    position: absolute;
+    inset: -30% -5%;
+    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.35) 0%, rgba(99, 102, 241, 0.15) 40%, transparent 70%);
+    filter: blur(35px);
+    z-index: -1;
+    pointer-events: none;
   }
 
   .glass-text::after {
     content: '';
     position: absolute;
-    inset: -40% -10%;
-    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.15) 40%, transparent 70%);
-    filter: blur(30px);
-    z-index: -1;
+    top: 10%;
+    left: -10%;
+    width: 120%;
+    height: 40%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 40%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.08) 60%, transparent 100%);
+    transform: skewY(-4deg);
     pointer-events: none;
+    z-index: 1;
+    animation: glassReflection 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes glassReflection {
+    0% { opacity: 0.6; transform: skewY(-4deg) translateX(-5%); }
+    100% { opacity: 1; transform: skewY(-4deg) translateX(5%); }
   }
 
   @keyframes slideUp { to { transform: translateY(0); } }
