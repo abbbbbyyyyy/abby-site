@@ -746,18 +746,17 @@ export default function Crux() {
     if (!question.trim()) return;
     setLoading(true); setResult(null); setError(null); setChoice(null); setNotes(""); setSaved(false);
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [{ role: "user", content: `You are a sharp, honest decision analyst. No hedging. Be specific.\n\nDecision: ${question.trim()}${context.trim() ? `\nContext: ${context.trim()}` : ""}\n\nRespond in exactly this format:\n\nPROS:\n- [specific pro]\n- [specific pro]\n- [specific pro]\n- [specific pro]\n\nCONS:\n- [specific con]\n- [specific con]\n- [specific con]\n- [specific con]\n\nINSIGHT:\n[2-3 sentences. Name the real tension. Be direct.]` }]
+          question: question.trim(),
+          context: context.trim()
         })
       });
       const data = await res.json();
-      const text = data.content?.map(b => b.text || "").join("") || "";
-      setResult({ question: question.trim(), ...parseAnalysis(text) });
+      if (!res.ok) throw new Error(data.error || 'Something went wrong');
+      setResult({ question: question.trim(), ...parseAnalysis(data.text) });
     } catch { setError("Something went wrong. Try again."); }
     finally { setLoading(false); }
   }
