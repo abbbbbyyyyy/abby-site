@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Crux from "./Crux";
+import Resume from "./Resume";
 
 const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
@@ -151,7 +152,7 @@ const STYLES = `
     margin-bottom: 40px;
   }
 
-  .hero-title .line { display: block; overflow: hidden; }
+  .hero-title .line { display: block; overflow: hidden; padding-bottom: 0.12em; }
 
   .hero-title .line-inner {
     display: block;
@@ -162,7 +163,7 @@ const STYLES = `
   .hero-title .line:nth-child(1) .line-inner { animation-delay: 0.3s; }
   .hero-title .line:nth-child(2) .line-inner { animation-delay: 0.4s; }
 
-  /* Glass text effect */
+  /* Gradient text with soft glow */
   .glass-text {
     background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 50%, var(--violet) 100%);
     -webkit-background-clip: text;
@@ -172,17 +173,13 @@ const STYLES = `
   }
 
   .glass-text::after {
-    content: attr(data-text);
+    content: '';
     position: absolute;
-    left: 0;
-    top: 0;
-    background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 50%, var(--violet) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    inset: -40% -10%;
+    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.15) 40%, transparent 70%);
     filter: blur(30px);
-    opacity: 0.5;
     z-index: -1;
+    pointer-events: none;
   }
 
   @keyframes slideUp { to { transform: translateY(0); } }
@@ -641,6 +638,30 @@ export default function App() {
     );
   }
 
+  if (view === "resume") {
+    return (
+      <>
+        <style>{STYLES}</style>
+        <div className="portfolio">
+          <div className="ambient-glow" />
+          <div className={`cursor ${isHovering ? 'hovering' : ''}`} style={{ left: cursorPos.x, top: cursorPos.y }} />
+          <div className="cursor-dot" style={{ left: mousePos.x, top: mousePos.y }} />
+          <div className="crux-wrapper">
+            <button
+              className="back-btn"
+              onClick={() => setView("home")}
+              onMouseEnter={() => handleHover(true)}
+              onMouseLeave={() => handleHover(false)}
+            >
+              ← Back
+            </button>
+            <Resume onHover={handleHover} />
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <style>{STYLES}</style>
@@ -668,7 +689,7 @@ export default function App() {
             <span className="line"><span className="line-inner">Abby</span></span>
             <span className="line">
               <span className="line-inner">
-                <span className="glass-text" data-text="Schneider">Schneider</span>
+                <span className="glass-text">Schneider</span>
               </span>
             </span>
           </h1>
@@ -769,7 +790,7 @@ export default function App() {
             </a>
             <a 
               className="contact-link" 
-              href="https://linkedin.com/in/" 
+              href="https://www.linkedin.com/in/abbyschneider2/" 
               target="_blank" 
               rel="noopener noreferrer"
               onMouseEnter={() => handleHover(true)}
@@ -777,15 +798,15 @@ export default function App() {
             >
               LinkedIn
             </a>
-            <a 
-              className="contact-link" 
-              href="/resume.pdf" 
-              target="_blank"
+            <button
+              className="contact-link"
+              onClick={() => { window.scrollTo(0, 0); setView("resume"); }}
               onMouseEnter={() => handleHover(true)}
               onMouseLeave={() => handleHover(false)}
+              style={{ cursor: 'pointer' }}
             >
               Resume
-            </a>
+            </button>
           </div>
         </section>
 

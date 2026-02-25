@@ -43,6 +43,17 @@ const STYLES = `
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    position: relative;
+  }
+
+  .crux-title em::after {
+    content: '';
+    position: absolute;
+    inset: -50% -15%;
+    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.25) 0%, rgba(99, 102, 241, 0.12) 40%, transparent 70%);
+    filter: blur(25px);
+    z-index: -1;
+    pointer-events: none;
   }
 
   .crux-subtitle {
