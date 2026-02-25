@@ -28,7 +28,6 @@ function buildMaskDataUrl({
   const letterSpacingPx = `${letterSpacing}px`;
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-    <rect width="100%" height="100%" fill="black"/>
     <text x="2" y="${baseline}" fill="white" font-family="${fontFamily}" font-size="${fontSizePx}" font-weight="${fontWeight}" font-style="${fontStyle}" letter-spacing="${letterSpacingPx}" xml:space="preserve">${safeText}</text>
   </svg>`;
 
