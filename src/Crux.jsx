@@ -43,9 +43,9 @@ const STYLES = `
     font-size: clamp(36px, 5vw, 56px);
     color: var(--text-dim);
     align-self: flex-start;
-    margin-left: 18%;
+    margin-left: 24%;
     line-height: 1;
-    margin-bottom: -4px;
+    margin-bottom: -5vw;
   }
 
   .crux-title-decisive-wrap {
@@ -62,9 +62,9 @@ const STYLES = `
     font-size: clamp(36px, 5vw, 56px);
     color: var(--text-dim);
     align-self: flex-end;
-    margin-right: 10%;
+    margin-right: 20%;
     line-height: 1;
-    margin-top: -4px;
+    margin-top: -5vw;
   }
 
   .crux-subtitle {

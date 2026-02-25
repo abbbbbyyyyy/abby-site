@@ -125,7 +125,7 @@ const STYLES = `
     justify-content: center;
     align-items: flex-start;
     text-align: left;
-    padding: 120px 48px 120px 80px;
+    padding: 120px 48px;
     position: relative;
   }
 
@@ -161,34 +161,22 @@ const STYLES = `
   .hero-title-group {
     width: 100%;
     margin-bottom: 40px;
-    opacity: 0;
-    animation: fadeUp 1.2s ease 0.3s forwards;
   }
 
   .hero-title-abby {
     width: 30%;
     min-width: 200px;
     aspect-ratio: 218.2 / 98.3;
-    -webkit-mask-image: url('/abby.svg');
-    mask-image: url('/abby.svg');
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
+    mix-blend-mode: lighten;
   }
 
   .hero-title-schneider {
-    width: 88%;
+    width: 115%;
     min-width: 360px;
     aspect-ratio: 834.6 / 91.1;
-    margin-left: 10%;
-    margin-top: -2.5vw;
-    -webkit-mask-image: url('/schneider.svg');
-    mask-image: url('/schneider.svg');
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
+    mix-blend-mode: lighten;
+    margin-left: -2%;
+    margin-top: -5vw;
   }
 
   @keyframes slideUp { to { transform: translateY(0); } }
@@ -624,7 +612,7 @@ const STYLES = `
     .project-arrow { display: none; }
     .back-btn { left: 24px; }
     .hero-title-abby { width: 40%; }
-    .hero-title-schneider { width: 98%; margin-left: 2%; margin-top: -1.5vw; }
+    .hero-title-schneider { width: 98%; margin-left: 2%; margin-top: -4vw; }
     .cursor, .cursor-dot { display: none; }
     .glass-card { padding: 32px; }
   }
@@ -636,53 +624,30 @@ export default function App() {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [showScrollCue, setShowScrollCue] = useState(true);
-  const abbyRef = useRef(null);
-  const schneiderRef = useRef(null);
-  const [abbySize, setAbbySize] = useState(null);
-  const [schneiderSize, setSchneiderSize] = useState(null);
   const [abbyImg, setAbbyImg] = useState(null);
   const [schneiderImg, setSchneiderImg] = useState(null);
 
   useEffect(() => {
-    const ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const w = Math.round(entry.contentRect.width);
-        const h = Math.round(entry.contentRect.height);
-        if (w === 0 || h === 0) continue;
-        if (entry.target === abbyRef.current) setAbbySize(prev => (prev?.width === w && prev?.height === h) ? prev : { width: w, height: h });
-        else if (entry.target === schneiderRef.current) setSchneiderSize(prev => (prev?.width === w && prev?.height === h) ? prev : { width: w, height: h });
-      }
+    const loadSvg = (src, w, h) => new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(c.toDataURL());
+      };
+      img.src = src;
     });
-    if (abbyRef.current) ro.observe(abbyRef.current);
-    if (schneiderRef.current) ro.observe(schneiderRef.current);
-    return () => ro.disconnect();
+
+    Promise.all([
+      loadSvg('/abby.svg', 872, 393),
+      loadSvg('/schneider.svg', 1670, 182),
+    ]).then(([abby, schneider]) => {
+      setAbbyImg(abby);
+      setSchneiderImg(schneider);
+    });
   }, []);
-
-  useEffect(() => {
-    if (!abbySize) return;
-    const img = new Image();
-    img.onload = () => {
-      const c = document.createElement('canvas');
-      c.width = abbySize.width;
-      c.height = abbySize.height;
-      c.getContext('2d').drawImage(img, 0, 0, abbySize.width, abbySize.height);
-      setAbbyImg(c.toDataURL());
-    };
-    img.src = '/abby.svg';
-  }, [abbySize]);
-
-  useEffect(() => {
-    if (!schneiderSize) return;
-    const img = new Image();
-    img.onload = () => {
-      const c = document.createElement('canvas');
-      c.width = schneiderSize.width;
-      c.height = schneiderSize.height;
-      c.getContext('2d').drawImage(img, 0, 0, schneiderSize.width, schneiderSize.height);
-      setSchneiderImg(c.toDataURL());
-    };
-    img.src = '/schneider.svg';
-  }, [schneiderSize]);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -796,14 +761,13 @@ export default function App() {
 
         {/* Hero */}
         <section className="hero">
-          <div className="hero-label">Ex-finance, now building</div>
           <h1 className="sr-only">Abby Schneider</h1>
           <div className="hero-title-group">
-            <div className="hero-title-abby" ref={abbyRef}>
-              {abbyImg && abbySize && (
+            {abbyImg && (
+              <div className="hero-title-abby">
                 <LiquidMetal
-                  width={abbySize.width}
-                  height={abbySize.height}
+                  width={872}
+                  height={393}
                   image={abbyImg}
                   colorBack="#000000"
                   colorTint="#ffffff"
@@ -811,13 +775,13 @@ export default function App() {
                   speed={1}
                   style={{ width: '100%', height: '100%' }}
                 />
-              )}
-            </div>
-            <div className="hero-title-schneider" ref={schneiderRef}>
-              {schneiderImg && schneiderSize && (
+              </div>
+            )}
+            {schneiderImg && (
+              <div className="hero-title-schneider">
                 <LiquidMetal
-                  width={schneiderSize.width}
-                  height={schneiderSize.height}
+                  width={1670}
+                  height={182}
                   image={schneiderImg}
                   colorBack="#000000"
                   colorTint="#ffffff"
@@ -825,8 +789,8 @@ export default function App() {
                   speed={1}
                   style={{ width: '100%', height: '100%' }}
                 />
-              )}
-            </div>
+              </div>
+            )}
           </div>
           <p className="hero-intro">
             I spent six years in finance at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong>. I left because I wanted 
