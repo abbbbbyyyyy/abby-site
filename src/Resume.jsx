@@ -1,3 +1,5 @@
+import LiquidText from "./LiquidText";
+
 const STYLES = `
   .resume {
     max-width: 720px;
@@ -21,69 +23,7 @@ const STYLES = `
     margin-bottom: 16px;
   }
 
-  .resume-liquid {
-    font-style: italic;
-    display: inline-block;
-    position: relative;
-    overflow: visible;
-    padding-right: 0.05em;
-    margin-right: -0.05em;
-    -webkit-text-fill-color: transparent;
-    background: linear-gradient(
-      116deg,
-      rgba(139, 92, 246, 0.98) 0%,
-      rgba(196, 181, 253, 0.94) 18%,
-      rgba(255, 255, 255, 0.88) 27%,
-      rgba(147, 197, 253, 0.9) 38%,
-      rgba(99, 102, 241, 0.98) 52%,
-      rgba(255, 255, 255, 0.82) 63%,
-      rgba(167, 139, 250, 0.94) 78%,
-      rgba(99, 102, 241, 0.98) 100%
-    );
-    background-size: 220% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    filter: saturate(1.14) contrast(1.1);
-    text-shadow:
-      0 0 20px rgba(99, 102, 241, 0.28),
-      0 0 40px rgba(139, 92, 246, 0.26);
-    animation: resumeLiquidDrift 8s ease-in-out infinite alternate;
-    z-index: 1;
-  }
-
-  .resume-liquid::before {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0 -0.02em 0 0;
-    -webkit-text-fill-color: transparent;
-    background: linear-gradient(
-      108deg,
-      rgba(255, 255, 255, 0) 20%,
-      rgba(255, 255, 255, 0.9) 46%,
-      rgba(255, 255, 255, 0.1) 58%,
-      rgba(255, 255, 255, 0) 74%
-    );
-    background-size: 260% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    mix-blend-mode: screen;
-    opacity: 0.78;
-    animation: resumeLiquidSpecular 5.2s ease-in-out infinite;
-    z-index: 2;
-  }
-
-  .resume-liquid::after { content: none; }
-
-  @keyframes resumeLiquidDrift {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-  }
-
-  @keyframes resumeLiquidSpecular {
-    0% { background-position: 160% 50%; opacity: 0.28; }
-    28% { opacity: 0.9; }
-    100% { background-position: -60% 50%; opacity: 0.22; }
-  }
+  .resume-liquid { color: var(--text); font-style: italic; }
 
   .resume-contact {
     display: flex;
@@ -346,7 +286,7 @@ export default function Resume({ onHover }) {
       <style>{STYLES}</style>
       <div className="resume">
         <div className="resume-header">
-          <h1 className="resume-name">Abby <span className="resume-liquid-wrap"><span className="resume-liquid" data-text="Schneider">Schneider</span></span></h1>
+          <h1 className="resume-name">Abby <LiquidText text="Schneider" className="resume-liquid" /></h1>
           <div className="resume-contact">
             <a href="mailto:abbyschneider4@gmail.com" onMouseEnter={() => hover(true)} onMouseLeave={() => hover(false)}>
               abbyschneider4@gmail.com

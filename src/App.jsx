@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Crux from "./Crux";
 import Resume from "./Resume";
+import LiquidText from "./LiquidText";
 
 const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
@@ -163,71 +164,9 @@ const STYLES = `
   .hero-title .line:nth-child(1) .line-inner { animation-delay: 0.3s; }
   .hero-title .line:nth-child(2) .line-inner { animation-delay: 0.4s; }
 
-  /* Liquid glass text */
-  .glass-text {
-    display: inline-block;
-    position: relative;
-    z-index: 1;
-    overflow: visible;
-    padding-right: 0.05em;
-    margin-right: -0.05em;
-    -webkit-text-fill-color: transparent;
-    background: linear-gradient(
-      116deg,
-      rgba(139, 92, 246, 0.98) 0%,
-      rgba(196, 181, 253, 0.94) 18%,
-      rgba(255, 255, 255, 0.88) 27%,
-      rgba(147, 197, 253, 0.9) 38%,
-      rgba(99, 102, 241, 0.98) 52%,
-      rgba(255, 255, 255, 0.82) 63%,
-      rgba(167, 139, 250, 0.94) 78%,
-      rgba(99, 102, 241, 0.98) 100%
-    );
-    background-size: 220% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    filter: saturate(1.14) contrast(1.1);
-    text-shadow:
-      0 0 20px rgba(99, 102, 241, 0.28),
-      0 0 40px rgba(139, 92, 246, 0.26);
-    animation: liquidGradientFlow 8s ease-in-out infinite alternate;
-  }
-
-  .glass-text::before {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0 -0.02em 0 0;
-    -webkit-text-fill-color: transparent;
-    background: linear-gradient(
-      108deg,
-      rgba(255, 255, 255, 0) 20%,
-      rgba(255, 255, 255, 0.9) 46%,
-      rgba(255, 255, 255, 0.1) 58%,
-      rgba(255, 255, 255, 0) 74%
-    );
-    background-size: 260% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    mix-blend-mode: screen;
-    opacity: 0.78;
-    animation: liquidSpecularPass 5.2s ease-in-out infinite;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  .glass-text::after {
-    content: none;
-  }
-
-  @keyframes liquidGradientFlow {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-  }
-
-  @keyframes liquidSpecularPass {
-    0% { background-position: 160% 50%; opacity: 0.28; }
-    28% { opacity: 0.9; }
-    100% { background-position: -60% 50%; opacity: 0.22; }
+  .liquid-name {
+    color: var(--text);
+    font-style: normal;
   }
 
   @keyframes slideUp { to { transform: translateY(0); } }
@@ -788,12 +727,12 @@ export default function App() {
           <h1 className="hero-title">
             <span className="line">
               <span className="line-inner">
-                <span className="glass-text" data-text="Abby">Abby</span>
+                <LiquidText text="Abby" className="liquid-name" />
               </span>
             </span>
             <span className="line">
               <span className="line-inner">
-                <span className="glass-text" data-text="Schneider">Schneider</span>
+                <LiquidText text="Schneider" className="liquid-name" />
               </span>
             </span>
           </h1>

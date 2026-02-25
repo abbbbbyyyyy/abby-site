@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import LiquidText from "./LiquidText";
 
 const STYLES = `
   .crux-app {
@@ -37,54 +38,8 @@ const STYLES = `
     margin-bottom: 24px;
   }
 
-  .liquid-word-wrap {
-    position: relative;
-    display: inline-block;
-  }
-
-  .liquid-word {
-    font-style: italic;
-    display: inline-block;
-    position: relative;
-    overflow: visible;
-    padding-right: 0.05em;
-    margin-right: -0.05em;
-    -webkit-text-fill-color: transparent;
-    background: linear-gradient(115deg, rgba(139, 92, 246, 0.96) 0%, rgba(196, 181, 253, 0.92) 16%, rgba(255, 255, 255, 0.9) 23%, rgba(147, 197, 253, 0.9) 34%, rgba(99, 102, 241, 0.96) 50%, rgba(255, 255, 255, 0.82) 61%, rgba(167, 139, 250, 0.92) 74%, rgba(99, 102, 241, 0.96) 100%);
-    background-size: 240% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    filter: saturate(1.16) contrast(1.08);
-    animation: liquidWordDrift 7.5s ease-in-out infinite alternate;
-    z-index: 1;
-  }
-
-  .liquid-word::before {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0 -0.02em 0 0;
-    -webkit-text-fill-color: transparent;
-    background: linear-gradient(120deg, rgba(255, 255, 255, 0.8) 15%, rgba(255, 255, 255, 0.15) 45%, rgba(255, 255, 255, 0.7) 78%);
-    background-size: 260% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    transform: translate(0.01em, 0.02em);
-    filter: blur(0.8px);
-    opacity: 0.55;
-    animation: liquidWordSpecular 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    z-index: 2;
-  }
-
-  @keyframes liquidWordDrift {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-  }
-
-  @keyframes liquidWordSpecular {
-    0% { background-position: 160% 50%; opacity: 0.35; }
-    28% { opacity: 0.9; }
-    100% { background-position: -60% 50%; opacity: 0.2; }
-  }
+  .liquid-word-wrap { display: inline-block; }
+  .liquid-word { color: var(--text); font-style: italic; }
 
   .crux-subtitle {
     max-width: 440px;
@@ -781,7 +736,7 @@ export default function Crux({ onHover }) {
         <div className="crux-hero">
           <div className="crux-hero-label">AI Decision Analysis</div>
           <h1 className="crux-title">
-            The <span className="liquid-word-wrap"><span className="liquid-word" data-text="decisive">decisive</span></span> point.
+            The <span className="liquid-word-wrap"><LiquidText text="decisive" className="liquid-word" /></span> point.
           </h1>
           <p className="crux-subtitle">
             Name the real tension. Decide. Move on. No frameworks, no scores, just clarity when you're stuck.
