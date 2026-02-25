@@ -160,7 +160,7 @@ export default function LiquidText({ text, className = "" }) {
         style={{
           display: "inline-block",
           whiteSpace: "pre",
-          opacity: 1,
+          opacity: shaderReady ? 0 : 1,
           transition: "opacity 0.2s ease",
         }}
       >
