@@ -1,5 +1,10 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { LiquidMetal } from "@paper-design/shaders-react";
+import { LiquidMetal, liquidMetalPresets } from "@paper-design/shaders-react";
+
+const stripesPresetParams =
+  liquidMetalPresets.find((preset) => preset.name === "Stripes")?.params ||
+  liquidMetalPresets[0]?.params ||
+  {};
 
 function buildMaskDataUrl({
   text,
@@ -172,18 +177,18 @@ export default function LiquidText({ text, className = "" }) {
           <LiquidMetal
             width={maskData.width}
             height={maskData.height}
-            colorBack="#8b7ec8"
-            colorTint="#ffffff"
-            speed={0.45}
-            scale={0.7}
-            distortion={0.08}
-            repetition={2.2}
-            contour={0.42}
-            softness={0.12}
-            shiftRed={0.24}
-            shiftBlue={0.24}
-            angle={68}
-            shape="none"
+            colorBack={stripesPresetParams.colorBack}
+            colorTint={stripesPresetParams.colorTint}
+            speed={stripesPresetParams.speed}
+            scale={stripesPresetParams.scale}
+            distortion={stripesPresetParams.distortion}
+            repetition={stripesPresetParams.repetition}
+            contour={stripesPresetParams.contour}
+            softness={stripesPresetParams.softness}
+            shiftRed={stripesPresetParams.shiftRed}
+            shiftBlue={stripesPresetParams.shiftBlue}
+            angle={stripesPresetParams.angle}
+            shape={stripesPresetParams.shape}
             style={{ width: "100%", height: "100%" }}
           />
         </span>
