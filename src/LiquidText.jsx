@@ -33,6 +33,15 @@ function buildMaskDataUrl({
 export default function LiquidText({ text, className = "" }) {
   const sizerRef = useRef(null);
   const [maskData, setMaskData] = useState(null);
+  const [canRenderShader, setCanRenderShader] = useState(false);
+
+  useLayoutEffect(() => {
+    const canvas = document.createElement("canvas");
+    const gl =
+      canvas.getContext("webgl2", { alpha: true }) ||
+      canvas.getContext("webgl", { alpha: true });
+    setCanRenderShader(Boolean(gl));
+  }, []);
 
   useLayoutEffect(() => {
     const el = sizerRef.current;
@@ -110,6 +119,8 @@ export default function LiquidText({ text, className = "" }) {
     };
   }, [maskData]);
 
+  const showShader = Boolean(maskData && canRenderShader);
+
   return (
     <span
       className={className}
@@ -120,14 +131,14 @@ export default function LiquidText({ text, className = "" }) {
         style={{
           display: "inline-block",
           whiteSpace: "pre",
-          opacity: maskData ? 0 : 1,
+          opacity: showShader ? 0 : 1,
           transition: "opacity 0.2s ease",
         }}
       >
         {text}
       </span>
 
-      {maskData ? (
+      {showShader ? (
         <span aria-hidden style={layerStyle}>
           <LiquidMetal
             width={maskData.width}
