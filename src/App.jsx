@@ -169,24 +169,25 @@ const STYLES = `
     position: relative;
     z-index: 1;
     -webkit-text-fill-color: transparent;
-    background:
-      linear-gradient(
-        115deg,
-        rgba(139, 92, 246, 0.96) 0%,
-        rgba(196, 181, 253, 0.92) 16%,
-        rgba(255, 255, 255, 0.9) 23%,
-        rgba(147, 197, 253, 0.9) 34%,
-        rgba(99, 102, 241, 0.96) 50%,
-        rgba(255, 255, 255, 0.82) 61%,
-        rgba(167, 139, 250, 0.92) 74%,
-        rgba(99, 102, 241, 0.96) 100%
-      );
-    background-size: 240% 100%;
+    background: linear-gradient(
+      116deg,
+      rgba(139, 92, 246, 0.98) 0%,
+      rgba(196, 181, 253, 0.94) 18%,
+      rgba(255, 255, 255, 0.88) 27%,
+      rgba(147, 197, 253, 0.9) 38%,
+      rgba(99, 102, 241, 0.98) 52%,
+      rgba(255, 255, 255, 0.82) 63%,
+      rgba(167, 139, 250, 0.94) 78%,
+      rgba(99, 102, 241, 0.98) 100%
+    );
+    background-size: 220% 100%;
     -webkit-background-clip: text;
     background-clip: text;
-    filter: saturate(1.16) contrast(1.08);
-    animation: liquidGradientFlow 7.5s ease-in-out infinite alternate;
-    z-index: 1;
+    filter: saturate(1.14) contrast(1.1);
+    text-shadow:
+      0 0 20px rgba(99, 102, 241, 0.28),
+      0 0 40px rgba(139, 92, 246, 0.26);
+    animation: liquidGradientFlow 8s ease-in-out infinite alternate;
   }
 
   .glass-text::before {
@@ -194,50 +195,35 @@ const STYLES = `
     position: absolute;
     inset: 0;
     -webkit-text-fill-color: transparent;
-    background: linear-gradient(120deg, rgba(255, 255, 255, 0.8) 15%, rgba(255, 255, 255, 0.15) 45%, rgba(255, 255, 255, 0.7) 78%);
+    background: linear-gradient(
+      108deg,
+      rgba(255, 255, 255, 0) 20%,
+      rgba(255, 255, 255, 0.9) 46%,
+      rgba(255, 255, 255, 0.1) 58%,
+      rgba(255, 255, 255, 0) 74%
+    );
     background-size: 260% 100%;
     -webkit-background-clip: text;
     background-clip: text;
-    transform: translate(0.01em, 0.02em);
-    filter: blur(0.8px);
-    opacity: 0.55;
-    animation: liquidSpecularPass 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    z-index: 2;
-  }
-
-  .hero-title .line:nth-child(2) .glass-text-wrap {
-    position: relative;
-    display: inline-block;
-    isolation: isolate;
-  }
-
-  .hero-title .line:nth-child(2) .glass-text-wrap::before {
-    content: '';
-    position: absolute;
-    left: -15%;
-    right: -15%;
-    top: 14%;
-    height: 78%;
-    background:
-      radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.52) 0%, rgba(99, 102, 241, 0.25) 46%, transparent 76%),
-      radial-gradient(ellipse at 28% 34%, rgba(255, 255, 255, 0.18) 0%, transparent 50%);
-    filter: blur(24px);
-    z-index: 0;
-    pointer-events: none;
-    animation: liquidAuraPulse 3.6s ease-in-out infinite alternate;
-  }
-
-  .hero-title .line:nth-child(2) .glass-text-wrap::after {
-    content: '';
-    position: absolute;
-    inset: -12% -16%;
-    background: linear-gradient(110deg, transparent 32%, rgba(255, 255, 255, 0.22) 48%, transparent 64%);
     mix-blend-mode: screen;
-    filter: blur(10px);
-    opacity: 0.55;
+    opacity: 0.78;
+    animation: liquidSpecularPass 5.2s ease-in-out infinite;
+    z-index: 2;
     pointer-events: none;
-    z-index: 3;
-    animation: liquidSweepBand 4.8s ease-in-out infinite;
+  }
+
+  .glass-text::after {
+    content: '';
+    position: absolute;
+    left: -8%;
+    right: -8%;
+    top: 22%;
+    height: 56%;
+    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.36) 0%, rgba(99, 102, 241, 0.18) 45%, transparent 75%);
+    filter: blur(16px);
+    z-index: -1;
+    pointer-events: none;
+    animation: liquidAuraPulse 3.8s ease-in-out infinite alternate;
   }
 
   @keyframes liquidGradientFlow {
@@ -246,20 +232,14 @@ const STYLES = `
   }
 
   @keyframes liquidSpecularPass {
-    0% { background-position: 160% 50%; opacity: 0.35; }
+    0% { background-position: 160% 50%; opacity: 0.28; }
     28% { opacity: 0.9; }
-    100% { background-position: -60% 50%; opacity: 0.2; }
+    100% { background-position: -60% 50%; opacity: 0.22; }
   }
 
   @keyframes liquidAuraPulse {
-    0% { transform: scale(0.98); opacity: 0.78; }
-    100% { transform: scale(1.04); opacity: 1; }
-  }
-
-  @keyframes liquidSweepBand {
-    0% { transform: translateX(18%) skewX(-14deg); opacity: 0; }
-    35% { opacity: 0.62; }
-    100% { transform: translateX(-18%) skewX(-14deg); opacity: 0; }
+    0% { transform: scale(0.98); opacity: 0.74; }
+    100% { transform: scale(1.03); opacity: 1; }
   }
 
   @keyframes slideUp { to { transform: translateY(0); } }
@@ -818,12 +798,14 @@ export default function App() {
         <section className="hero">
           <div className="hero-label">Ex-finance, now building</div>
           <h1 className="hero-title">
-            <span className="line"><span className="line-inner">Abby</span></span>
             <span className="line">
               <span className="line-inner">
-                <span className="glass-text-wrap">
-                  <span className="glass-text" data-text="Schneider">Schneider</span>
-                </span>
+                <span className="glass-text" data-text="Abby">Abby</span>
+              </span>
+            </span>
+            <span className="line">
+              <span className="line-inner">
+                <span className="glass-text" data-text="Schneider">Schneider</span>
               </span>
             </span>
           </h1>

@@ -17,28 +17,8 @@ const STYLES = `
     font-size: clamp(40px, 7vw, 64px);
     font-weight: 400;
     letter-spacing: -0.03em;
-    line-height: 1.1;
+    line-height: 1.2;
     margin-bottom: 16px;
-  }
-
-  .resume-liquid-wrap {
-    position: relative;
-    display: inline-block;
-    isolation: isolate;
-  }
-
-  .resume-liquid-wrap::before {
-    content: '';
-    position: absolute;
-    left: -15%;
-    right: -15%;
-    top: 14%;
-    height: 78%;
-    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.28) 0%, rgba(99, 102, 241, 0.15) 45%, transparent 78%);
-    filter: blur(24px);
-    pointer-events: none;
-    z-index: 0;
-    animation: resumeLiquidAuraPulse 3.6s ease-in-out infinite alternate;
   }
 
   .resume-liquid {
@@ -46,12 +26,25 @@ const STYLES = `
     display: inline-block;
     position: relative;
     -webkit-text-fill-color: transparent;
-    background: linear-gradient(115deg, rgba(139, 92, 246, 0.96) 0%, rgba(196, 181, 253, 0.92) 16%, rgba(255, 255, 255, 0.9) 23%, rgba(147, 197, 253, 0.9) 34%, rgba(99, 102, 241, 0.96) 50%, rgba(255, 255, 255, 0.82) 61%, rgba(167, 139, 250, 0.92) 74%, rgba(99, 102, 241, 0.96) 100%);
-    background-size: 240% 100%;
+    background: linear-gradient(
+      116deg,
+      rgba(139, 92, 246, 0.98) 0%,
+      rgba(196, 181, 253, 0.94) 18%,
+      rgba(255, 255, 255, 0.88) 27%,
+      rgba(147, 197, 253, 0.9) 38%,
+      rgba(99, 102, 241, 0.98) 52%,
+      rgba(255, 255, 255, 0.82) 63%,
+      rgba(167, 139, 250, 0.94) 78%,
+      rgba(99, 102, 241, 0.98) 100%
+    );
+    background-size: 220% 100%;
     -webkit-background-clip: text;
     background-clip: text;
-    filter: saturate(1.16) contrast(1.08);
-    animation: resumeLiquidDrift 7.5s ease-in-out infinite alternate;
+    filter: saturate(1.14) contrast(1.1);
+    text-shadow:
+      0 0 20px rgba(99, 102, 241, 0.28),
+      0 0 40px rgba(139, 92, 246, 0.26);
+    animation: resumeLiquidDrift 8s ease-in-out infinite alternate;
     z-index: 1;
   }
 
@@ -60,28 +53,34 @@ const STYLES = `
     position: absolute;
     inset: 0;
     -webkit-text-fill-color: transparent;
-    background: linear-gradient(120deg, rgba(255, 255, 255, 0.8) 15%, rgba(255, 255, 255, 0.15) 45%, rgba(255, 255, 255, 0.7) 78%);
+    background: linear-gradient(
+      108deg,
+      rgba(255, 255, 255, 0) 20%,
+      rgba(255, 255, 255, 0.9) 46%,
+      rgba(255, 255, 255, 0.1) 58%,
+      rgba(255, 255, 255, 0) 74%
+    );
     background-size: 260% 100%;
     -webkit-background-clip: text;
     background-clip: text;
-    transform: translate(0.01em, 0.02em);
-    filter: blur(0.8px);
-    opacity: 0.55;
-    animation: resumeLiquidSpecular 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    mix-blend-mode: screen;
+    opacity: 0.78;
+    animation: resumeLiquidSpecular 5.2s ease-in-out infinite;
     z-index: 2;
   }
 
-  .resume-liquid-wrap::after {
+  .resume-liquid::after {
     content: '';
     position: absolute;
-    inset: -12% -16%;
-    background: linear-gradient(110deg, transparent 32%, rgba(255, 255, 255, 0.22) 48%, transparent 64%);
-    mix-blend-mode: screen;
-    filter: blur(10px);
-    opacity: 0.55;
+    left: -8%;
+    right: -8%;
+    top: 22%;
+    height: 56%;
+    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.36) 0%, rgba(99, 102, 241, 0.18) 45%, transparent 75%);
+    filter: blur(16px);
+    z-index: -1;
     pointer-events: none;
-    z-index: 3;
-    animation: resumeLiquidSweepBand 4.8s ease-in-out infinite;
+    animation: resumeLiquidAuraPulse 3.8s ease-in-out infinite alternate;
   }
 
   @keyframes resumeLiquidDrift {
@@ -90,20 +89,14 @@ const STYLES = `
   }
 
   @keyframes resumeLiquidSpecular {
-    0% { background-position: 160% 50%; opacity: 0.35; }
+    0% { background-position: 160% 50%; opacity: 0.28; }
     28% { opacity: 0.9; }
-    100% { background-position: -60% 50%; opacity: 0.2; }
+    100% { background-position: -60% 50%; opacity: 0.22; }
   }
 
   @keyframes resumeLiquidAuraPulse {
-    0% { transform: scale(0.98); opacity: 0.78; }
-    100% { transform: scale(1.04); opacity: 1; }
-  }
-
-  @keyframes resumeLiquidSweepBand {
-    0% { transform: translateX(18%) skewX(-14deg); opacity: 0; }
-    35% { opacity: 0.62; }
-    100% { transform: translateX(-18%) skewX(-14deg); opacity: 0; }
+    0% { transform: scale(0.98); opacity: 0.74; }
+    100% { transform: scale(1.03); opacity: 1; }
   }
 
   .resume-contact {
