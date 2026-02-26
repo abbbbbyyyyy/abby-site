@@ -1261,7 +1261,7 @@ export default function App() {
                 full time than writing papers about it.
               </p>
               <p>
-                So that's where I've landed. I want to work in AI, building alongside people who are
+                So that's where I've landed: I want to work in AI, building alongside people who are
                 rethinking how things are done, not just optimizing what already exists.
                 When the right opportunity comes, I'll be there. Everything else can adjust.
               </p>
