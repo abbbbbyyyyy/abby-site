@@ -1249,9 +1249,10 @@ export default function App() {
             <div className="about-card">
               <div className="about-text">
               <p>
-                I worked at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong> for
-                six years. I learned a lot, but finance is all process and no room
-                to try new things. I didn't realize that was the problem until I left.
+                I spent six years at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong>,
+                where I learned how to operate at a high level inside complex systems.
+                I'm grateful for that foundation, but I wanted room to make decisions,
+                push boundaries, and actually build things. That meant making a change.
               </p>
               <p>
                 Starting a master's at <strong>Columbia</strong> in organizational psychology,
@@ -1260,9 +1261,9 @@ export default function App() {
                 full time than writing papers about it.
               </p>
               <p>
-                So that's where I've landed. I want to build alongside people who are rethinking how things are done,
-                not just optimizing what already exists. If I find the right fit, I'm more than
-                willing to change my grad school plans to accommodate.
+                So that's where I've landed. I want to work in AI, building alongside people who are
+                rethinking how things are done, not just optimizing what already exists.
+                When the right opportunity comes, I'll be there. Everything else can adjust.
               </p>
               </div>
             </div>
