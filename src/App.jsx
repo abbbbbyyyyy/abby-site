@@ -624,7 +624,10 @@ const STYLES = `
     color: var(--text-faint);
     background: none;
     border: none;
-    padding: 0;
+    padding: 6px 16px;
+    border-radius: 100px;
+    display: inline-flex;
+    align-items: center;
   }
 
   /* Contact */

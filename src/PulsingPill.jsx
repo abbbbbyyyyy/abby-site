@@ -52,6 +52,7 @@ export default function PulsingPill({
 }) {
   const wrapRef = useRef(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
+  const [borderW, setBorderW] = useState(0);
   const [visible, setVisible] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -86,6 +87,8 @@ export default function PulsingPill({
     const ro = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
       setSize({ w: Math.round(width), h: Math.round(height) });
+      const bw = parseFloat(getComputedStyle(el).borderTopWidth) || 0;
+      setBorderW(bw);
     });
     ro.observe(el);
     return () => ro.disconnect();
@@ -125,7 +128,7 @@ export default function PulsingPill({
         <PulsingBorder
           style={{
             position: "absolute",
-            inset: 0,
+            inset: -borderW,
             zIndex: -1,
             pointerEvents: "none",
             borderRadius: "inherit",
