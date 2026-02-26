@@ -751,12 +751,18 @@ const STYLES = `
     position: static;
   }
 
+  .nav-dropdown-blend .back-btn {
+    mix-blend-mode: difference;
+  }
+
   .nav-dropdown-menu {
     position: absolute;
     top: calc(100% + 10px);
     left: 0;
     min-width: 200px;
-    background: rgba(20, 20, 20, 0.85);
+    mix-blend-mode: normal;
+    isolation: isolate;
+    background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(232, 224, 208, 0.1);
@@ -1156,9 +1162,12 @@ export default function App() {
         {/* Cursor */}
         <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
 
+        {/* Nav dropdown — outside nav to avoid mix-blend-mode: difference on menu */}
+        <NavDropdown currentView="home" onNavigate={setView} className="nav-dropdown-blend" />
+
         {/* Nav */}
         <nav className="nav">
-          <span className="nav-initials">AS</span>
+          <span className="nav-initials" style={{ visibility: 'hidden' }}>AS</span>
           <div className="nav-links">
             <button className="nav-link" onClick={() => lenisRef.current?.scrollTo('#about')}>Home</button>
             <button className="nav-link" onClick={() => lenisRef.current?.scrollTo('#work')}>Work</button>

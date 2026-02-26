@@ -8,7 +8,7 @@ const NAV_ITEMS = [
   { view: "resume", label: "Resume" },
 ];
 
-export default function NavDropdown({ currentView, onNavigate, style = {} }) {
+export default function NavDropdown({ currentView, onNavigate, style = {}, className = "" }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -31,7 +31,7 @@ export default function NavDropdown({ currentView, onNavigate, style = {} }) {
   }, [open]);
 
   return (
-    <div className="nav-dropdown" ref={ref}>
+    <div className={`nav-dropdown${className ? ` ${className}` : ""}`} ref={ref}>
       <button
         className="back-btn"
         style={style}
