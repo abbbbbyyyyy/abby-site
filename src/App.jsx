@@ -1,149 +1,69 @@
 import { useState, useEffect, useRef } from "react";
-import { LiquidMetal } from "@paper-design/shaders-react";
 import Crux from "./Crux";
 import Resume from "./Resume";
+import PulsingPill from "./PulsingPill";
+import Lenis from "lenis";
 
 
 const STYLES = `
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=Gravitas+One&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Cormorant+Garant:ital,wght@0,400;1,400;1,500&family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=Gravitas+One&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #050508;
-    --bg-light: #0a0a0f;
-    --text: #e8e8f0;
-    --text-dim: #8888a0;
-    --text-faint: #444460;
-    --purple: #8b5cf6;
-    --blue: #3b82f6;
-    --indigo: #6366f1;
-    --violet: #a78bfa;
-    --glow: rgba(139, 92, 246, 0.4);
-    --glass: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.08);
+    --bg: #e8e4de;
+    --bg-alt: #dedad2;
+    --text: #1a1a1a;
+    --text-dim: #5a5a52;
+    --text-faint: #9a9a90;
+    --accent: #8B7D3C;
+    --accent-light: #a89960;
+    --border: rgba(26, 26, 26, 0.1);
+    --glass: rgba(255, 255, 255, 0.5);
+    --glass-border: rgba(26, 26, 26, 0.08);
+    --dark-bg: #0a0f0a;
+    --dark-text: #e8e0d0;
+    --dark-text-dim: rgba(232, 224, 208, 0.6);
+    --dark-text-faint: rgba(232, 224, 208, 0.35);
   }
 
-  html { background: var(--bg); scroll-behavior: smooth; }
-  body { background: var(--bg); overflow-x: hidden; }
+  html { background: var(--dark-bg); }
+  body { background: var(--dark-bg); overflow-x: hidden; }
 
-  ::selection { background: var(--purple); color: white; }
+  ::selection { background: var(--accent); color: var(--dark-text); }
 
   .portfolio {
     min-height: 100vh;
-    background: var(--bg);
+    background: var(--dark-bg);
     color: var(--text);
     font-family: 'Inter', -apple-system, sans-serif;
     overflow-x: hidden;
   }
 
-  /* Cursor trail */
+  /* Static film grain overlay */
+  .portfolio::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    opacity: 0.18;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2' intercept='-0.5'/%3E%3CfeFuncG type='linear' slope='2' intercept='-0.5'/%3E%3CfeFuncB type='linear' slope='2' intercept='-0.5'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+
+  /* Cursor */
   .cursor {
     position: fixed;
-    width: 20px;
-    height: 20px;
-    border: 1px solid var(--purple);
+    width: 12px;
+    height: 12px;
+    background: #e8e0d0;
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
-    transition: transform 0.2s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    mix-blend-mode: difference;
     transform: translate(-50%, -50%);
-  }
-
-  .cursor.hovering {
-    width: 50px;
-    height: 50px;
-    border-color: var(--violet);
-    background: rgba(139, 92, 246, 0.1);
-  }
-
-  .cursor-dot {
-    position: fixed;
-    width: 6px;
-    height: 6px;
-    background: var(--purple);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 10000;
-    transform: translate(-50%, -50%);
-  }
-
-  /* Ambient glow */
-  .ambient-glow {
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 70% 70%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Nav */
-  .nav {
-    position: fixed;
-    top: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 12px 32px;
-    display: flex;
-    align-items: center;
-    gap: 48px;
-    z-index: 100;
-    background: var(--glass);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    border-radius: 100px;
-  }
-
-  .nav-name {
-    font-family: 'Instrument Serif', serif;
-    font-size: 16px;
-    color: var(--text);
-    letter-spacing: -0.02em;
-  }
-
-  .nav-links { display: flex; gap: 32px; }
-
-  .nav-link {
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--text-dim);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-
-  .nav-link:hover { color: var(--text); }
-
-  /* Hero */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-    padding: 120px 48px;
-    position: relative;
-  }
-
-  .hero-label {
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 32px;
-    padding: 8px 20px;
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: 100px;
-    backdrop-filter: blur(10px);
-    opacity: 0;
-    animation: fadeUp 1s ease 0.2s forwards;
-    align-self: center;
   }
 
   .sr-only {
@@ -158,128 +78,290 @@ const STYLES = `
     border: 0;
   }
 
-  .hero-title-group {
-    width: 100%;
-    margin-bottom: 40px;
+  /* ═══════════════════════════════════
+     NAV — Editorial fixed header
+     ═══════════════════════════════════ */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 28px 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    mix-blend-mode: difference;
   }
 
-  .hero-title-abby {
-    width: 30%;
-    min-width: 200px;
-    aspect-ratio: 218.2 / 98.3;
-    mix-blend-mode: lighten;
+  .nav-initials {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #e8e0d0;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
   }
 
-  .hero-title-schneider {
-    width: 115%;
-    min-width: 360px;
-    aspect-ratio: 834.6 / 91.1;
-    mix-blend-mode: lighten;
-    margin-left: -2%;
-    margin-top: -5vw;
-  }
+  .nav-links { display: flex; gap: 36px; }
 
-  @keyframes slideUp { to { transform: translateY(0); } }
-  @keyframes fadeUp { to { opacity: 1; } }
-
-  .hero-intro {
-    max-width: 500px;
-    font-size: 17px;
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--text-dim);
-    opacity: 0;
-    animation: fadeUp 1s ease 0.7s forwards;
-    align-self: center;
-    text-align: center;
-  }
-
-  .hero-cta {
-    margin-top: 48px;
-    padding: 16px 32px;
-    font-size: 14px;
-    font-weight: 500;
-    color: white;
-    background: linear-gradient(135deg, var(--purple) 0%, var(--indigo) 100%);
+  .nav-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(232, 224, 208, 0.5);
+    text-decoration: none;
+    transition: color 0.3s ease;
     border: none;
-    border-radius: 100px;
+    background: none;
     cursor: pointer;
-    transition: all 0.3s ease;
-    opacity: 0;
-    animation: fadeUp 1s ease 0.9s forwards;
-    font-family: 'Inter', sans-serif;
-    position: relative;
-    overflow: hidden;
-    align-self: center;
   }
 
-  .hero-cta::before {
+  .nav-link:hover { color: #e8e0d0; }
+
+  .nav-year {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: rgba(232, 224, 208, 0.4);
+  }
+
+  /* Hamburger toggle (hidden on desktop) */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 28px;
+    height: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 102;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 100%;
+    height: 1.5px;
+    background: #e8e0d0;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  .nav-hamburger.open span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+
+  .nav-hamburger.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-hamburger.open span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* Full-screen mobile menu overlay */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--dark-bg);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .mobile-menu.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .mobile-menu-link {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    text-transform: uppercase;
+    color: var(--dark-text);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .mobile-menu-link:hover {
+    color: var(--accent);
+  }
+
+  /* ═══════════════════════════════════
+     HERO — Dark cinematic, two states
+     ═══════════════════════════════════ */
+  .hero {
+    position: relative;
+    height: 200vh;
+    background: var(--dark-bg);
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    top: -20vh;
+    left: 0;
+    right: 0;
+    bottom: -20vh;
+    background-image: url('/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(3px) brightness(0.9);
+    will-change: transform;
+    z-index: 0;
+  }
+
+  .hero-bg::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, var(--indigo) 0%, var(--purple) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    background: rgba(0, 0, 0, 0.5);
   }
 
-  .hero-cta span { position: relative; z-index: 1; }
+  /* State 1: Giant initials */
+  .hero-state1 {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2vw;
+    z-index: 1;
+  }
 
-  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 20px 40px var(--glow); }
-  .hero-cta:hover::before { opacity: 1; }
+  .hero-initials {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    line-height: 0.78;
+    will-change: transform, opacity;
+  }
 
-  .scroll-indicator {
-    position: absolute;
-    bottom: 48px;
-    left: 50%;
-    transform: translateX(-50%);
+  .hero-initial {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 48vh;
+    color: var(--dark-text);
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    user-select: none;
+  }
+
+  .hero-line {
+    width: 1px;
+    height: 20vh;
+    background: var(--accent);
+    align-self: center;
+    margin: 0 3vw;
+    will-change: transform;
+  }
+
+  /* State 2: Intro text */
+  .hero-state2 {
+    position: relative;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    animation: fadeUp 1s ease 1.2s forwards;
-    transition: opacity 0.35s ease, transform 0.35s ease;
+    justify-content: center;
+    padding: 10vh 5vw;
+    z-index: 1;
   }
 
-  .scroll-indicator.hidden {
-    opacity: 0 !important;
-    transform: translate(-50%, 16px);
-    pointer-events: none;
-  }
-
-  .scroll-indicator span {
-    font-size: 10px;
-    letter-spacing: 0.2em;
+  .hero-intro-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 5.5vw, 72px);
     text-transform: uppercase;
-    color: var(--text-faint);
+    color: var(--dark-text);
+    line-height: 1.15;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
 
-  .scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--purple), transparent);
-    animation: scrollPulse 2s ease infinite;
+  .hero-intro-line.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
+  .hero-intro-line:nth-child(2) { transition-delay: 0.1s; }
+  .hero-intro-line:nth-child(3) { transition-delay: 0.2s; }
+  .hero-intro-line:nth-child(4) { transition-delay: 0.3s; }
+  .hero-intro-line:nth-child(5) { transition-delay: 0.4s; }
+  .hero-intro-line:nth-child(6) { transition-delay: 0.5s; }
+
+  .hero-intro-line em {
+    font-family: 'Cormorant Garant', serif;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 1.1em;
   }
 
-  /* Sections */
+  .hero-anno {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.35em;
+    letter-spacing: 0.15em;
+    vertical-align: super;
+    color: var(--dark-text-dim);
+  }
+
+  .hero-intro-small {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dark-text-faint);
+    margin-top: 48px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out 0.5s, transform 0.6s ease-out 0.5s;
+  }
+
+  .hero-intro-small.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ═══════════════════════════════════
+     SECTIONS — Light mode
+     ═══════════════════════════════════ */
   .section {
     padding: 112px 48px;
     position: relative;
+    background: var(--bg);
   }
 
   .section-label {
+    font-family: 'Space Mono', monospace;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--purple);
+    color: var(--accent);
     margin-bottom: 44px;
   }
+
+  @keyframes fadeUp { to { opacity: 1; } }
 
   /* About */
   .about-wrap {
@@ -303,7 +385,6 @@ const STYLES = `
   }
 
   .about-text p:last-child { margin-bottom: 0; }
-
   .about-text strong { color: var(--text); font-weight: 500; }
 
   .about-card {
@@ -324,16 +405,8 @@ const STYLES = `
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--purple), transparent);
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
     opacity: 0.5;
-  }
-
-  .about-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.12), transparent 45%);
-    pointer-events: none;
   }
 
   /* Glass card */
@@ -354,7 +427,7 @@ const STYLES = `
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--purple), transparent);
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
     opacity: 0.5;
   }
 
@@ -369,123 +442,190 @@ const STYLES = `
 
   .glass-card-title em {
     font-style: italic;
-    background: linear-gradient(135deg, var(--purple), var(--violet));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--accent);
   }
 
-  /* Projects */
-  .projects-section { background: var(--bg-light); }
-
-  .project-item {
-    padding: 48px 0;
-    border-bottom: 1px solid var(--glass-border);
-    cursor: pointer;
-    transition: all 0.4s ease;
+  /* ═══════════════════════════════════
+     PROJECTS — Editorial layout
+     ═══════════════════════════════════ */
+  .projects-section {
+    background: var(--bg);
     position: relative;
   }
 
-  .project-item:first-child { border-top: 1px solid var(--glass-border); }
+  /* Header — FEATURED / PROJECTS with vertical accent */
+  .projects-header-wrap {
+    height: 140vh;
+    position: relative;
+    background: var(--bg);
+  }
 
-  .project-item::before {
-    content: '';
-    position: absolute;
-    left: -48px;
-    right: -48px;
+  .projects-header {
+    position: sticky;
     top: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, rgba(139, 92, 246, 0.05), rgba(59, 130, 246, 0.05));
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-
-  .project-item:hover::before { opacity: 1; }
-
-  .project-content {
-    position: relative;
+    height: 100vh;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    will-change: opacity;
+    background: var(--bg);
   }
 
-  .project-left { display: flex; align-items: center; gap: 32px; }
-
-  .project-number {
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--purple);
-    opacity: 0.5;
-  }
-
-  .project-name {
-    font-family: 'Instrument Serif', serif;
-    font-size: clamp(36px, 5vw, 56px);
-    font-weight: 400;
-    color: var(--text);
-    transition: all 0.3s ease;
-    letter-spacing: -0.02em;
-  }
-
-  .project-item:hover .project-name {
-    background: linear-gradient(135deg, var(--purple), var(--violet));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .project-tag {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.15em;
+  .projects-header-anno {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--text-dim);
-    padding: 8px 16px;
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: 100px;
-    transition: all 0.3s ease;
+    color: var(--accent);
+    margin-bottom: 32px;
   }
 
-  .project-item:hover .project-tag {
-    border-color: var(--purple);
-    color: var(--purple);
-  }
-
-  .project-arrow {
-    width: 48px;
-    height: 48px;
+  .projects-header-text {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--glass-border);
-    border-radius: 50%;
+    gap: 3vw;
+  }
+
+  .projects-header-word {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(48px, 13vw, 200px);
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .projects-header-accent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  .projects-header-accent span {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .projects-header-accent span:first-child,
+  .projects-header-accent span:last-child {
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+
+  /* Project cards grid */
+  .projects-grid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 12vw;
+    padding: 40px 5vw 120px;
+    position: relative;
+    background: var(--bg);
+  }
+
+  .projects-grid-accent {
+    position: absolute;
+    left: 50%;
+    top: 80px;
+    bottom: 80px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .projects-grid-accent span {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .projects-grid-accent span:first-child,
+  .projects-grid-accent span:last-child {
+    font-size: 16px;
+    letter-spacing: 0;
+    opacity: 0.4;
+  }
+
+  /* Individual card */
+  .project-card {
+    width: 42vw;
+    max-width: 600px;
+    flex-shrink: 0;
+  }
+
+  .project-card-clickable { cursor: pointer; }
+
+  .project-card-left { margin-top: 0; }
+  .project-card-right { margin-top: 10vh; }
+
+  .project-card-img-wrap {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 3px;
+    background: var(--bg-alt);
+  }
+
+  .project-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+  }
+
+  .project-card:hover .project-card-img {
+    transform: scale(1.02);
+    filter: grayscale(0%) brightness(1.04);
+  }
+
+  .project-card-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0 0;
+  }
+
+  .project-card-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     color: var(--text-dim);
-    font-size: 20px;
-    transition: all 0.3s ease;
   }
 
-  .project-item:hover .project-arrow {
-    background: linear-gradient(135deg, var(--purple), var(--indigo));
-    border-color: transparent;
-    color: white;
-    transform: translateX(4px);
+  .project-card-type {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    background: none;
+    border: none;
+    padding: 0;
   }
-
-  .project-desc {
-    margin-top: 16px;
-    margin-left: 72px;
-    max-width: 400px;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 1.6;
-    color: var(--text-dim);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.4s ease;
-  }
-
-  .project-item:hover .project-desc { opacity: 1; transform: translateY(0); }
 
   /* Contact */
   .contact-section {
@@ -493,36 +633,39 @@ const STYLES = `
     text-align: center;
     position: relative;
     overflow: hidden;
+    background: var(--bg);
   }
 
-  .contact-section::before {
+  .contact-section::after {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
-    transform: translate(-50%, -50%);
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 40%, rgba(139, 125, 60, 0.05), transparent);
     pointer-events: none;
-    opacity: 0.3;
+    z-index: 0;
+  }
+
+  .contact-section > * {
+    position: relative;
+    z-index: 1;
   }
 
   .contact-heading {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(48px, 8vw, 100px);
-    font-weight: 400;
+    font-weight: 700;
     line-height: 1.1;
     margin-bottom: 48px;
-    position: relative;
+    text-transform: uppercase;
+    color: var(--text);
   }
 
   .contact-heading em {
+    font-family: 'Cormorant Garant', serif;
     font-style: italic;
-    background: linear-gradient(135deg, var(--purple), var(--blue), var(--violet));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-weight: 400;
+    color: var(--accent);
+    text-transform: none;
   }
 
   .contact-links {
@@ -533,9 +676,12 @@ const STYLES = `
   }
 
   .contact-link {
+    font-family: 'Space Mono', monospace;
     padding: 14px 28px;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--text);
     background: var(--glass);
     border: 1px solid var(--glass-border);
@@ -543,11 +689,12 @@ const STYLES = `
     text-decoration: none;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    cursor: pointer;
   }
 
   .contact-link:hover {
-    border-color: var(--purple);
-    box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px rgba(139, 125, 60, 0.15);
     transform: translateY(-2px);
   }
 
@@ -557,24 +704,30 @@ const STYLES = `
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid var(--glass-border);
+    border-top: 1px solid var(--border);
+    background: var(--bg);
   }
 
   .footer-text {
-    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
     color: var(--text-faint);
   }
 
-  /* Crux wrapper */
-  .crux-wrapper { min-height: 100vh; padding-top: 80px; }
+  /* Crux/Resume wrappers */
+  .crux-wrapper { min-height: 100vh; padding-top: 80px; background: var(--bg); }
 
   .back-btn {
     position: fixed;
     top: 24px;
     left: 48px;
     z-index: 101;
-    font-size: 13px;
-    font-weight: 500;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--text);
     background: var(--glass);
     border: 1px solid var(--glass-border);
@@ -582,38 +735,128 @@ const STYLES = `
     border-radius: 100px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Inter', sans-serif;
     backdrop-filter: blur(20px);
   }
 
-  .back-btn:hover { border-color: var(--purple); }
+  .back-btn:hover { border-color: var(--accent); }
 
-  /* Reveal */
+  /* ═══════════════════════════════════
+     SCROLL EFFECTS
+     ═══════════════════════════════════ */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    z-index: 9997;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .section-divider {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .section-divider-line {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transform: scaleX(0);
+    transition: transform 0.6s ease-out;
+  }
+
+  .section-divider-line.visible { transform: scaleX(1); }
+
+  /* Reveal animations */
   .reveal {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
 
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* Mobile */
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  .reveal-clip {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.6s ease-out;
+  }
+
+  .reveal-clip.visible { clip-path: inset(0 0% 0 0); }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal-left, .reveal-right {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .reveal-clip { clip-path: none; transition: none; }
+    .section-divider-line { transform: scaleX(1); transition: none; }
+    .scroll-progress { display: none; }
+    .hero-intro-line, .hero-intro-small {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .hero-initials { will-change: auto; }
+  }
+
+  /* ═══════════════════════════════════
+     MOBILE
+     ═══════════════════════════════════ */
   @media (max-width: 768px) {
-    .nav { padding: 10px 20px; gap: 24px; top: 16px; }
-    .nav-links { gap: 16px; }
-    .nav-link { font-size: 12px; }
-    .hero { padding: 100px 24px 100px 32px; }
+    .nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .nav-year { display: none; }
+    .nav-hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+    .hero-initial { font-size: 28vh; }
+    .hero-initials { margin-bottom: -4vh; }
+    .hero-line { height: 15vh; margin: 0 2vw; }
+    .hero-state2 { padding: 10vh 24px; }
+    .hero-intro-line { font-size: clamp(22px, 7vw, 48px); }
     .section { padding: 76px 24px; }
     .contact-section { padding: 92px 24px; }
     .contact-links { flex-direction: column; gap: 16px; }
     .footer { padding: 24px; flex-direction: column; gap: 12px; }
-    .project-content { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .project-desc { margin-left: 0; opacity: 1; transform: none; }
-    .project-arrow { display: none; }
+    .projects-header-wrap { height: 100vh; }
+    .projects-header-word { font-size: clamp(36px, 12vw, 100px); }
+    .projects-header-accent { display: none; }
+    .projects-grid {
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+      padding: 40px 24px 80px;
+    }
+    .projects-grid-accent { display: none; }
+    .project-card { width: 100%; max-width: 100%; }
+    .project-card-right { margin-top: 0; }
     .back-btn { left: 24px; }
-    .hero-title-abby { width: 40%; }
-    .hero-title-schneider { width: 98%; margin-left: 2%; margin-top: -4vw; }
-    .cursor, .cursor-dot { display: none; }
+    .cursor { display: none; }
     .glass-card { padding: 32px; }
   }
 `;
@@ -621,34 +864,41 @@ const STYLES = `
 export default function App() {
   const [view, setView] = useState("home");
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [showScrollCue, setShowScrollCue] = useState(true);
-  const [abbyImg, setAbbyImg] = useState(null);
-  const [schneiderImg, setSchneiderImg] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const heroRef = useRef(null);
+  const heroBgRef = useRef(null);
+  const initialsRef = useRef(null);
+  const progressRef = useRef(null);
+  const projectsHeaderRef = useRef(null);
+  const heroLineRef = useRef(null);
+  const lenisRef = useRef(null);
 
+  // Lenis smooth scroll
   useEffect(() => {
-    const loadSvg = (src, w, h) => new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => {
-        const c = document.createElement('canvas');
-        c.width = w;
-        c.height = h;
-        c.getContext('2d').drawImage(img, 0, 0, w, h);
-        resolve(c.toDataURL());
-      };
-      img.src = src;
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
-
-    Promise.all([
-      loadSvg('/abby.svg', 872, 393),
-      loadSvg('/schneider.svg', 1670, 182),
-    ]).then(([abby, schneider]) => {
-      setAbbyImg(abby);
-      setSchneiderImg(schneider);
-    });
+    lenisRef.current = lenis;
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+    return () => { lenis.destroy(); lenisRef.current = null; };
   }, []);
 
+  // Stop Lenis when mobile menu is open
+  useEffect(() => {
+    if (!lenisRef.current) return;
+    if (mobileMenuOpen) {
+      lenisRef.current.stop();
+    } else {
+      lenisRef.current.start();
+    }
+  }, [mobileMenuOpen]);
+
+  // Custom cursor
   useEffect(() => {
     const handleMouseMove = (e) => {
       setMousePos({ x: e.clientX, y: e.clientY });
@@ -657,179 +907,244 @@ export default function App() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Smooth cursor follow
-  useEffect(() => {
-    const animateCursor = () => {
-      setCursorPos(prev => ({
-        x: prev.x + (mousePos.x - prev.x) * 0.15,
-        y: prev.y + (mousePos.y - prev.y) * 0.15
-      }));
-      requestAnimationFrame(animateCursor);
-    };
-    const animation = requestAnimationFrame(animateCursor);
-    return () => cancelAnimationFrame(animation);
-  }, [mousePos]);
-
-  useEffect(() => {
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
-    return () => observer.disconnect();
-  }, [view]);
-
+  // Hero parallax bg + initials fade
   useEffect(() => {
     if (view !== "home") return;
-    const handleScroll = () => setShowScrollCue(window.scrollY < 64);
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const bg = heroBgRef.current;
+    const initials = initialsRef.current;
+    if (!bg) return;
+    const line = heroLineRef.current;
+    const handleScroll = () => {
+      const y = window.scrollY;
+      const vh = window.innerHeight;
+      // Parallax background
+      bg.style.transform = `translateY(${y * 0.15}px)`;
+      // Initials fade out
+      if (initials) {
+        const progress = Math.min(y / (vh * 0.5), 1);
+        initials.style.opacity = 1 - progress;
+        initials.style.transform = `translateY(${-progress * 40}px)`;
+      }
+      // Line moves up faster than content
+      if (line) {
+        line.style.transform = `translateY(${-y * 0.35}px)`;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [view]);
 
-  const handleHover = (hovering) => setIsHovering(hovering);
+  // Intersection observer for reveals
+  useEffect(() => {
+    const els = document.querySelectorAll(
+      '.reveal, .reveal-left, .reveal-right, .reveal-clip, .section-divider-line, .hero-intro-line, .hero-intro-small'
+    );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    els.forEach(el => observer.observe(el));
 
+    // Stagger containers — children animate with 100ms delay between each
+    const staggerEls = document.querySelectorAll('[data-stagger]');
+    const staggerObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const children = entry.target.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+          children.forEach((child, i) => {
+            setTimeout(() => child.classList.add('visible'), i * 100);
+          });
+          staggerObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    staggerEls.forEach(el => staggerObserver.observe(el));
+
+    return () => { observer.disconnect(); staggerObserver.disconnect(); };
+  }, [view]);
+
+  // Projects header fade-out on scroll
+  useEffect(() => {
+    if (view !== "home") return;
+    const header = projectsHeaderRef.current;
+    if (!header) return;
+    const wrap = header.closest('.projects-header-wrap');
+    if (!wrap) return;
+    const handleScroll = () => {
+      const wrapRect = wrap.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const scrollDistance = wrap.offsetHeight - vh;
+      if (wrapRect.top >= 0) {
+        header.style.opacity = 1;
+      } else {
+        const scrolled = Math.abs(wrapRect.top);
+        header.style.opacity = 1 - Math.min(scrolled / scrollDistance, 1);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [view]);
+
+  // Scroll progress bar
+  useEffect(() => {
+    if (view !== "home" || !progressRef.current) return;
+    const handleProgress = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      progressRef.current.style.transform = `scaleX(${progress})`;
+    };
+    window.addEventListener('scroll', handleProgress, { passive: true });
+    handleProgress();
+    return () => window.removeEventListener('scroll', handleProgress);
+  }, [view]);
+
+  /* ────────────────────────────────
+     CRUX VIEW
+     ──────────────────────────────── */
   if (view === "crux") {
     return (
       <>
         <style>{STYLES}</style>
         <div className="portfolio">
-          <div className="ambient-glow" />
-          <div className={`cursor ${isHovering ? 'hovering' : ''}`} style={{ left: cursorPos.x, top: cursorPos.y }} />
-          <div className="cursor-dot" style={{ left: mousePos.x, top: mousePos.y }} />
+          <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
           <div className="crux-wrapper">
-            <button
+            <PulsingPill
+              as="button"
               className="back-btn"
               onClick={() => setView("home")}
-              onMouseEnter={() => handleHover(true)}
-              onMouseLeave={() => handleHover(false)}
             >
-              ← Back
-            </button>
-            <Crux onHover={handleHover} />
+              &larr; Back
+            </PulsingPill>
+            <Crux />
           </div>
         </div>
       </>
     );
   }
 
+  /* ────────────────────────────────
+     RESUME VIEW
+     ──────────────────────────────── */
   if (view === "resume") {
     return (
       <>
         <style>{STYLES}</style>
         <div className="portfolio">
-          <div className="ambient-glow" />
-          <div className={`cursor ${isHovering ? 'hovering' : ''}`} style={{ left: cursorPos.x, top: cursorPos.y }} />
-          <div className="cursor-dot" style={{ left: mousePos.x, top: mousePos.y }} />
+          <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
           <div className="crux-wrapper">
-            <button
+            <PulsingPill
+              as="button"
               className="back-btn"
               onClick={() => setView("home")}
-              onMouseEnter={() => handleHover(true)}
-              onMouseLeave={() => handleHover(false)}
             >
-              ← Back
-            </button>
-            <Resume onHover={handleHover} />
+              &larr; Back
+            </PulsingPill>
+            <Resume />
           </div>
         </div>
       </>
     );
   }
 
+  /* ────────────────────────────────
+     HOME VIEW
+     ──────────────────────────────── */
   return (
     <>
       <style>{STYLES}</style>
       <div className="portfolio">
-        <div className="ambient-glow" />
-        
+        {/* Scroll progress */}
+        <div className="scroll-progress" ref={progressRef} />
+
         {/* Cursor */}
-        <div className={`cursor ${isHovering ? 'hovering' : ''}`} style={{ left: cursorPos.x, top: cursorPos.y }} />
-        <div className="cursor-dot" style={{ left: mousePos.x, top: mousePos.y }} />
+        <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
 
         {/* Nav */}
         <nav className="nav">
-          <div className="nav-name">Abby Schneider</div>
+          <span className="nav-initials">AS</span>
           <div className="nav-links">
-            <a className="nav-link" href="#about" onMouseEnter={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>About</a>
-            <a className="nav-link" href="#work" onMouseEnter={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>Work</a>
-            <a className="nav-link" href="#contact" onMouseEnter={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>Contact</a>
+            <button className="nav-link" onClick={() => lenisRef.current?.scrollTo('#about')}>Home</button>
+            <button className="nav-link" onClick={() => lenisRef.current?.scrollTo('#work')}>Work</button>
+            <button className="nav-link" onClick={() => lenisRef.current?.scrollTo('#contact')}>Info</button>
           </div>
+          <button
+            className={`nav-hamburger ${mobileMenuOpen ? 'open' : ''}`}
+            onClick={() => setMobileMenuOpen(o => !o)}
+            aria-label="Toggle menu"
+          >
+            <span /><span /><span />
+          </button>
+          <span className="nav-year">[2026]</span>
         </nav>
 
-        {/* Hero */}
-        <section className="hero">
+        {/* Mobile menu overlay */}
+        <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+          <button className="mobile-menu-link" onClick={() => { setMobileMenuOpen(false); lenisRef.current?.scrollTo('#about'); }}>Home</button>
+          <button className="mobile-menu-link" onClick={() => { setMobileMenuOpen(false); lenisRef.current?.scrollTo('#work'); }}>Work</button>
+          <button className="mobile-menu-link" onClick={() => { setMobileMenuOpen(false); lenisRef.current?.scrollTo('#contact'); }}>Info</button>
+          <button className="mobile-menu-link" onClick={() => { setMobileMenuOpen(false); window.scrollTo(0, 0); setView("resume"); }}>Resume</button>
+        </div>
+
+        {/* Hero — dark cinematic */}
+        <section className="hero" ref={heroRef}>
+          <div className="hero-bg" ref={heroBgRef} />
           <h1 className="sr-only">Abby Schneider</h1>
-          <div className="hero-title-group">
-            {abbyImg && (
-              <div className="hero-title-abby">
-                <LiquidMetal
-                  width={872}
-                  height={393}
-                  image={abbyImg}
-                  colorBack="#000000"
-                  colorTint="#ffffff"
-                  shape="none"
-                  speed={1}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </div>
-            )}
-            {schneiderImg && (
-              <div className="hero-title-schneider">
-                <LiquidMetal
-                  width={1670}
-                  height={182}
-                  image={schneiderImg}
-                  colorBack="#000000"
-                  colorTint="#ffffff"
-                  shape="none"
-                  speed={1}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </div>
-            )}
+
+          {/* State 1: Giant initials */}
+          <div className="hero-state1">
+            <div className="hero-initials" ref={initialsRef}>
+              <span className="hero-initial">A</span>
+              <div className="hero-line" ref={heroLineRef} />
+              <span className="hero-initial">S</span>
+            </div>
           </div>
-          <p className="hero-intro">
-            I spent six years in finance at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong>. I left because I wanted 
-            to actually build things. Now, I'm looking for the right next step.
-          </p>
-          <button 
-            className="hero-cta" 
-            onClick={() => document.getElementById('work').scrollIntoView({ behavior: 'smooth' })}
-            onMouseEnter={() => handleHover(true)}
-            onMouseLeave={() => handleHover(false)}
-          >
-            <span>See my work</span>
-          </button>
-          <div className={`scroll-indicator ${showScrollCue ? "" : "hidden"}`}>
-            <span>Scroll</span>
-            <div className="scroll-line" />
+
+          {/* State 2: Intro text */}
+          <div className="hero-state2">
+            <div className="hero-intro-line">
+              SIX YEARS IN FINANCE.
+            </div>
+            <div className="hero-intro-line">
+              NOW LEARNING TO <em>build</em>
+            </div>
+            <div className="hero-intro-line">
+              THINGS <span className="hero-anno">[01]</span> INSTEAD OF
+            </div>
+            <div className="hero-intro-line">
+              JUST MANAGING THEM.
+            </div>
+            <div className="hero-intro-line">&nbsp;</div>
+            <div className="hero-intro-small">
+              ABBY SCHNEIDER · COLUMBIA '26 · EX-BRIDGEWATER
+            </div>
           </div>
         </section>
 
         {/* About */}
         <section className="section" id="about">
           <div className="about-wrap reveal">
-            <div className="section-label">About</div>
+            <div className="section-label reveal-clip">About</div>
             <div className="about-card">
               <div className="about-text">
               <p>
-                I worked at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong> for 
-                six years. I learned a lot, but finance is all process and no room 
+                I worked at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong> for
+                six years. I learned a lot, but finance is all process and no room
                 to try new things. I didn't realize that was the problem until I left.
               </p>
               <p>
-                Starting a master's at <strong>Columbia</strong> in organizational psychology, 
-                I found a passion for understanding how AI changes the way people work and make decisions. 
-                I started building tools to explore that. Soon, I realized I'd rather be doing this 
+                Starting a master's at <strong>Columbia</strong> in organizational psychology,
+                I found a passion for understanding how AI changes the way people work and make decisions.
+                I started building tools to explore that. Soon, I realized I'd rather be doing this
                 full time than writing papers about it.
               </p>
               <p>
-                So that's where I'm at. Looking for a company that's doing genuinely interesting things. 
-                I'm not picky about the role, I just want to be somewhere working on something that matters, 
+                So that's where I'm at. Looking for a company that's doing genuinely interesting things.
+                I'm not picky about the role, I just want to be somewhere working on something that matters,
                 with people who know what they don't know.
               </p>
               </div>
@@ -837,84 +1152,112 @@ export default function App() {
           </div>
         </section>
 
-        {/* Work */}
-        <section className="section projects-section" id="work">
-          <div className="section-label">Work</div>
-          
-          <div 
-            className="project-item" 
-            onClick={() => setView("crux")}
-            onMouseEnter={() => handleHover(true)}
-            onMouseLeave={() => handleHover(false)}
-          >
-            <div className="project-content">
-              <div className="project-left">
-                <span className="project-number">01</span>
-                <h3 className="project-name">Crux</h3>
-                <span className="project-tag">Live</span>
+        {/* Divider */}
+        <div className="section-divider">
+          <div className="section-divider-line" />
+        </div>
+
+        {/* Work — Editorial projects */}
+        <section className="projects-section" id="work">
+          {/* Sticky fade-out header */}
+          <div className="projects-header-wrap">
+            <div className="projects-header" ref={projectsHeaderRef}>
+              <div className="projects-header-anno">[SELECTED WORK]</div>
+              <div className="projects-header-text">
+                <span className="projects-header-word">FEATURED</span>
+                <div className="projects-header-accent">
+                  <span>&#123;</span>
+                  <span>02</span>
+                  <span>&#125;</span>
+                </div>
+                <span className="projects-header-word">PROJECTS</span>
               </div>
-              <div className="project-arrow">→</div>
             </div>
-            <p className="project-desc">
-              A thinking tool for when I'm going in circles.
-            </p>
           </div>
 
-          <div 
-            className="project-item"
-            onMouseEnter={() => handleHover(true)}
-            onMouseLeave={() => handleHover(false)}
-            style={{ cursor: 'default' }}
-          >
-            <div className="project-content">
-              <div className="project-left">
-                <span className="project-number">02</span>
-                <h3 className="project-name">More coming</h3>
-                <span className="project-tag">Soon</span>
+          {/* Two-column project cards */}
+          <div className="projects-grid">
+            <div className="projects-grid-accent">
+              <span>&#91;</span>
+              <span>WORK</span>
+              <span>&#93;</span>
+            </div>
+
+            {/* Crux — left card */}
+            <div
+              className="project-card project-card-left project-card-clickable reveal-left"
+              onClick={() => setView("crux")}
+            >
+              <div className="project-card-img-wrap">
+                <img
+                  className="project-card-img"
+                  src="/project-crux.jpg"
+                  alt="Crux — decision analysis tool"
+                />
+              </div>
+              <div className="project-card-labels">
+                <span className="project-card-name">Crux</span>
+                <PulsingPill as="span" className="project-card-type">Live →</PulsingPill>
+              </div>
+            </div>
+
+            {/* Coming soon — right card */}
+            <div className="project-card project-card-right reveal-right">
+              <div className="project-card-img-wrap">
+                <img
+                  className="project-card-img"
+                  src="/project-coming.jpg"
+                  alt="More projects coming soon"
+                />
+              </div>
+              <div className="project-card-labels">
+                <span className="project-card-name">More coming</span>
+                <PulsingPill as="span" className="project-card-type">Soon</PulsingPill>
               </div>
             </div>
           </div>
         </section>
 
+        {/* Divider */}
+        <div className="section-divider">
+          <div className="section-divider-line" />
+        </div>
+
         {/* Contact */}
         <section className="section contact-section" id="contact">
-          <h2 className="contact-heading">
-            Let's <em>talk</em>
+          <h2 className="contact-heading reveal-clip">
+            LET'S <em>talk</em>
           </h2>
-          <div className="contact-links">
-            <a 
-              className="contact-link" 
+          <div className="contact-links" data-stagger>
+            <PulsingPill
+              as="a"
+              className="contact-link reveal"
               href="mailto:abbyschneider4@gmail.com"
-              onMouseEnter={() => handleHover(true)}
-              onMouseLeave={() => handleHover(false)}
             >
               Email
-            </a>
-            <a 
-              className="contact-link" 
-              href="https://www.linkedin.com/in/abbyschneider2/" 
-              target="_blank" 
+            </PulsingPill>
+            <PulsingPill
+              as="a"
+              className="contact-link reveal"
+              href="https://www.linkedin.com/in/abbyschneider2/"
+              target="_blank"
               rel="noopener noreferrer"
-              onMouseEnter={() => handleHover(true)}
-              onMouseLeave={() => handleHover(false)}
             >
               LinkedIn
-            </a>
-            <button
-              className="contact-link"
+            </PulsingPill>
+            <PulsingPill
+              as="button"
+              className="contact-link reveal"
               onClick={() => { window.scrollTo(0, 0); setView("resume"); }}
-              onMouseEnter={() => handleHover(true)}
-              onMouseLeave={() => handleHover(false)}
-              style={{ cursor: 'pointer' }}
             >
               Resume
-            </button>
+            </PulsingPill>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="footer">
-          <span className="footer-text">© 2026</span>
+        <footer className="footer reveal">
+          <span className="footer-text">&copy; 2026</span>
           <span className="footer-text">Abby Schneider</span>
         </footer>
       </div>
