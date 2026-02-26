@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import Crux from "./Crux";
 import Resume from "./Resume";
 import Alibi from "./Alibi";
+import GutCheck from "./GutCheck";
 import PulsingPill from "./PulsingPill";
 import Lenis from "lenis";
 
@@ -1043,6 +1044,29 @@ export default function App() {
   }
 
   /* ────────────────────────────────
+     GUTCHECK VIEW
+     ──────────────────────────────── */
+  if (view === "gutcheck") {
+    return (
+      <>
+        <style>{STYLES}</style>
+        <div className="portfolio" style={{ background: '#0a0a0a' }}>
+          <div className="crux-wrapper" style={{ background: '#0a0a0a' }}>
+            <button
+              className="back-btn"
+              onClick={() => setView("home")}
+              style={{ color: '#00ff41' }}
+            >
+              AS
+            </button>
+            <GutCheck />
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  /* ────────────────────────────────
      RESUME VIEW
      ──────────────────────────────── */
   if (view === "resume") {
@@ -1232,7 +1256,10 @@ export default function App() {
             </div>
 
             {/* Gut Check — third card */}
-            <div className="project-card project-card-left reveal-left">
+            <div
+              className="project-card project-card-left project-card-clickable reveal-left"
+              onClick={() => setView("gutcheck")}
+            >
               <div className="project-card-img-wrap">
                 <img
                   className="project-card-img"
@@ -1242,7 +1269,7 @@ export default function App() {
               </div>
               <div className="project-card-labels">
                 <span className="project-card-name">Gut Check</span>
-                <PulsingPill as="span" className="project-card-type">Soon</PulsingPill>
+                <PulsingPill as="span" className="project-card-type">Live →</PulsingPill>
               </div>
             </div>
           </div>
