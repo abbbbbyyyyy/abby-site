@@ -744,7 +744,7 @@ const STYLES = `
     position: fixed;
     top: 28px;
     left: 5vw;
-    z-index: 101;
+    z-index: 10000;
   }
 
   .nav-dropdown .back-btn {
@@ -923,7 +923,8 @@ const STYLES = `
     .project-card-right { margin-top: 0; }
     .project-card:nth-child(4) { margin-top: 0; }
     .back-btn { left: 24px; }
-    .nav-dropdown { left: 24px; }
+    .nav-dropdown { left: 24px; top: 20px; }
+    .nav-dropdown-item { padding: 14px 20px; font-size: 13px; }
     .cursor { display: none; }
     .glass-card { padding: 32px; }
   }

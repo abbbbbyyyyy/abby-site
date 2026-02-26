@@ -201,6 +201,7 @@ const STYLES = `
 
   @media(max-width: 600px) {
     .resume { padding: 40px 24px 80px; }
+    .resume-name-metal { margin-top: -16px; margin-bottom: -8px; }
     .resume-entry { padding: 22px; border-radius: 16px; }
     .resume-entry-header { flex-direction: column; }
     .resume-meta { text-align: left; }
