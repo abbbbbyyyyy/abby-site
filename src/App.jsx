@@ -1098,7 +1098,7 @@ export default function App() {
     return (
       <>
         <style>{STYLES}</style>
-        <div className="portfolio">
+        <div className="portfolio" key="crux">
           <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
           <div className="crux-wrapper">
             <NavDropdown currentView="crux" onNavigate={setView} />
@@ -1116,7 +1116,7 @@ export default function App() {
     return (
       <>
         <style>{STYLES}</style>
-        <div className="portfolio" style={{ background: '#f4f1eb' }}>
+        <div className="portfolio" key="alibi" style={{ background: '#f4f1eb' }}>
           <div className="crux-wrapper" style={{ background: '#f4f1eb' }}>
             <NavDropdown
               currentView="alibi"
@@ -1137,7 +1137,7 @@ export default function App() {
     return (
       <>
         <style>{STYLES}</style>
-        <div className="portfolio" style={{ background: '#0a0a0a' }}>
+        <div className="portfolio" key="gutcheck" style={{ background: '#0a0a0a' }}>
           <div className="crux-wrapper" style={{ background: '#0a0a0a' }}>
             <NavDropdown
               currentView="gutcheck"
@@ -1158,7 +1158,7 @@ export default function App() {
     return (
       <>
         <style>{STYLES}</style>
-        <div className="portfolio">
+        <div className="portfolio" key="resume">
           <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
           <div className="crux-wrapper">
             <NavDropdown currentView="resume" onNavigate={setView} />
@@ -1175,7 +1175,7 @@ export default function App() {
   return (
     <>
       <style>{STYLES}</style>
-      <div className="portfolio">
+      <div className="portfolio" key="home">
         {/* Scroll progress */}
         <div className="scroll-progress" ref={progressRef} />
 
