@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { canMakeApiCall, recordApiCall } from "./rateLimit";
 
 const TOTAL_TIME = 12;
 
@@ -468,6 +469,10 @@ export default function GutCheck() {
   }, [scenarios, currentIndex, timeLeft, advance]);
 
   const startGame = async () => {
+    if (!canMakeApiCall()) {
+      setError("Daily limit reached — come back tomorrow.");
+      return;
+    }
     setPhase("loading");
     setError(null);
     try {
@@ -478,6 +483,7 @@ export default function GutCheck() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to generate");
+      recordApiCall();
       setScenarios(data.scenarios);
       setCurrentIndex(0);
       setResponses([]);
@@ -489,6 +495,12 @@ export default function GutCheck() {
   };
 
   const analyzeResponses = async (allResponses) => {
+    if (!canMakeApiCall()) {
+      setError("Daily limit reached — come back tomorrow.");
+      setPhase("results");
+      setResults({ profile: "LIMIT REACHED", summary: "Daily limit reached — come back tomorrow.", patterns: [], blindSpot: "" });
+      return;
+    }
     try {
       const res = await fetch("/api/gutcheck", {
         method: "POST",
@@ -497,6 +509,7 @@ export default function GutCheck() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to analyze");
+      recordApiCall();
       setResults(parseResults(data.text));
       setPhase("results");
     } catch (err) {

@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { canMakeApiCall, recordApiCall } from "./rateLimit";
 
 
 const THREAT_LABELS = ["MINIMAL", "LOW", "MODERATE", "ELEVATED", "CRITICAL"];
@@ -419,6 +420,10 @@ export default function Alibi() {
 
   async function generate() {
     if (!event.trim()) return;
+    if (!canMakeApiCall()) {
+      setError("Daily limit reached — come back tomorrow.");
+      return;
+    }
     setLoading(true);
     setResult(null);
     setError(null);
@@ -430,6 +435,7 @@ export default function Alibi() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
+      recordApiCall();
       const levels = parseAlibi(data.text);
       if (levels.length === 0) throw new Error("Couldn't parse response");
       setResult({ event: event.trim(), levels });

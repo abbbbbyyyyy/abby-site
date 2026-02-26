@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PulsingPill from "./PulsingPill";
+import { canMakeApiCall, recordApiCall } from "./rateLimit";
 
 const STYLES = `
   .crux-app {
@@ -371,6 +372,10 @@ export default function Crux({ onHover }) {
 
   async function analyze() {
     if (!question.trim()) return;
+    if (!canMakeApiCall()) {
+      setError("Daily limit reached — come back tomorrow.");
+      return;
+    }
     setLoading(true); setResult(null); setError(null);
     try {
       const res = await fetch("/api/analyze", {
@@ -383,6 +388,7 @@ export default function Crux({ onHover }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Something went wrong');
+      recordApiCall();
       setResult({ question: question.trim(), ...parseAnalysis(data.text) });
     } catch { setError("Something went wrong. Try again."); }
     finally { setLoading(false); }
