@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const TOTAL_TIME = 8;
+const TOTAL_TIME = 12;
 
 const STYLES = `
   .gc {
@@ -536,7 +536,7 @@ export default function GutCheck() {
               <p className="gc-tagline">A personality test disguised as a game.</p>
               <div className="gc-desc">
                 <p>
-                  10 scenarios. 8 seconds each. No time to overthink —
+                  10 scenarios. 12 seconds each. No time to overthink —
                   just react. Your gut knows things your brain won't admit.
                 </p>
                 <p>

@@ -23,17 +23,26 @@ export default async function handler(req, res) {
           max_tokens: 2000,
           messages: [{
             role: 'user',
-            content: `Generate 10 rapid-fire scenarios for a psychological assessment game called "Gut Check." Each scenario presents a short situation (1-2 sentences) with exactly 4 options labeled A-D.
+            content: `Generate 10 rapid-fire scenarios for a psychological assessment game called "Gut Check." Each scenario is ONE short punchy sentence — think barstool dilemma, not philosophy textbook. Options are 3-8 words max each, labeled A-D.
 
-The scenarios should probe different psychological dimensions:
+VIBE: funny, weird, slightly unhinged, but psychologically revealing. Like "would you rather" meets a personality test written by someone who's had two drinks.
+
+The scenarios should sneakily probe:
 - Risk tolerance and loss aversion
 - Social conformity vs independence
-- Moral flexibility and ethical reasoning
-- Intuition vs deliberation (System 1 vs System 2)
+- Moral flexibility
+- Intuition vs deliberation
 - Short-term vs long-term thinking
 - Cooperation vs competition
 
-Make them vivid, varied, and slightly provocative — not corporate training scenarios. Mix everyday dilemmas with unusual situations.
+Examples of the RIGHT tone:
+- "Your friend's band is terrible but they just invited you to their show."
+- "You find $20 in a jacket you're about to return to a store."
+- "A coworker takes credit for your idea in a meeting."
+
+Examples of the WRONG tone (too heavy, too long):
+- "You discover that a large corporation has been secretly dumping waste..."
+- "A colleague confides that they've been falsifying quarterly reports..."
 
 Return ONLY a JSON array, no other text. Each element:
 {"scenario": "...", "options": {"A": "...", "B": "...", "C": "...", "D": "..."}}`
@@ -80,7 +89,7 @@ Return ONLY a JSON array, no other text. Each element:
           max_tokens: 1000,
           messages: [{
             role: 'user',
-            content: `You are a sharp behavioral psychologist analyzing rapid-fire gut reactions from a timed personality game. The player had 8 seconds per scenario — their choices reveal instinct, not deliberation.
+            content: `You are a sharp behavioral psychologist analyzing rapid-fire gut reactions from a timed personality game. The player had 12 seconds per scenario — their choices reveal instinct, not deliberation.
 
 Here are their responses:
 ${formatted}
