@@ -852,6 +852,7 @@ const STYLES = `
     .projects-grid-accent { display: none; }
     .project-card { width: 100%; max-width: 100%; }
     .project-card-right { margin-top: 0; }
+    .project-card:nth-child(4) { margin-top: 0; }
     .back-btn { left: 24px; }
     .cursor { display: none; }
     .glass-card { padding: 32px; }
