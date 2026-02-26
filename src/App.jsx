@@ -716,29 +716,28 @@ const STYLES = `
   }
 
   /* Crux/Resume wrappers */
-  .crux-wrapper { min-height: 100vh; padding-top: 80px; background: var(--bg); }
+  .crux-wrapper { min-height: 100vh; padding-top: 48px; background: var(--dark-bg); }
 
   .back-btn {
     position: fixed;
-    top: 24px;
-    left: 48px;
+    top: 28px;
+    left: 5vw;
     z-index: 101;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.1em;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--text);
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    padding: 12px 24px;
-    border-radius: 100px;
+    color: #e8e0d0;
+    background: none;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(20px);
+    transition: color 0.3s ease;
+    text-decoration: none;
   }
 
-  .back-btn:hover { border-color: var(--accent); }
+  .back-btn:hover { color: var(--accent); }
 
   /* ═══════════════════════════════════
      SCROLL EFFECTS
@@ -1013,13 +1012,12 @@ export default function App() {
         <div className="portfolio">
           <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
           <div className="crux-wrapper">
-            <PulsingPill
-              as="button"
+            <button
               className="back-btn"
               onClick={() => setView("home")}
             >
-              &larr; Back
-            </PulsingPill>
+              AS
+            </button>
             <Crux />
           </div>
         </div>
@@ -1037,13 +1035,12 @@ export default function App() {
         <div className="portfolio">
           <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
           <div className="crux-wrapper">
-            <PulsingPill
-              as="button"
+            <button
               className="back-btn"
               onClick={() => setView("home")}
             >
-              &larr; Back
-            </PulsingPill>
+              AS
+            </button>
             <Resume />
           </div>
         </div>
