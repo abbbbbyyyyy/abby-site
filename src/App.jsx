@@ -28,7 +28,7 @@ const STYLES = `
   }
 
   html { background: var(--dark-bg); }
-  body { background: var(--dark-bg); overflow-x: hidden; }
+  body { background: var(--dark-bg); overflow-x: clip; }
 
   ::selection { background: var(--accent); color: var(--dark-text); }
 
@@ -37,7 +37,7 @@ const STYLES = `
     background: var(--dark-bg);
     color: var(--text);
     font-family: 'Inter', -apple-system, sans-serif;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   /* Static film grain overlay */
@@ -449,14 +449,8 @@ const STYLES = `
      PROJECTS — Editorial layout
      ═══════════════════════════════════ */
   .projects-section {
-    background: var(--bg);
     position: relative;
-  }
-
-  /* Header — FEATURED / PROJECTS with vertical accent */
-  .projects-header-wrap {
-    height: 140vh;
-    position: relative;
+    min-height: 250vh;
     background: var(--bg);
   }
 
@@ -468,8 +462,8 @@ const STYLES = `
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 1;
     will-change: opacity;
-    background: var(--bg);
   }
 
   .projects-header-anno {
@@ -528,8 +522,9 @@ const STYLES = `
     justify-content: center;
     align-items: flex-start;
     gap: 12vw;
-    padding: 40px 5vw 120px;
+    padding: 20vh 5vw 16px;
     position: relative;
+    z-index: 2;
     background: var(--bg);
   }
 
@@ -629,7 +624,7 @@ const STYLES = `
 
   /* Contact */
   .contact-section {
-    padding: 132px 48px;
+    padding: 48px 48px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -842,14 +837,14 @@ const STYLES = `
     .contact-section { padding: 92px 24px; }
     .contact-links { flex-direction: column; gap: 16px; }
     .footer { padding: 24px; flex-direction: column; gap: 12px; }
-    .projects-header-wrap { height: 100vh; }
+    .projects-section { min-height: 200vh; }
     .projects-header-word { font-size: clamp(36px, 12vw, 100px); }
     .projects-header-accent { display: none; }
     .projects-grid {
       flex-direction: column;
       align-items: center;
       gap: 48px;
-      padding: 40px 24px 80px;
+      padding: 20vh 24px 80px;
     }
     .projects-grid-accent { display: none; }
     .project-card { width: 100%; max-width: 100%; }
@@ -868,6 +863,7 @@ export default function App() {
   const heroBgRef = useRef(null);
   const initialsRef = useRef(null);
   const progressRef = useRef(null);
+  const projectsSectionRef = useRef(null);
   const projectsHeaderRef = useRef(null);
   const heroLineRef = useRef(null);
   const lenisRef = useRef(null);
@@ -966,26 +962,25 @@ export default function App() {
     return () => { observer.disconnect(); staggerObserver.disconnect(); };
   }, [view]);
 
-  // Projects header fade-out on scroll
+  // Projects header fade — requestAnimationFrame loop (not scroll listener)
   useEffect(() => {
     if (view !== "home") return;
-    const header = projectsHeaderRef.current;
-    if (!header) return;
-    const wrap = header.closest('.projects-header-wrap');
-    if (!wrap) return;
-    const handleScroll = () => {
-      const wrapRect = wrap.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const scrollDistance = wrap.offsetHeight - vh;
-      if (wrapRect.top >= 0) {
-        header.style.opacity = 1;
-      } else {
-        const scrolled = Math.abs(wrapRect.top);
-        header.style.opacity = 1 - Math.min(scrolled / scrollDistance, 1);
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const outer = projectsSectionRef.current;
+    const sticky = projectsHeaderRef.current;
+    if (!outer || !sticky) return;
+    let rafId;
+    function updateFade() {
+      const rect = outer.getBoundingClientRect();
+      const total = outer.offsetHeight - window.innerHeight;
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(scrolled / total, 1));
+      // Fade out over the first 40% of the scroll
+      const opacity = 1 - Math.min(progress / 0.4, 1);
+      sticky.style.opacity = opacity;
+      rafId = requestAnimationFrame(updateFade);
+    }
+    rafId = requestAnimationFrame(updateFade);
+    return () => cancelAnimationFrame(rafId);
   }, [view]);
 
   // Scroll progress bar
@@ -1155,24 +1150,22 @@ export default function App() {
         </div>
 
         {/* Work — Editorial projects */}
-        <section className="projects-section" id="work">
-          {/* Sticky fade-out header */}
-          <div className="projects-header-wrap">
-            <div className="projects-header" ref={projectsHeaderRef}>
-              <div className="projects-header-anno">[SELECTED WORK]</div>
-              <div className="projects-header-text">
-                <span className="projects-header-word">FEATURED</span>
-                <div className="projects-header-accent">
-                  <span>&#123;</span>
-                  <span>02</span>
-                  <span>&#125;</span>
-                </div>
-                <span className="projects-header-word">PROJECTS</span>
+        <section className="projects-section" id="work" ref={projectsSectionRef}>
+          {/* Sticky header — freezes center-viewport, cards scroll over it */}
+          <div className="projects-header" ref={projectsHeaderRef}>
+            <div className="projects-header-anno">[SELECTED WORK]</div>
+            <div className="projects-header-text">
+              <span className="projects-header-word">FEATURED</span>
+              <div className="projects-header-accent">
+                <span>&#123;</span>
+                <span>02</span>
+                <span>&#125;</span>
               </div>
+              <span className="projects-header-word">PROJECTS</span>
             </div>
           </div>
 
-          {/* Two-column project cards */}
+          {/* Cards layer — z-index 2, solid bg, scrolls over the sticky header */}
           <div className="projects-grid">
             <div className="projects-grid-accent">
               <span>&#91;</span>
