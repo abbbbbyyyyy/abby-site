@@ -89,8 +89,8 @@ const STYLES = `
     left: 0;
     right: 0;
     padding: 28px 5vw;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     z-index: 100;
     mix-blend-mode: difference;
@@ -106,7 +106,7 @@ const STYLES = `
     text-decoration: none;
   }
 
-  .nav-links { display: flex; gap: 36px; }
+  .nav-links { display: flex; gap: 36px; justify-self: center; }
 
   .nav-link {
     font-family: 'Space Mono', monospace;
@@ -129,6 +129,7 @@ const STYLES = `
     font-size: 11px;
     letter-spacing: 0.15em;
     color: rgba(232, 224, 208, 0.4);
+    justify-self: end;
   }
 
   /* Hamburger toggle (hidden on desktop) */
@@ -261,7 +262,7 @@ const STYLES = `
   .hero-initial {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 900;
-    font-size: 48vh;
+    font-size: clamp(36px, 12vw, 160px);
     color: var(--dark-text);
     text-transform: uppercase;
     letter-spacing: -0.04em;
@@ -284,6 +285,8 @@ const STYLES = `
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-end;
+    text-align: right;
     padding: 10vh 5vw;
     z-index: 1;
   }
@@ -348,7 +351,7 @@ const STYLES = `
      SECTIONS — Light mode
      ═══════════════════════════════════ */
   .section {
-    padding: 112px 48px;
+    padding: 80px 48px;
     position: relative;
     background: var(--bg);
   }
@@ -452,7 +455,7 @@ const STYLES = `
      ═══════════════════════════════════ */
   .projects-section {
     position: relative;
-    min-height: 250vh;
+    min-height: 200vh;
     background: var(--bg);
   }
 
@@ -523,7 +526,7 @@ const STYLES = `
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8vh 12vw;
-    padding: 20vh 5vw 16px;
+    padding: 10vh 5vw 16px;
     position: relative;
     z-index: 2;
     background: var(--bg);
@@ -824,12 +827,12 @@ const STYLES = `
      MOBILE
      ═══════════════════════════════════ */
   @media (max-width: 768px) {
-    .nav { padding: 20px 24px; }
+    .nav { padding: 20px 24px; display: flex; justify-content: space-between; }
     .nav-links { display: none; }
     .nav-year { display: none; }
     .nav-hamburger { display: flex; }
     .mobile-menu { display: flex; }
-    .hero-initial { font-size: 28vh; }
+    .hero-initial { font-size: clamp(28px, 10vw, 80px); }
     .hero-initials { margin-bottom: -4vh; }
     .hero-line { height: 15vh; margin: 0 2vw; }
     .hero-state2 { padding: 10vh 24px; }
@@ -1136,29 +1139,29 @@ export default function App() {
           {/* State 1: Giant initials */}
           <div className="hero-state1">
             <div className="hero-initials" ref={initialsRef}>
-              <span className="hero-initial">A</span>
+              <span className="hero-initial">ABBY</span>
               <div className="hero-line" ref={heroLineRef} />
-              <span className="hero-initial">S</span>
+              <span className="hero-initial">SCHNEIDER</span>
             </div>
           </div>
 
           {/* State 2: Intro text */}
           <div className="hero-state2">
             <div className="hero-intro-line">
-              SIX YEARS IN FINANCE.
+              EX-FINANCE PROJECT MANAGEMENT.
             </div>
             <div className="hero-intro-line">
               NOW LEARNING TO <em>build</em>
             </div>
             <div className="hero-intro-line">
-              THINGS <span className="hero-anno">[01]</span> INSTEAD OF
+              THINGS INSTEAD OF
             </div>
             <div className="hero-intro-line">
               JUST MANAGING THEM.
             </div>
             <div className="hero-intro-line">&nbsp;</div>
             <div className="hero-intro-small">
-              ABBY SCHNEIDER · COLUMBIA '26 · EX-BRIDGEWATER
+              ABBY SCHNEIDER · COLUMBIA '27 · EX-BRIDGEWATER
             </div>
           </div>
         </section>
@@ -1181,9 +1184,10 @@ export default function App() {
                 full time than writing papers about it.
               </p>
               <p>
-                So that's where I'm at. Looking for a company that's doing genuinely interesting things.
+                So that's where I am. Looking for a company that's doing genuinely interesting things.
                 I'm not picky about the role, I just want to be somewhere working on something that matters,
-                with people who know what they don't know.
+                with people who push boundaries and try new things. If I find the right fit, I'm more than
+                willing to change my grad school plans to accommodate.
               </p>
               </div>
             </div>
