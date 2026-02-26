@@ -23,10 +23,46 @@
     <meta name="twitter:image" content="https://abbyschneider.nyc/og-image.jpg" />
     <style>
       html, body { margin: 0; padding: 0; }
+
+      /* Loading screen — inline so it renders instantly */
+      #loader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: #0a0f0a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        transition: opacity 0.5s ease;
+      }
+      #loader.fade-out { opacity: 0; }
+      #loader-initials {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-weight: 700;
+        font-size: 32px;
+        color: #e8e0d0;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      #loader-spinner {
+        width: 24px;
+        height: 24px;
+        border: 2px solid transparent;
+        border-top-color: #8B7D3C;
+        border-radius: 50%;
+        animation: loader-spin 0.8s linear infinite;
+      }
+      @keyframes loader-spin { to { transform: rotate(360deg); } }
     </style>
-    <script type="module" crossorigin src="/assets/index-C5n6vFQG.js"></script>
+    <script type="module" crossorigin src="/assets/index-DA-fICj5.js"></script>
   </head>
   <body>
+    <div id="loader">
+      <div id="loader-initials">AS</div>
+      <div id="loader-spinner"></div>
+    </div>
     <div id="root"></div>
   </body>
 </html>
