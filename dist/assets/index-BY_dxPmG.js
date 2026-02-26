@@ -1330,6 +1330,7 @@ void main() {
 
   @media(max-width: 600px) {
     .resume { padding: 40px 24px 80px; }
+    .resume-name-metal { margin-top: -16px; margin-bottom: -8px; }
     .resume-entry { padding: 22px; border-radius: 16px; }
     .resume-entry-header { flex-direction: column; }
     .resume-meta { text-align: left; }
@@ -2814,7 +2815,7 @@ void main() {
     position: fixed;
     top: 28px;
     left: 5vw;
-    z-index: 101;
+    z-index: 10000;
   }
 
   .nav-dropdown .back-btn {
@@ -2993,7 +2994,8 @@ void main() {
     .project-card-right { margin-top: 0; }
     .project-card:nth-child(4) { margin-top: 0; }
     .back-btn { left: 24px; }
-    .nav-dropdown { left: 24px; }
+    .nav-dropdown { left: 24px; top: 20px; }
+    .nav-dropdown-item { padding: 14px 20px; font-size: 13px; }
     .cursor { display: none; }
     .glass-card { padding: 32px; }
   }
