@@ -1264,9 +1264,8 @@ export default function App() {
                 full time than writing papers about it.
               </p>
               <p>
-                So that's where I've landed, in pursuit of a company that's pushing boundaries and exploring what's possible.
-                I want to be somewhere working on something that matters,
-                with people who push boundaries and try new things. If I find the right fit, I'm more than
+                So that's where I've landed. I want to build alongside people who are rethinking how things are done,
+                not just optimizing what already exists. If I find the right fit, I'm more than
                 willing to change my grad school plans to accommodate.
               </p>
               </div>
