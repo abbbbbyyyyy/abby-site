@@ -12,22 +12,19 @@ export default function NavDropdown({ currentView, onNavigate, style = {}, class
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
-  // Close on click outside
+  // Close on click/tap outside
   useEffect(() => {
     if (!open) return;
-    const handleClick = (e) => {
+    const handlePointer = (e) => {
       if (ref.current && !ref.current.contains(e.target)) setOpen(false);
     };
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [open]);
-
-  // Close on Escape
-  useEffect(() => {
-    if (!open) return;
     const handleKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("pointerdown", handlePointer);
     document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointer);
+      document.removeEventListener("keydown", handleKey);
+    };
   }, [open]);
 
   return (
@@ -41,7 +38,7 @@ export default function NavDropdown({ currentView, onNavigate, style = {}, class
       >
         AS
       </button>
-      <div className={`nav-dropdown-menu${open ? " open" : ""}`} style={style.menuStyle}>
+      <div className={`nav-dropdown-menu${open ? " open" : ""}`}>
         {NAV_ITEMS.map(({ view, label }) => {
           const isCurrent = view === currentView;
           return (
@@ -49,10 +46,7 @@ export default function NavDropdown({ currentView, onNavigate, style = {}, class
               key={view}
               className={`nav-dropdown-item${isCurrent ? " current" : ""}`}
               disabled={isCurrent}
-              onClick={() => {
-                onNavigate(view);
-                setOpen(false);
-              }}
+              onClick={() => onNavigate(view)}
             >
               {label}
             </button>
