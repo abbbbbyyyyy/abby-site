@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Crux from "./Crux";
 import Resume from "./Resume";
+import Alibi from "./Alibi";
 import PulsingPill from "./PulsingPill";
 import Lenis from "lenis";
 
@@ -518,10 +519,9 @@ const STYLES = `
 
   /* Project cards grid */
   .projects-grid {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 12vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8vh 12vw;
     padding: 20vh 5vw 16px;
     position: relative;
     z-index: 2;
@@ -563,15 +563,15 @@ const STYLES = `
 
   /* Individual card */
   .project-card {
-    width: 42vw;
+    width: 100%;
     max-width: 600px;
-    flex-shrink: 0;
   }
 
   .project-card-clickable { cursor: pointer; }
 
   .project-card-left { margin-top: 0; }
-  .project-card-right { margin-top: 10vh; }
+  .project-card-right { margin-top: 16vh; }
+  .project-card:nth-child(4) { margin-top: -12vh; }
 
   .project-card-img-wrap {
     width: 100%;
@@ -841,8 +841,7 @@ const STYLES = `
     .projects-header-word { font-size: clamp(36px, 12vw, 100px); }
     .projects-header-accent { display: none; }
     .projects-grid {
-      flex-direction: column;
-      align-items: center;
+      grid-template-columns: 1fr;
       gap: 48px;
       padding: 20vh 24px 80px;
     }
@@ -1021,6 +1020,29 @@ export default function App() {
   }
 
   /* ────────────────────────────────
+     ALIBI VIEW
+     ──────────────────────────────── */
+  if (view === "alibi") {
+    return (
+      <>
+        <style>{STYLES}</style>
+        <div className="portfolio" style={{ background: '#f4f1eb' }}>
+          <div className="crux-wrapper" style={{ background: '#f4f1eb' }}>
+            <button
+              className="back-btn"
+              onClick={() => setView("home")}
+              style={{ color: '#1a1a1a', mixBlendMode: 'normal' }}
+            >
+              AS
+            </button>
+            <Alibi />
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  /* ────────────────────────────────
      RESUME VIEW
      ──────────────────────────────── */
   if (view === "resume") {
@@ -1191,17 +1213,35 @@ export default function App() {
               </div>
             </div>
 
-            {/* Coming soon — right card */}
-            <div className="project-card project-card-right reveal-right">
+            {/* What's Your Alibi — right card */}
+            <div
+              className="project-card project-card-right project-card-clickable reveal-right"
+              onClick={() => setView("alibi")}
+            >
               <div className="project-card-img-wrap">
                 <img
                   className="project-card-img"
-                  src="/project-coming.jpg"
-                  alt="More projects coming soon"
+                  src="/project-alibi.jpg"
+                  alt="What's Your Alibi — excuse generator tool"
                 />
               </div>
               <div className="project-card-labels">
-                <span className="project-card-name">More coming</span>
+                <span className="project-card-name">What's Your Alibi</span>
+                <PulsingPill as="span" className="project-card-type">Live →</PulsingPill>
+              </div>
+            </div>
+
+            {/* Gut Check — third card */}
+            <div className="project-card project-card-left reveal-left">
+              <div className="project-card-img-wrap">
+                <img
+                  className="project-card-img"
+                  src="/project-gutcheck.jpg"
+                  alt="Gut Check — intuition testing tool"
+                />
+              </div>
+              <div className="project-card-labels">
+                <span className="project-card-name">Gut Check</span>
                 <PulsingPill as="span" className="project-card-type">Soon</PulsingPill>
               </div>
             </div>
