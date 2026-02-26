@@ -50,7 +50,6 @@ export default function NavDropdown({ currentView, onNavigate, style = {}, class
               className={`nav-dropdown-item${isCurrent ? " current" : ""}`}
               disabled={isCurrent}
               onClick={() => {
-                window.scrollTo(0, 0);
                 onNavigate(view);
                 setOpen(false);
               }}

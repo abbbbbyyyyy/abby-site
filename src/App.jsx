@@ -958,6 +958,15 @@ export default function App() {
     return () => { lenis.destroy(); lenisRef.current = null; };
   }, []);
 
+  // Scroll to top on view change
+  useEffect(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [view]);
+
   // Stop Lenis when mobile menu is open
   useEffect(() => {
     if (!lenisRef.current) return;
