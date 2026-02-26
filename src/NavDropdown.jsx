@@ -46,7 +46,7 @@ export default function NavDropdown({ currentView, onNavigate, style = {}, class
               key={view}
               className={`nav-dropdown-item${isCurrent ? " current" : ""}`}
               disabled={isCurrent}
-              onClick={() => onNavigate(view)}
+              onClick={() => { setOpen(false); onNavigate(view); }}
             >
               {label}
             </button>

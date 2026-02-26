@@ -970,11 +970,11 @@ export default function App() {
 
   // Scroll to top on view change
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, { immediate: true });
-    } else {
-      window.scrollTo(0, 0);
     }
+    setMobileMenuOpen(false);
   }, [view]);
 
   // Stop Lenis when mobile menu is open
