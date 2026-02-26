@@ -4,6 +4,7 @@ import Resume from "./Resume";
 import Alibi from "./Alibi";
 import GutCheck from "./GutCheck";
 import PulsingPill from "./PulsingPill";
+import NavDropdown from "./NavDropdown";
 import Lenis from "lenis";
 
 
@@ -738,6 +739,68 @@ const STYLES = `
 
   .back-btn:hover { color: var(--accent); }
 
+  /* Nav dropdown */
+  .nav-dropdown {
+    position: fixed;
+    top: 28px;
+    left: 5vw;
+    z-index: 101;
+  }
+
+  .nav-dropdown .back-btn {
+    position: static;
+  }
+
+  .nav-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 200px;
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(232, 224, 208, 0.1);
+    border-radius: 12px;
+    padding: 8px 0;
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .nav-dropdown-menu.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .nav-dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(232, 224, 208, 0.6);
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .nav-dropdown-item:hover:not(:disabled) {
+    color: #e8e0d0;
+    background: rgba(232, 224, 208, 0.06);
+  }
+
+  .nav-dropdown-item.current {
+    color: var(--accent);
+    cursor: default;
+  }
+
   /* ═══════════════════════════════════
      SCROLL EFFECTS
      ═══════════════════════════════════ */
@@ -854,6 +917,7 @@ const STYLES = `
     .project-card-right { margin-top: 0; }
     .project-card:nth-child(4) { margin-top: 0; }
     .back-btn { left: 24px; }
+    .nav-dropdown { left: 24px; }
     .cursor { display: none; }
     .glass-card { padding: 32px; }
   }
@@ -1011,12 +1075,7 @@ export default function App() {
         <div className="portfolio">
           <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
           <div className="crux-wrapper">
-            <button
-              className="back-btn"
-              onClick={() => setView("home")}
-            >
-              AS
-            </button>
+            <NavDropdown currentView="crux" onNavigate={setView} />
             <Crux />
           </div>
         </div>
@@ -1033,13 +1092,11 @@ export default function App() {
         <style>{STYLES}</style>
         <div className="portfolio" style={{ background: '#f4f1eb' }}>
           <div className="crux-wrapper" style={{ background: '#f4f1eb' }}>
-            <button
-              className="back-btn"
-              onClick={() => setView("home")}
+            <NavDropdown
+              currentView="alibi"
+              onNavigate={setView}
               style={{ color: '#1a1a1a', mixBlendMode: 'normal' }}
-            >
-              AS
-            </button>
+            />
             <Alibi />
           </div>
         </div>
@@ -1056,13 +1113,11 @@ export default function App() {
         <style>{STYLES}</style>
         <div className="portfolio" style={{ background: '#0a0a0a' }}>
           <div className="crux-wrapper" style={{ background: '#0a0a0a' }}>
-            <button
-              className="back-btn"
-              onClick={() => setView("home")}
+            <NavDropdown
+              currentView="gutcheck"
+              onNavigate={setView}
               style={{ color: '#00ff41' }}
-            >
-              AS
-            </button>
+            />
             <GutCheck />
           </div>
         </div>
@@ -1080,12 +1135,7 @@ export default function App() {
         <div className="portfolio">
           <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
           <div className="crux-wrapper">
-            <button
-              className="back-btn"
-              onClick={() => setView("home")}
-            >
-              AS
-            </button>
+            <NavDropdown currentView="resume" onNavigate={setView} />
             <Resume />
           </div>
         </div>
