@@ -25,6 +25,7 @@ const STYLES = `
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     aspect-ratio: 3200 / 600;
+    margin-top: -40px;
     margin-bottom: -40px;
   }
 
@@ -325,7 +326,7 @@ export default function Resume({ onHover }) {
               colorBack="#0a0f0a"
               colorTint="#e8e0d0"
               shape="none"
-              speed={0.3}
+              speed={0.15}
               style={{ width: '100%', height: '100%' }}
             />
           </div>
