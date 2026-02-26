@@ -3,6 +3,11 @@ import { LiquidMetal } from "@paper-design/shaders-react";
 import PulsingPill from "./PulsingPill";
 
 const STYLES = `
+  .resume-outer {
+    background: var(--dark-bg);
+    min-height: 100vh;
+  }
+
   .resume {
     max-width: 720px;
     margin: 0 auto;
@@ -315,6 +320,7 @@ export default function Resume({ onHover }) {
   return (
     <>
       <style>{STYLES}</style>
+      <div className="resume-outer">
       <div className="resume">
         <h1 className="sr-only">Abby Schneider</h1>
         {nameImg && (
@@ -369,6 +375,7 @@ export default function Resume({ onHover }) {
             {SKILLS.map((s, i) => <PulsingPill key={i} as="span" className="resume-skill" maxPixelCount={40000}>{s}</PulsingPill>)}
           </div>
         </div>
+      </div>
       </div>
     </>
   );
