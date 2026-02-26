@@ -1228,18 +1228,11 @@ export default function App() {
           {/* State 2: Intro text */}
           <div className="hero-state2">
             <div className="hero-intro-line">
-              EX-FINANCE PROJECT MANAGEMENT.
+              FROM MANAGING →
             </div>
             <div className="hero-intro-line">
-              NOW LEARNING TO <em>build</em>
+              TO <em>building</em>
             </div>
-            <div className="hero-intro-line">
-              THINGS INSTEAD OF
-            </div>
-            <div className="hero-intro-line">
-              JUST MANAGING THEM.
-            </div>
-            <div className="hero-intro-line">&nbsp;</div>
             <div className="hero-intro-small">
               ABBY SCHNEIDER · COLUMBIA '27 · EX-BRIDGEWATER
             </div>
