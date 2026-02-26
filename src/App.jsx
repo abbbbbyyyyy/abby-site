@@ -943,6 +943,16 @@ export default function App() {
   const heroLineRef = useRef(null);
   const lenisRef = useRef(null);
 
+  // Dismiss loading screen once fonts are ready
+  useEffect(() => {
+    document.fonts.ready.then(() => {
+      const loader = document.getElementById('loader');
+      if (!loader) return;
+      loader.classList.add('fade-out');
+      loader.addEventListener('transitionend', () => loader.remove(), { once: true });
+    });
+  }, []);
+
   // Lenis smooth scroll
   useEffect(() => {
     const lenis = new Lenis({
@@ -1250,12 +1260,12 @@ export default function App() {
               <p>
                 Starting a master's at <strong>Columbia</strong> in organizational psychology,
                 I found a passion for understanding how AI changes the way people work and make decisions.
-                I started building tools to explore that. Soon, I realized I'd rather be doing this
+                I started building tools to explore that. I realized I'd rather be doing this
                 full time than writing papers about it.
               </p>
               <p>
-                So that's where I am. Looking for a company that's doing genuinely interesting things.
-                I'm not picky about the role, I just want to be somewhere working on something that matters,
+                So that's where I've landed, in pursuit of a company that's pushing boundaries and exploring what's possible.
+                I want to be somewhere working on something that matters,
                 with people who push boundaries and try new things. If I find the right fit, I'm more than
                 willing to change my grad school plans to accommodate.
               </p>
