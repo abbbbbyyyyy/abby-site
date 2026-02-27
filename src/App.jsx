@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import Crux from "./Crux";
 import Resume from "./Resume";
 import Alibi from "./Alibi";
@@ -1398,6 +1399,7 @@ export default function App() {
           <span className="footer-text">Abby Schneider</span>
         </footer>
       </div>
+      <Analytics />
     </>
   );
 }
