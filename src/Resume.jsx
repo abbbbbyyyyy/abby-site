@@ -47,6 +47,34 @@ const STYLES = `
 
   .resume-contact a:hover { color: var(--accent); }
 
+  .resume-tagline {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--dark-text-dim);
+    margin-top: 8px;
+  }
+
+  .resume-project-item {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(232, 224, 208, 0.12);
+  }
+
+  .resume-project-item:last-child { border-bottom: none; }
+
+  .resume-project-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 18px;
+    color: var(--dark-text);
+    margin-bottom: 4px;
+  }
+
+  .resume-project-desc {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--dark-text-dim);
+  }
+
   .resume-contact .sep { color: var(--dark-text-faint); }
 
   .resume-section {
@@ -213,26 +241,23 @@ const EXPERIENCE = [
     role: "Project Manager",
     org: "Dalio Family Office (prev. Bridgewater Associates)",
     date: "Jan 2022 \u2013 May 2025",
-    location: "Westport, CT",
     bullets: [
-      "Built and launched the annual strategic planning process end-to-end. Designed the framework from scratch, ran stakeholder alignment with C-suite, tracked progress, and delivered reporting to senior leadership.",
-      "Co-led a multi-million-dollar program spanning internal teams, external partners, and vendors; responsible for budget, resource allocation, and on-time delivery across all workstreams.",
-      "Designed and implemented process optimization initiatives that measurably reduced operational friction and improved stakeholder satisfaction.",
-      "Used AI tools (ChatGPT, Claude) to accelerate synthesis of complex operational and stakeholder data, cutting time-to-insight on executive reporting significantly.",
-      "Built real-time dashboards and reporting infrastructure in Tableau that gave leadership visibility into program health, risks, and performance.",
-      "Developed organizational playbooks and SOPs that codified best practices and enabled teams to scale processes without proportional headcount growth.",
+      "Built and owned the annual strategic planning process end-to-end: designed the framework, aligned leadership, tracked progress, delivered reporting. Ran the full cycle autonomously each year.",
+      "Co-led a multi-million-dollar program across internal teams, external partners, and vendors. Owned budget, resource allocation, and on-time delivery across all teams.",
+      "Fixed broken processes: identified bottlenecks, piloted solutions, scaled what worked. Measurably reduced operational friction and improved satisfaction scores.",
+      "Built real-time Tableau dashboards that gave leadership visibility into program health, risks, and performance, eliminating most manual status updates.",
+      "Created playbooks and SOPs that codified best practices and let teams scale without adding headcount.",
     ],
   },
   {
     role: "Business Analyst / Junior Project Manager",
     org: "Bridgewater Associates",
     date: "Mar 2019 \u2013 Jan 2022",
-    location: "Westport, CT",
     bullets: [
-      "Designed and owned a cross-departmental culture measurement initiative from scratch. Built the survey instrument, ran quantitative and qualitative analysis, and delivered findings that resulted in measurable improvements in employee engagement.",
-      "Managed organization-wide KPI tracking and performance reporting via Tableau dashboards; partnered with business leaders to surface risks and translate data into decisions.",
-      "Led change management and adoption strategy for a CRM system upgrade. Stakeholder comms, training materials, user acceptance testing, and full rollout coordination.",
-      "Built internal knowledge management systems, process guides, and resource libraries that enabled faster onboarding and more consistent team execution.",
+      "Designed and owned a cross-departmental culture measurement initiative from scratch: built the survey instrument, ran quantitative and qualitative analysis, delivered findings that drove measurable improvements in engagement.",
+      "Managed org-wide KPI tracking and performance reporting via Tableau; partnered with business leads to surface risks and turn data into decisions.",
+      "Led change management for a CRM system upgrade: comms, training materials, user acceptance testing, and full rollout across the org.",
+      "Built internal knowledge management systems and process guides that sped up onboarding and improved team consistency.",
     ],
   },
 ];
@@ -242,13 +267,25 @@ const RESEARCH = [
     role: "Research Assistant",
     org: "Teachers College, Columbia University",
     date: "2025 \u2013 Present",
-    location: "New York, NY",
     bullets: [
-      "Supporting early-stage academic research investigating whether AI-mediated decision support tools influence human behavioral reasoning and decision-making.",
-      "Contributing to study design including control variable selection and methodology; helping ensure research rigor from conception to data collection.",
-      "Conducted independent comparative analysis of how different AI models approach decision-making tasks, examining how model design choices affect user outcomes.",
-      "Reviewing and editing research paper drafts, translating complex behavioral theory into clear, precise academic prose.",
+      "Researching how AI-mediated decision support tools affect human reasoning, directly relevant to how AI products shape user behavior.",
+      "Contributing to study design and methodology; ran independent comparative analysis of how different AI models approach decision-making tasks.",
     ],
+  },
+];
+
+const PROJECTS = [
+  {
+    name: "Crux",
+    description: "AI decision-making tool that analyzes choices and surfaces core tensions. Claude API, React.",
+  },
+  {
+    name: "What\u2019s Your Alibi",
+    description: "Excuse generator. You tell it what you\u2019re skipping; it gives you something better than \u201Cnot feeling well.\u201D",
+  },
+  {
+    name: "Gut Check",
+    description: "Personality assessment disguised as a game. Rapid-fire scenarios, then it tells you what your instincts say.",
   },
 ];
 
@@ -258,16 +295,16 @@ const EDUCATION = [
 ];
 
 const SKILLS = [
-  "Strategic Planning & Execution",
-  "Cross-Functional Program Management",
-  "KPI Development & Reporting",
-  "Process Design & Optimization",
-  "Organizational Change Management",
-  "Stakeholder Management (C-Suite)",
-  "Data Analysis & Visualization (Tableau)",
+  "AI-Assisted Development (Claude Code, Cursor)",
+  "GitHub & Vercel Deployment",
+  "Claude API",
+  "React",
+  "Strategic Planning",
+  "Program Management",
+  "Process Design",
+  "Change Management",
+  "Data Visualization (Tableau)",
   "Survey Design & Research Methods",
-  "AI-Augmented Workflows (ChatGPT, Claude)",
-  "Vendor & Budget Management",
 ];
 
 function EntryCard({ entry }) {
@@ -278,7 +315,7 @@ function EntryCard({ entry }) {
           {entry.role} <em>| {entry.org}</em>
         </div>
         <div className="resume-meta">
-          {entry.date}<br />{entry.location}
+          {entry.date}
         </div>
       </div>
       <ul className="resume-bullets">
@@ -342,6 +379,9 @@ export default function Resume({ onHover }) {
             <span className="sep">&middot;</span>
             <span>203-858-5241</span>
           </div>
+          <div className="resume-tagline">
+            7 years in strategic ops &middot; Now building AI tools and transitioning to product-focused roles
+          </div>
         </div>
 
         <div className="resume-section">
@@ -352,6 +392,16 @@ export default function Resume({ onHover }) {
         <div className="resume-section">
           <div className="resume-section-title">[Research]</div>
           {RESEARCH.map((e, i) => <EntryCard key={i} entry={e} />)}
+        </div>
+
+        <div className="resume-section">
+          <div className="resume-section-title">[Personal Projects]</div>
+          {PROJECTS.map((p, i) => (
+            <div key={i} className="resume-project-item">
+              <div className="resume-project-name">{p.name}</div>
+              <div className="resume-project-desc">{p.description}</div>
+            </div>
+          ))}
         </div>
 
         <div className="resume-section">
