@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { view: "alibi", label: "What's Your Alibi" },
   { view: "gutcheck", label: "Gut Check" },
   { view: "resume", label: "Resume" },
+  { view: "blog", label: "Stream" },
 ];
 
 export default function NavDropdown({ currentView, onNavigate, style = {}, className = "" }) {

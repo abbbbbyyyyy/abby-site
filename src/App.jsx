@@ -3,6 +3,7 @@ import Crux from "./Crux";
 import Resume from "./Resume";
 import Alibi from "./Alibi";
 import GutCheck from "./GutCheck";
+import Blog from "./Blog";
 import PulsingPill from "./PulsingPill";
 import NavDropdown from "./NavDropdown";
 import Lenis from "lenis";
@@ -1148,6 +1149,24 @@ export default function App() {
               style={{ color: '#00ff41' }}
             />
             <GutCheck />
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  /* ────────────────────────────────
+     BLOG VIEW
+     ──────────────────────────────── */
+  if (view === "blog") {
+    return (
+      <>
+        <style>{STYLES}</style>
+        <div className="portfolio" key="blog">
+          <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
+          <div className="crux-wrapper">
+            <NavDropdown currentView="blog" onNavigate={setView} />
+            <Blog />
           </div>
         </div>
       </>
