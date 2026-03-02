@@ -1250,13 +1250,13 @@ export default function App() {
           {/* State 2: Intro text */}
           <div className="hero-state2">
             <div className="hero-intro-line">
-              FROM MANAGING →
+              OPERATOR, PROJECT MANAGER,
             </div>
             <div className="hero-intro-line">
-              TO <em>building</em>
+              <em>builder,</em> & everything in between
             </div>
             <div className="hero-intro-small">
-              ABBY SCHNEIDER · COLUMBIA '27 · EX-BRIDGEWATER
+              ABBY SCHNEIDER · NEW YORK CITY
             </div>
           </div>
         </section>
@@ -1268,21 +1268,29 @@ export default function App() {
             <div className="about-card">
               <div className="about-text">
               <p>
-                I spent six years at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong>,
-                where I learned how to operate at a high level inside complex systems.
-                I'm grateful for that foundation, but I wanted room to make decisions,
-                push boundaries, and actually build things. That meant making a change.
+                I'm Abby. I live in New York, where most of my free time goes to
+                baking bread, the Times crossword, and trying to visit every
+                mom-and-pop bookshop in Brooklyn.
               </p>
               <p>
-                Starting a master's at <strong>Columbia</strong> in organizational psychology,
-                I found a passion for understanding how AI changes the way people work and make decisions.
-                I started building tools to explore that. I realized I'd rather be doing this
-                full time than writing papers about it.
+                I spent six years at <strong>Bridgewater</strong> and <strong>Ray Dalio's Family Office</strong> learning
+                how to operate inside complex systems. I'm grateful for that foundation.
+                It taught me how to think clearly under pressure and get things done at scale.
               </p>
               <p>
-                So that's where I've landed: I want to work in AI, building alongside people who are
-                rethinking how things are done, not just optimizing what already exists.
-                When the right opportunity comes, I'll be there. Everything else can adjust.
+                I'm currently at <strong>Columbia</strong> studying organizational psychology, where I
+                really found an interest in how people make decisions and how technology is
+                reshaping that process. Along the way, I started building tools to explore
+                those ideas firsthand, and it's become a real passion.
+              </p>
+              <p>
+                I'm looking for a team that I'm excited to show up for;
+                somewhere I can bring operational experience and a builder's mindset.
+                For the right opportunity, everything else can adjust.
+              </p>
+              <p>
+                I've been building small projects for fun and learning, a few of which
+                are below. If you think we'd work well together, I'd love to hear from you.
               </p>
               </div>
             </div>
