@@ -5,6 +5,7 @@ import Alibi from "./Alibi";
 import GutCheck from "./GutCheck";
 import Blog from "./Blog";
 import PulsingPill from "./PulsingPill";
+import FlutedGlassBg from "./FlutedGlassBg";
 import NavDropdown from "./NavDropdown";
 import Lenis from "lenis";
 
@@ -94,7 +95,7 @@ const STYLES = `
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    z-index: 100;
+    z-index: 10000;
     mix-blend-mode: difference;
   }
 
@@ -371,6 +372,9 @@ const STYLES = `
   @keyframes fadeUp { to { opacity: 1; } }
 
   /* About */
+  #about { background: var(--dark-bg); z-index: 9999; }
+  #about .section-label { color: var(--accent-light); }
+
   .about-wrap {
     max-width: 760px;
     margin: 0 auto;
@@ -393,17 +397,22 @@ const STYLES = `
 
   .about-text p:last-child { margin-bottom: 0; }
   .about-text strong { color: var(--text); font-weight: 500; }
+  .about-text a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-light); transition: border-color 0.2s; }
+  .about-text a:hover { border-color: var(--accent); }
 
   .about-card {
     margin-top: 28px;
-    background: var(--glass);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(232, 224, 208, 0.08);
     border-radius: 24px;
     padding: 36px 40px;
     position: relative;
     overflow: hidden;
   }
+  #about .about-text p { color: var(--dark-text-dim); }
+  #about .about-text strong { color: var(--dark-text); font-weight: 500; }
+  #about .about-text a { color: var(--accent-light); border-bottom-color: var(--accent-light); }
 
   .about-card::before {
     content: '';
@@ -1262,8 +1271,9 @@ export default function App() {
         </section>
 
         {/* About */}
-        <section className="section" id="about">
-          <div className="about-wrap reveal">
+        <section className="section" id="about" style={{ overflow: 'hidden' }}>
+          <FlutedGlassBg />
+          <div className="about-wrap reveal" style={{ position: 'relative', zIndex: 1 }}>
             <div className="section-label reveal-clip">About</div>
             <div className="about-card">
               <div className="about-text">
@@ -1278,7 +1288,7 @@ export default function App() {
                 It taught me how to think clearly under pressure and get things done at scale.
               </p>
               <p>
-                I'm currently at <strong>Columbia</strong> studying organizational psychology, where I
+                I'm currently pursuing my Master's at <strong>Columbia University</strong> in organizational psychology, where I
                 really found an interest in how people make decisions and how technology is
                 reshaping that process. Along the way, I started building tools to explore
                 those ideas firsthand, and it's become a real passion.
@@ -1290,7 +1300,7 @@ export default function App() {
               </p>
               <p>
                 I've been building small projects for fun and learning, a few of which
-                are below. If you think we'd work well together, I'd love to hear from you.
+                are below. If you think we'd work well together, <a href="#contact">I'd love to hear from you</a>.
               </p>
               </div>
             </div>
