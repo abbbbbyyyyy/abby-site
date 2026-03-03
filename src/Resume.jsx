@@ -400,9 +400,6 @@ export default function Resume({ onHover }) {
             <span className="sep">&middot;</span>
             <span>203-858-5241</span>
           </div>
-          <div className="resume-tagline">
-            7 years in strategic ops &middot; Now building AI tools and transitioning to product-focused roles
-          </div>
           <a href="/Abby_Schneider_Resume.pdf" download className="resume-download" onMouseEnter={() => hover(true)} onMouseLeave={() => hover(false)}>
             Download PDF
           </a>
