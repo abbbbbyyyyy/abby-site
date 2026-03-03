@@ -77,6 +77,25 @@ const STYLES = `
 
   .resume-contact .sep { color: var(--dark-text-faint); }
 
+  .resume-download {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 8px 20px;
+    border: 1px solid rgba(139, 125, 60, 0.3);
+    border-radius: 100px;
+    transition: all 0.3s ease;
+  }
+  .resume-download:hover {
+    border-color: var(--accent);
+    background: rgba(139, 125, 60, 0.08);
+    color: var(--accent-light);
+  }
+
   .resume-section {
     margin-bottom: 28px;
   }
@@ -245,7 +264,7 @@ const EXPERIENCE = [
       "Built and owned the annual strategic planning process end-to-end: designed the framework, aligned leadership, tracked progress, delivered reporting. Ran the full cycle autonomously each year.",
       "Co-led a multi-million-dollar program across internal teams, external partners, and vendors. Owned budget, resource allocation, and on-time delivery across all teams.",
       "Fixed broken processes: identified bottlenecks, piloted solutions, scaled what worked. Measurably reduced operational friction and improved satisfaction scores.",
-      "Built real-time Tableau dashboards that gave leadership visibility into program health, risks, and performance, eliminating most manual status updates.",
+      "Built real-time data visualization dashboards that gave leadership visibility into program health, risks, and performance, eliminating most manual status updates.",
       "Created playbooks and SOPs that codified best practices and let teams scale without adding headcount.",
     ],
   },
@@ -290,7 +309,7 @@ const PROJECTS = [
 ];
 
 const EDUCATION = [
-  { degree: "M.A. Social-Organizational Psychology", school: "Teachers College, Columbia University", year: "Expected May 2027" },
+  { degree: "M.A. Social-Organizational Psychology", school: "Teachers College, Columbia University", year: "Current" },
   { degree: "B.A. Psychology", school: "Lehigh University", year: "2018" },
 ];
 
@@ -299,11 +318,13 @@ const SKILLS = [
   "GitHub & Vercel Deployment",
   "Claude API",
   "React",
+  "SQL (Snowflake, Google Big Query)",
   "Strategic Planning",
   "Program Management",
   "Process Design",
   "Change Management",
-  "Data Visualization (Tableau)",
+  "Excel",
+  "Data Visualization (Looker, PowerBI, Tableau)",
   "Survey Design & Research Methods",
 ];
 
@@ -382,6 +403,9 @@ export default function Resume({ onHover }) {
           <div className="resume-tagline">
             7 years in strategic ops &middot; Now building AI tools and transitioning to product-focused roles
           </div>
+          <a href="/Abby_Schneider_Resume.pdf" download className="resume-download" onMouseEnter={() => hover(true)} onMouseLeave={() => hover(false)}>
+            Download PDF
+          </a>
         </div>
 
         <div className="resume-section">
