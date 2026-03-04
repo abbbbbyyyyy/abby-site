@@ -261,11 +261,10 @@ const EXPERIENCE = [
     org: "Dalio Family Office (prev. Bridgewater Associates)",
     date: "Jan 2022 \u2013 May 2025",
     bullets: [
-      "Built and owned the annual strategic planning process end-to-end: designed the framework, aligned leadership, tracked progress, delivered reporting. Ran the full cycle autonomously each year.",
-      "Co-led a multi-million-dollar program across internal teams, external partners, and vendors. Owned budget, resource allocation, and on-time delivery across all teams.",
-      "Fixed broken processes: identified bottlenecks, piloted solutions, scaled what worked. Measurably reduced operational friction and improved satisfaction scores.",
-      "Built real-time data visualization dashboards that gave leadership visibility into program health, risks, and performance, eliminating most manual status updates.",
-      "Created playbooks and SOPs that codified best practices and let teams scale without adding headcount.",
+      "Rebuilt and owned the Annual Strategic Planning Program across 15 teams over 3 years, transforming a broken, inconsistent process into a repeatable org-wide system. Led each team through KPI development, metric definition, and priority project identification; synthesized outputs into org-wide project portfolio of 80\u2013100 active initiatives. Maintained visibility into dependencies and resource constraints; advised senior leadership on prioritization and sequencing tradeoffs. Partnered with Finance on annual budgeting process across all teams. Built automated dashboards tracking KPIs org-wide, replacing ad-hoc status updates with standardized monthly reporting to senior leadership.",
+      "Led the organization\u2019s highest-complexity annual program ($8\u201310M budget, 2,000+ stakeholders, 12 vendors): managed end-to-end execution including vendor sourcing, production, logistics coordination, a parallel charitable giving initiative, and real-time shipment tracking. Internally recognized as the most operationally demanding program at the org.",
+      "Deployed as internal process consultant across the organization: diagnosed operational bottlenecks, documented current-state workflows, designed and implemented improvements. Reduced average process cycle times by 30\u201340% across engagements; cut manual reporting work by 50%+ in several teams.",
+      "Established documentation standards across the organization. Created playbooks, SOPs, and process guides for every initiative touched, building knowledge management infrastructure essentially from scratch in an org with minimal existing documentation.",
     ],
   },
   {
@@ -273,10 +272,11 @@ const EXPERIENCE = [
     org: "Bridgewater Associates",
     date: "Mar 2019 \u2013 Jan 2022",
     bullets: [
-      "Designed and owned a cross-departmental culture measurement initiative from scratch: built the survey instrument, ran quantitative and qualitative analysis, delivered findings that drove measurable improvements in engagement.",
-      "Managed org-wide KPI tracking and performance reporting via Tableau; partnered with business leads to surface risks and turn data into decisions.",
-      "Led change management for a CRM system upgrade: comms, training materials, user acceptance testing, and full rollout across the org.",
-      "Built internal knowledge management systems and process guides that sped up onboarding and improved team consistency.",
+      "Designed and owned a cross-departmental culture measurement initiative from scratch: built survey instrument, ran quantitative and qualitative analysis across 500+ respondents, delivered findings to leadership that informed policy changes and measurably improved engagement scores.",
+      "Served as analytical partner to business leads across departments: synthesized performance data to surface risks early, identify trends, and translate insights into actionable recommendations for leadership.",
+      "Led change management for CRM system upgrade across 200+ users: developed communications plan, created training materials, managed user acceptance testing, and drove full rollout. Achieved 95%+ adoption within first month.",
+      "Deployed as surge resource to Talent Acquisition during high-volume hiring periods: managed interview coordination, conducted candidate interviews, and contributed to hiring decisions across multiple roles.",
+      "Built internal knowledge management systems and onboarding documentation that reduced new hire ramp time by 40% and improved cross-team process consistency.",
     ],
   },
 ];
@@ -287,11 +287,13 @@ const RESEARCH = [
     org: "Teachers College, Columbia University",
     date: "2025 \u2013 Present",
     bullets: [
-      "Researching how AI-mediated decision support tools affect human reasoning, directly relevant to how AI products shape user behavior.",
-      "Contributing to study design and methodology; ran independent comparative analysis of how different AI models approach decision-making tasks.",
+      "Researching how AI-mediated decision support tools affect human reasoning, with direct applications to AI product design and user behavior.",
+      "Contributing to study design and methodology; independently conducted comparative analysis of how different AI models approach complex decision-making tasks.",
     ],
   },
 ];
+
+const PROJECTS_INTRO = "Built from scratch with zero prior coding experience using Claude Code, Cursor, React, and Vercel.";
 
 const PROJECTS = [
   {
@@ -300,31 +302,31 @@ const PROJECTS = [
   },
   {
     name: "What\u2019s Your Alibi",
-    description: "Excuse generator. You tell it what you\u2019re skipping; it gives you something better than \u201Cnot feeling well.\u201D",
+    description: "Excuse generator that crafts context-aware, believable alternatives to \u201Cnot feeling well.\u201D",
   },
   {
     name: "Gut Check",
-    description: "Personality assessment disguised as a game. Rapid-fire scenarios, then it tells you what your instincts say.",
+    description: "Personality assessment disguised as a game. Rapid-fire scenarios reveal decision-making patterns.",
   },
 ];
 
 const EDUCATION = [
-  { degree: "M.A. Social-Organizational Psychology", school: "Teachers College, Columbia University", year: "Current" },
+  { degree: "M.A. Social-Organizational Psychology", school: "Teachers College, Columbia University", year: "Expected 2027" },
   { degree: "B.A. Psychology", school: "Lehigh University", year: "2018" },
 ];
 
 const SKILLS = [
   "AI-Assisted Development (Claude Code, Cursor)",
-  "GitHub & Vercel Deployment",
   "Claude API",
   "React",
-  "SQL (Snowflake, Google Big Query)",
+  "GitHub & Vercel",
+  "SQL (Snowflake, BigQuery)",
+  "Data Visualization (Tableau, Looker, PowerBI)",
+  "Excel",
   "Strategic Planning",
   "Program Management",
-  "Process Design",
+  "Process Design & Optimization",
   "Change Management",
-  "Excel",
-  "Data Visualization (Looker, PowerBI, Tableau)",
   "Survey Design & Research Methods",
 ];
 
@@ -417,6 +419,7 @@ export default function Resume({ onHover }) {
 
         <div className="resume-section">
           <div className="resume-section-title">[Personal Projects]</div>
+          <div className="resume-project-desc" style={{ marginBottom: 16, fontStyle: 'italic' }}>{PROJECTS_INTRO}</div>
           {PROJECTS.map((p, i) => (
             <div key={i} className="resume-project-item">
               <div className="resume-project-name">{p.name}</div>
