@@ -293,12 +293,12 @@ const RESEARCH = [
   },
 ];
 
-const PROJECTS_INTRO = "Built from scratch with zero prior coding experience using Claude Code, Cursor, React, and Vercel.";
+const PROJECTS_INTRO = "Built for fun from scratch with zero prior coding experience using Claude Code, Cursor, React, and Vercel.";
 
 const PROJECTS = [
   {
     name: "Crux",
-    description: "AI decision-making tool that analyzes choices and surfaces core tensions. Claude API, React.",
+    description: "AI decision-making tool that analyzes choices and surfaces core tensions.",
   },
   {
     name: "What\u2019s Your Alibi",
@@ -311,7 +311,7 @@ const PROJECTS = [
 ];
 
 const EDUCATION = [
-  { degree: "M.A. Social-Organizational Psychology", school: "Teachers College, Columbia University", year: "Expected 2027" },
+  { degree: "M.A. Social-Organizational Psychology", school: "Teachers College, Columbia University", year: "Current" },
   { degree: "B.A. Psychology", school: "Lehigh University", year: "2018" },
 ];
 
@@ -320,14 +320,15 @@ const SKILLS = [
   "Claude API",
   "React",
   "GitHub & Vercel",
-  "SQL (Snowflake, BigQuery)",
-  "Data Visualization (Tableau, Looker, PowerBI)",
-  "Excel",
+  "Familiarity with SQL (Snowflake, BigQuery)",
+  "Data Visualization (Looker, PowerBI, Tableau)",
+  "Proficient in Excel",
   "Strategic Planning",
   "Program Management",
   "Process Design & Optimization",
   "Change Management",
   "Survey Design & Research Methods",
+  "Project Management Software (Monday.com, Microsoft Project, Jira)",
 ];
 
 function EntryCard({ entry }) {
